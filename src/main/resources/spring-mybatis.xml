@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.3.xsd
+        http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+
+	<!-- 引入jdbc配置文件 -->
+	<context:property-placeholder
+		location="classpath:db.properties" />
+
+	<!--创建jdbc数据源 -->
+	<bean id="dataSource"
+		class="com.mchange.v2.c3p0.ComboPooledDataSource"
+		destroy-method="close" p:driverClass="${driver}"
+		p:jdbcUrl="${jdbcUrl}" p:user="${user}" p:password="${password}"
+		p:idleConnectionTestPeriod="${idleConnectionTestPeriod}"
+		p:maxIdleTime="${maxIdleTime}" p:initialPoolSize="${initialPoolSize}"
+		p:acquireIncrement="${acquireIncrement}"
+		p:maxPoolSize="${maxPoolSize}" p:minPoolSize="${minPoolSize}"
+		p:preferredTestQuery="SELECT 1" p:maxConnectionAge="3000" />
+
+	<!-- 创建SqlSessionFactory -->
+	<bean id="sqlSessionFactory"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="mapperLocations">
+			<list>
+				<value>classpath*:Mapper/*.xml</value>
+			</list>
+		</property>
+		<!--pageHelper -->
+		<property name="plugins">
+			<array>
+				<bean class="com.github.pagehelper.PageInterceptor">
+					<property name="properties">
+						<!--使用下面的方式配置参数，一行配置一个 -->
+						<value>
+							helperDialect=postgresql
+							reasonable=true
+							supportMethodsArguments=true
+							params=count=countSql
+							autoRuntimeDialect=true
+						</value>
+					</property>
+				</bean>
+			</array>
+		</property>
+	</bean>
+
+	<!-- Mapper接口所在包名 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer"
+		p:basePackage="com.zzx.Dao"
+		p:sqlSessionFactoryBeanName="sqlSessionFactory" />
+
+	<!-- ===================================事务配置================================== -->
+	<!-- 事务管理 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		p:dataSource-ref="dataSource" />
+
+	<tx:annotation-driven
+		transaction-manager="transactionManager" />
+
+</beans>

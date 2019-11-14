@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzx.Dao.VolunteerMapper">
+
+	<!-- 获取最大志愿者编号 -->
+	<select id="get_num" resultType="int">
+		select MAX(num)
+		from
+		volunteer
+	</select>
+
+	<!-- 获取全部志愿者信息 -->
+	<resultMap type="com.zzx.Model.Volunteer" id="Volunteer">
+		<id property="num" column="num" />
+		<result property="name" column="name" />
+		<result property="ID" column="ID" />
+		<result property="gender" column="gender" />
+		<result property="unit" column="unit" />
+		<result property="address" column="address" />
+		<result property="tel" column="tel" />
+		<result property="eMail" column="eMail" />
+		<result property="joinDate" column="joinDate" />
+		<result property="totalHours" column="totalHours" />
+		<result property="totalWage" column="totalWage" />
+
+
+	</resultMap>
+	<!-- 获取特定时段的志愿者信息 -->
+	<select id="get_volunteer_with_hours_by_Date"
+		resultMap="Volunteer">
+		select v.*,
+		sum(r.volunteerTime) as
+		totalHours,sum(r.volunteerTime)*3.75 as totalWage
+		from volunteer
+		v,record r
+		<where>
+    	<if test="recordDate!=null and recordDate!=''">
+    	AND r.recordDate LIKE CONCAT(CONCAT('%',#{recordDate}),"%")
+    	AND v.num = r.num
+    	</if>
+    </where>
+		group by v.num
+		order by
+		v.num
+		ASC
+	</select>
+
+<select id="get_volunteer_with_hours_by_Date_DESC"
+		resultMap="Volunteer">
+		select v.*,
+		sum(r.volunteerTime) as
+		totalHours,sum(r.volunteerTime)*3.75 as totalWage
+		from volunteer
+		v,record r
+		<where>
+    	<if test="recordDate!=null and recordDate!=''">
+    	AND r.recordDate LIKE CONCAT(CONCAT('%',#{recordDate}),"%")
+    	AND v.num = r.num
+    	</if>
+    </where>
+		group by v.num
+		order by
+		totalHours
+		DESC
+	</select>
+	
+	<select id="show_all_volunteer" resultMap="Volunteer">
+		select *
+		from volunteer
+		order by
+		num
+		ASC
+	</select>
+
+	<!-- 获取部分志愿者信息 -->
+	<select id="get_volunteer_time_in" resultMap="Volunteer">
+		select *
+		from volunteer
+		<where>
+			<if test="num!=null and num!=''">
+				AND num = #{num}
+			</if>
+			<if test="name!=null and name!=''">
+				AND name LIKE CONCAT(CONCAT('%',#{name}),"%")
+			</if>
+			<if test="joinDate!=null and joinDate!=''">
+				AND joinDate LIKE CONCAT(CONCAT('%',#{joinDate}),"%")
+			</if>
+			<if test="unit!=null and unit!=''">
+				AND unit LIKE CONCAT(CONCAT('%',#{unit}),"%")
+			</if>
+		</where>
+		order by
+		num
+		ASC
+	</select>
+
+	<!-- 按ID查询用户是否存在 -->
+	<select id="check_volunteer" resultType="int">
+		select count(*)
+		from
+		volunteer
+		where ID=#{ID}
+	</select>
+
+	<select id="get_new_volunteer_by_year" resultType="String">
+		select count(*)
+		from
+		volunteer
+	<where>
+    	<if test="joinDate!=null and joinDate!=''">
+    	AND joinDate LIKE CONCAT(CONCAT('%',#{joinDate}),"%")
+    	</if>
+    </where>
+	</select>
+	<!-- 插入志愿者用户 -->
+	<insert id="insert_volunteer">
+		insert into volunteer(num, name,
+		ID, gender, unit,
+		address, tel, eMail, joinDate, totalTime)
+		values(#{num}, #{name},
+		#{ID}, #{gender}, #{unit}, #{address}, #{tel},
+		#{eMail},
+		date_FORMAT(now(),'%Y-%m-%d'), 0)
+	</insert>
+
+	<select id="get_volunteer_list"
+		resultType="com.zzx.Model.Volunteer">
+		select *
+		from volunteer
+		order by
+		num
+		ASC
+	</select>
+
+	<!-- 按日期查询志愿者数 -->
+	<select id="get_volunteer_num_by_date" resultType="String">
+		select
+		count(*)
+		from volunteer
+		where joinDate=#{date}
+	</select>
+
+	<!-- 查询志愿者数 -->
+	<select id="get_volunteer_num" resultType="String">
+		select count(*)
+		from
+		volunteer
+	</select>
+	<!-- 更新时长 -->
+	<update id="update_total_time">
+		update volunteer
+		set
+		totalTime = totalTime +
+		#{volunteerTime}
+		where num=#{num}
+	</update>
+	
+		<update id="update_time">
+		update volunteer
+		set
+		totalTime = totalTime -
+		#{recordTime}
+		where num=#{num}
+	</update>
+
+	<!-- 更新志愿者信息 -->
+	<update id="update_volunteer">
+		update volunteer
+		set
+		name = #{name} ,
+		tel = #{tel} ,
+		ID =
+		#{ID} ,
+		address = #{address} ,
+		gender =
+		#{gender} ,
+		unit = #{unit} ,
+		eMail
+		= #{eMail}
+		where num=#{num}
+	</update>
+		<update id="update_volunteer_without_gender">
+		update volunteer
+		set
+		name = #{name} ,
+		tel = #{tel} ,
+		ID =
+		#{ID} ,
+		address = #{address} ,
+		unit = #{unit} ,
+		eMail
+		= #{eMail}
+		where num=#{num}
+	</update>
+</mapper>

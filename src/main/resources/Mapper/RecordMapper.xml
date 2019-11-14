@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzx.Dao.RecordMapper">
+
+	<!-- 获取全部志愿者信息 -->
+	<resultMap type="com.zzx.Model.Record" id="Record">
+		<id property="num" column="num" />
+		<result property="recordId" column="recordID" />
+		<result property="num" column="num" />
+		<result property="recordDate" column="recordDate" />
+		<result property="volunteerTime" column="volunteerTime" />
+		<result property="place" column="place" />
+		<result property="name" column="name" />
+		<result property="unit" column="unit" />
+		<result property="recordDetail" column="recordDetail" />
+
+	</resultMap>
+	<select id="show_all_record" resultMap="Record">
+		select r.*,v.name,v.unit
+		from record r
+		join
+		volunteer v
+		on
+		r.num=v.num
+		order
+		by
+		recordID
+		DESC
+	</select>
+	
+	<select id="get_record_by_Date" resultMap="Record">
+		select r.*,v.name,v.unit
+		from record r
+		join
+		volunteer v
+		on
+		r.num=v.num
+		<where>
+    	<if test="recordDate!=null and recordDate!=''">
+    	AND r.recordDate LIKE CONCAT(CONCAT('%',#{recordDate}),"%")
+    	</if>
+    </where>
+		order
+		by
+		r.recordID
+		ASC
+	</select>
+
+	<!-- 获取部分服务记录 -->
+	<select id="get_record_page" resultMap="Record">
+		select r.*,v.name,v.unit
+		from record r
+		join
+		volunteer v
+		on
+		r.num=v.num
+
+		<where>
+			<if test="num!=null and num!=''">
+				AND r.num = #{num}
+			</if>
+			<if test="name!=null and name!=''">
+				AND v.name LIKE CONCAT(CONCAT('%',#{name}),"%")
+			</if>
+			<if test="recordDate!=null and recordDate!=''">
+				AND r.recordDate LIKE CONCAT(CONCAT('%',#{recordDate}),"%")
+			</if>
+			<if test="unit!=null and unit!=''">
+				AND v.unit LIKE CONCAT(CONCAT('%',#{unit}),"%")
+			</if>
+		</where>
+		order by
+		recordID
+		DESC
+	</select>
+
+	<!-- 按日期查询记录数 -->
+	<select id="get_record_num_by_date" resultType="String">
+		select count(*)
+		from record
+		where recordDate=#{date}
+	</select>
+	
+		<!-- 按ID删除记录 -->
+	<delete id="delete_record" >
+		delete 
+		from record
+		where recordID=#{recordID}
+	</delete>
+	
+
+
+	<!-- 插入服务记录 -->
+	<insert id="insert_record">
+		insert into record(num, recordDate, volunteerTime,
+		place,recordDetail)
+		values(#{num}, date_FORMAT(now(),'%Y-%m-%d'), #{volunteerTime},
+		#{place}, #{recordDetail})
+	</insert>
+
+	<!-- 补录服务记录 -->
+	<insert id="insert_forget_record">
+		insert into record(num, recordDate, volunteerTime,
+		place,recordDetail)
+		values(#{num}, #{recordDate}, #{volunteerTime},
+		#{place}, #{recordDetail})
+	</insert>
+
+</mapper>

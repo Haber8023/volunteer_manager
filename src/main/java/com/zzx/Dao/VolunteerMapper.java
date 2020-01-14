@@ -10,7 +10,7 @@ public interface VolunteerMapper {
 
 	public void insert_volunteer(Volunteer volunteer);
 
-	public int get_num();
+	public String get_num();
 
 	public int check_volunteer(@Param("ID") String ID);
 
@@ -39,5 +39,11 @@ public interface VolunteerMapper {
 	public void update_time(@Param("num")String num, @Param("recordTime")String recordTime);
 
 	public String get_new_volunteer_by_year(@Param("joinDate")String joinDate);
+
+	public List<Volunteer> get_volunteer_by_school_with_hours_by_Date_DESC(@Param("recordDate")String recordDate, @Param("unit")String unit);
+
+	public String get_new_volunteer_by_year_and_school(@Param("joinDate")String joinDate, @Param("unit")String unit);
+
+	public void update_joinDate(@Param("num")String num, @Param("joinDate")String joinDate);
 
 }

@@ -94,6 +94,8 @@
 				</a></li>
 				<li><a href="yearPage"> <i class="icon-line-chart"></i>年度统计
 				</a></li>
+								<li><a href="schoolPage"> <i class="icon-page"></i>学院统计
+				</a></li>
 			</ul></nav>
 			<div class="content-inner">
 				<div style="width: 100%; heigth: 100%">
@@ -102,32 +104,31 @@
 						<div class="cxbottom">
 										<center>
 											<h1 >&ensp;</h1>
-											<h1 >&ensp;</h1>
 										</center>
 									</div>
 							<form class="form-horizontal" name="inputForm "
 								action="insertVolunteer" onsubmit="return validateForm()"
 								method="post">
 								<div class="form-group row" style="position:relative;left:330px">
-									<label style="font-size:25px;color:black" class="col-sm-3 form-control-label">志愿者编号:&ensp;&ensp;<b>${newNum}</b></label>
+																	<label style="font-size:18px;color:black" class="col-sm-3 form-control-label"><select id="type" type="text" name="type" ><option>新志愿者，编号：${newNum}</option><option>老志愿者，编号：${newNum}</option></optgroup></select></label>
 								</div>
 								<div class="form-group row" style="position:relative;left:330px">
-									<label style="font-size:20px;color:black" class="col-sm-3 form-control-label">*姓名:<br><input id="name_input" type="text" name="name" placeholder="必填，请输入真实姓名" autocomplete="off" ></label>
+									<label style="font-size:16px;color:black" class="col-sm-3 form-control-label">*姓名:<br><input id="name_input" type="text" name="name" placeholder="必填，请输入真实姓名" autocomplete="off" ></label>
 								</div>
 								<div class="form-group row" style="position:relative;left:330px">
-									<label style="font-size:20px;color:black" class="col-sm-3 form-control-label">*身份证号:<br><input id="ID_input" type="text" name="ID" placeholder="必填，请输入18位身份证号" autocomplete="off"></label>
+									<label style="font-size:16px;color:black" class="col-sm-3 form-control-label">*身份证号:<br><input id="ID_input" type="text" name="ID" placeholder="必填，请输入18位身份证号" autocomplete="off"></label>
 								</div>
 								<div class="form-group row" style="position:relative;left:330px">
-									<label style="font-size:20px;color:black" class="col-sm-3 form-control-label">&ensp;所在单位:<br><input id="unit_input" type="text" name="unit"></label>
+									<label style="font-size:16px;color:black" class="col-sm-3 form-control-label">&ensp;所在单位:<br><input id="unit_input" type="text" name="unit"></label>
 								</div>
 								<div class="form-group row" style="position:relative;left:330px">
-									<label style="font-size:20px;color:black" class="col-sm-3 form-control-label">&ensp;居住地址:<br><input id="address_input" type="text" name="address"></label>
+									<label style="font-size:16px;color:black" class="col-sm-3 form-control-label">&ensp;居住地址:<br><input id="address_input" type="text" name="address"></label>
 								</div>
 								<div class="form-group row" style="position:relative;left:330px">
-									<label style="font-size:20px;color:black" class="col-sm-3 form-control-label">*手机号码:<br><input id="tel_input" type="text" name="tel" placeholder="必填，请输入11位手机号" autocomplete="off"></label>
+									<label style="font-size:16px;color:black" class="col-sm-3 form-control-label">*手机号码:<br><input id="tel_input" type="text" name="tel" placeholder="必填，请输入11位手机号" autocomplete="off"></label>
 								</div>
 								<div class="form-group row" style="position:relative;left:330px">
-									<label style="font-size:20px;color:black" class="col-sm-3 form-control-label">&ensp;电子邮箱:<br><input id="eMail_input" type="text" name="eMail"></label>
+									<label style="font-size:16px;color:black" class="col-sm-3 form-control-label">&ensp;电子邮箱:<br><input id="eMail_input" type="text" name="eMail"></label>
 								</div>
 								<div class="line"></div>
 								

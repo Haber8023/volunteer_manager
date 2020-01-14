@@ -32,10 +32,14 @@ public class UserServiceImpl implements UserService {
 	};
 	
 	public String get_num() {
-		return ""+(volunteerMapper.get_num()+1);
+		int num=-1;
+		if(volunteerMapper.get_num()!=null) {
+			num = Integer.valueOf(volunteerMapper.get_num()).intValue();
+		}
+		return ""+(num+1);
 	};
 	
-	public boolean insert_volunteer(Volunteer volunteer) {
+	public boolean insert_volunteer(Volunteer volunteer,int isNew) {
 		if("0".equals(volunteer.getID())) {
 			volunteer.setGender("女");
 			volunteer.setID("无");
@@ -48,6 +52,9 @@ public class UserServiceImpl implements UserService {
 		try {
 			System.out.println(volunteer.toString());
 			volunteerMapper.insert_volunteer(volunteer);
+			if(isNew != 1) {
+				volunteerMapper.update_joinDate(volunteer.getNum(),"2019-12-31");
+			}
 		} catch (Exception e) {
 			System.out.println("insert err");
 			return false;
@@ -137,11 +144,12 @@ public class UserServiceImpl implements UserService {
 
 
 		public boolean update_volunteer(String num, String name, String ID, String unit,
-				String tel, String eMail, String address) {
+				String tel, String eMail, String address, String joinDate) {
 			if("无".equals(ID)) {
 				try {
 					volunteerMapper.update_volunteer_without_gender(num, name,
 							 ID,unit,tel,eMail,address);
+					volunteerMapper.update_joinDate(num, joinDate);
 				} catch (Exception e) {
 					System.out.println("err");
 					return false;
@@ -164,6 +172,7 @@ public class UserServiceImpl implements UserService {
 			try {
 				volunteerMapper.update_volunteer(num, name,gender,
 						 ID,unit,tel,eMail,address);
+				volunteerMapper.update_joinDate(num, joinDate);
 			} catch (Exception e) {
 				System.out.println("err");
 				return false;
@@ -194,6 +203,15 @@ public class UserServiceImpl implements UserService {
 			return totalHours;
 		};
 		
+		public int get_total_wage_hours_by_year_and_school(List<Volunteer> list) {
+			int totalHours = 0;
+			for(Volunteer v:list) {
+				Integer delta = new Integer(v.getTotalHours());
+				totalHours += delta.intValue();
+			}
+			return totalHours;
+		};
+		
 		public List<Volunteer> get_volunteer_with_hours_by_Date(String recordDate){
 			return volunteerMapper.get_volunteer_with_hours_by_Date(recordDate);
 		};
@@ -202,10 +220,18 @@ public class UserServiceImpl implements UserService {
 		public List<Volunteer> get_volunteer_with_hours_by_Date_DESC(String recordDate){
 			return volunteerMapper.get_volunteer_with_hours_by_Date_DESC(recordDate);
 		};
+		
+		public List<Volunteer> get_volunteer_by_school_with_hours_by_Date_DESC(String recordDate,String unit){
+			return volunteerMapper.get_volunteer_by_school_with_hours_by_Date_DESC(recordDate,unit);
+		};
+
 
 		public String get_new_volunteer_by_year(String joinDate) {
 			return volunteerMapper.get_new_volunteer_by_year(joinDate);
 		};
 
+		public String get_new_volunteer_by_year_and_school(String joinDate,String unit) {
+			return volunteerMapper.get_new_volunteer_by_year_and_school(joinDate,unit);
+		};
 
 }

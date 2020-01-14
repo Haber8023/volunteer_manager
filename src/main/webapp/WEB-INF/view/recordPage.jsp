@@ -95,6 +95,7 @@ table tr th {
 				<li><a href="forgetTimeInPage"> <i
 						class="icon-pencil-case"></i>时长补录
 				</a></li>
+			
 			</ul>
 			<span class="heading">Extras</span>
 			<ul class="list-unstyled">
@@ -104,6 +105,8 @@ table tr th {
 				<li><a href="wagePage"> <i class="icon-grid"></i>工资结算
 				</a></li>
 				<li><a href="yearPage"> <i class="icon-line-chart"></i>年度统计
+				</a></li>
+								<li><a href="schoolPage"> <i class="icon-page"></i>学院统计
 				</a></li>
 			</ul>
 			</nav>

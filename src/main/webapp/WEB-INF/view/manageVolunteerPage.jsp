@@ -105,6 +105,8 @@ table tr th {
 				</a></li>
 				<li><a href="yearPage"> <i class="icon-line-chart"></i>年度统计
 				</a></li>
+								<li><a href="schoolPage"> <i class="icon-page"></i>学院统计
+				</a></li>
 			</ul>
 			</nav>
 			<div class="content-inner">
@@ -234,9 +236,6 @@ table tr th {
 						</center>
 					</div>
 				</div>
-
-
-
 			</div>
 		</div>
 	</div>
@@ -281,7 +280,10 @@ table tr th {
 						&ensp;电子邮箱：&ensp;&ensp; <input id="eMail_check" type="text"
 							name="eMail_check">
 					</div>
-					<div class="modal-footer"></div>
+					<div class="modal-body">
+						&ensp;加入日期：&ensp;&ensp; <input id="joinDate_check" type="text"
+							name="joinDate_check">
+					</div>
 										<div class="modal-footer">
 						<button type="submit" class="btn btn-success" >修改</button>
 
@@ -314,6 +316,7 @@ table tr th {
 			var address_check = $td.eq(5).text();
 			var tel_check = $td.eq(6).text();
 			var eMail_check = $td.eq(7).text();
+			var joinDate_check = $td.eq(8).text();
 			$("#num_check").val(num_check);
 			$("#name_check").val(name_check);
 			$("#ID_check").val(ID_check);
@@ -321,6 +324,7 @@ table tr th {
 			$("#address_check").val(address_check);
 			$("#tel_check").val(tel_check);
 			$("#eMail_check").val(eMail_check);
+			$("#joinDate_check").val(joinDate_check);
 		}
 	</script>
 	<script>

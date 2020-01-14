@@ -9,7 +9,7 @@ import com.zzx.Model.Record;
 
 public interface UserService {
 
-		public boolean insert_volunteer(Volunteer volunteer);
+		public boolean insert_volunteer(Volunteer volunteer,int isNew);
 
 		public String get_num();
 
@@ -34,7 +34,7 @@ public interface UserService {
 		public boolean delete_record(String record_ID);
 
 		public boolean update_volunteer(String num, String name, String ID, String unit,
-				String tel, String eMail, String address);
+				String tel, String eMail, String address, String joinDate);
 
 		public List<Record> get_record_by_Date(String recordDate);
 
@@ -52,5 +52,11 @@ public interface UserService {
 				String recordDate, int volunteerTime);
 
 		public String get_new_volunteer_by_year(String joinDate);
+
+		public List<Volunteer> get_volunteer_by_school_with_hours_by_Date_DESC(String recordDate, String unit);
+
+		public int get_total_wage_hours_by_year_and_school(List<Volunteer> list);
+
+		public String get_new_volunteer_by_year_and_school(String joinDate,String unit);
 
 }

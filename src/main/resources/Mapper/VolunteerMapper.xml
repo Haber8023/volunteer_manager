@@ -4,7 +4,7 @@
 <mapper namespace="com.zzx.Dao.VolunteerMapper">
 
 	<!-- 获取最大志愿者编号 -->
-	<select id="get_num" resultType="int">
+	<select id="get_num" resultType="String">
 		select MAX(num)
 		from
 		volunteer
@@ -65,6 +65,28 @@
 		DESC
 	</select>
 	
+	<select id="get_volunteer_by_school_with_hours_by_Date_DESC"
+		resultMap="Volunteer">
+		select v.*,
+		sum(r.volunteerTime) as
+		totalHours,sum(r.volunteerTime)*3.75 as totalWage
+		from volunteer
+		v,record r
+		<where>
+    	<if test="recordDate!=null and recordDate!=''">
+    	AND r.recordDate LIKE CONCAT(CONCAT('%',#{recordDate}),"%")
+    	AND v.num = r.num
+    	</if>
+			<if test="unit!=null and unit!=''">
+				AND v.unit LIKE CONCAT(CONCAT('%',#{unit}),"%")
+			</if>
+    </where>
+		group by v.num
+		order by
+		totalHours
+		DESC
+	</select>
+	
 	<select id="show_all_volunteer" resultMap="Volunteer">
 		select *
 		from volunteer
@@ -114,6 +136,21 @@
     	</if>
     </where>
 	</select>
+	
+	<select id="get_new_volunteer_by_year_and_school" resultType="String">
+		select count(*)
+		from
+		volunteer
+	<where>
+    	<if test="joinDate!=null and joinDate!=''">
+    	AND joinDate LIKE CONCAT(CONCAT('%',#{joinDate}),"%")
+    	</if>
+    				<if test="unit!=null and unit!=''">
+				AND unit LIKE CONCAT(CONCAT('%',#{unit}),"%")
+			</if>
+    </where>
+	</select>
+	
 	<!-- 插入志愿者用户 -->
 	<insert id="insert_volunteer">
 		insert into volunteer(num, name,
@@ -154,6 +191,13 @@
 		set
 		totalTime = totalTime +
 		#{volunteerTime}
+		where num=#{num}
+	</update>
+	
+		<update id="update_joinDate">
+		update volunteer
+		set
+		joinDate = #{joinDate}
 		where num=#{num}
 	</update>
 	

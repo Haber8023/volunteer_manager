@@ -100,6 +100,8 @@ table tr th {
 				</a></li>
 				<li class="active"><a href="yearPage"> <i class="icon-line-chart"></i>年度统计
 				</a></li>
+								<li><a href="schoolPage"> <i class="icon-page"></i>学院统计
+				</a></li>
 			</ul>
 			</nav>
 			<div class="content-inner">

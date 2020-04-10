@@ -59,4 +59,8 @@ public interface UserService {
 
 		public String get_new_volunteer_by_year_and_school(String joinDate,String unit);
 
+		public String count_record(String num);
+
+		public String count_record(String num, String recordDate);
+
 }

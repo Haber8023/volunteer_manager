@@ -233,5 +233,15 @@ public class UserServiceImpl implements UserService {
 		public String get_new_volunteer_by_year_and_school(String joinDate,String unit) {
 			return volunteerMapper.get_new_volunteer_by_year_and_school(joinDate,unit);
 		};
+		
+		public String count_record(String num) {
+			return recordMapper.count_record(num);
+		};
+		
+		public String count_record(String num, String recordDate) {
+			return recordMapper.count_record_with_date(num,recordDate);
+		};
+
+
 
 }

@@ -48,6 +48,9 @@ table tr th {
 		if (msg == "2") {
 			alert('时长录入失败');
 		}
+		if (msg == "3") {
+			alert('录入失败，该志愿者今日已有服务记录！');
+		}
 	</script>
 	<div class="page">
 		<header class="header"> <nav class="navbar">

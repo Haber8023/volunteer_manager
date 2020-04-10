@@ -82,6 +82,20 @@
 		where recordDate=#{date}
 	</select>
 	
+		<select id="count_record" resultType="String">
+		select count(*)
+		from record
+		where recordDate=date_FORMAT(now(),'%Y-%m-%d')
+		and num = #{num}
+	</select>
+	
+			<select id="count_record_with_date" resultType="String">
+		select count(*)
+		from record
+		where recordDate=#{recordDate}
+		and num = #{num}
+	</select>
+	
 		<!-- 按ID删除记录 -->
 	<delete id="delete_record" >
 		delete 

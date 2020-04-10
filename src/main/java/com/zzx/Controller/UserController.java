@@ -323,6 +323,10 @@ else if (userService.check_volunteer(volunteer.getID())) {
 				 public ModelAndView allDayIn( HttpSession session,String num_ensure_all, String place_all, String other_place_all, String record_detail_all,
 						 @RequestParam(defaultValue="1") Integer currentPage,HttpServletRequest request,
 							Map<String,Object> map){
+					if(!userService.count_record(num_ensure_all).equals("0")) {
+						session.setAttribute("message", "3");
+						return new ModelAndView("/timeInPage");
+					}
 					if("其它".equals(place_all)) {
 						if("".equals(other_place_all)||other_place_all==null){
 							
@@ -354,6 +358,10 @@ else if (userService.check_volunteer(volunteer.getID())) {
 				 public ModelAndView forgetHalfDayIn( HttpSession session,String num_ensure, String place_ensure, String other_place_ensure, String record_detail_ensure,
 							String date_ensure, @RequestParam(defaultValue="1") Integer currentPage,HttpServletRequest request,
 							Map<String,Object> map){
+					if(!userService.count_record(num_ensure).equals("0")) {
+						session.setAttribute("message", "3");
+						return new ModelAndView("/timeInPage");
+					}
 					if("其它".equals(place_ensure)) {
 						if("".equals(other_place_ensure)||other_place_ensure==null){
 							
@@ -385,6 +393,10 @@ else if (userService.check_volunteer(volunteer.getID())) {
 				 public ModelAndView forgetAllDayIn( HttpSession session,String num_ensure_all, String place_all, String other_place_all, String record_detail_all,
 						 String date_all, @RequestParam(defaultValue="1") Integer currentPage,HttpServletRequest request,
 							Map<String,Object> map){
+					if(!userService.count_record(num_ensure_all,date_all).equals("0")) {
+						session.setAttribute("message", "3");
+						return new ModelAndView("/timeInPage");
+					}
 					if("其它".equals(place_all)) {
 						if("".equals(other_place_all)||other_place_all==null){
 							

@@ -23,5 +23,9 @@ public interface RecordMapper {
 	public void insert_forget_record(@Param("num")String num, @Param("place")String place, @Param("recordDetail")String recordDetail, @Param("recordDate")String recordDate,
 			@Param("volunteerTime")int volunteerTime);
 
+	public String count_record(@Param("num")String num);
+
+	public String count_record_with_date(@Param("num")String num,@Param("recordDate") String recordDate);
+
 }
  

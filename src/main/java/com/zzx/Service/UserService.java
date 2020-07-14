@@ -23,6 +23,8 @@ public interface UserService {
 		
 		public String get_record_num_by_date(String date);
 
+		public String get_record_hour_by_date(String date);
+		
 		public List<Volunteer> get_volunteer_time_in(Volunteer volunteer);
 
 		public boolean insert_record(String num, String place, String recordDetail, Integer volunteerTime);

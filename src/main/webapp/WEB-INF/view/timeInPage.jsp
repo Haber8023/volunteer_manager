@@ -43,7 +43,9 @@ table tr th {
 	<script type="text/javascript">
 		var msg = "${message}";
 		if (msg == "1") {
+			
 			alert('时长录入成功');
+			
 		}
 		if (msg == "2") {
 			alert('时长录入失败');
@@ -196,10 +198,11 @@ table tr th {
 										<td>${volunteer_list.joinDate}</td>
 										<td>${volunteer_list.totalTime}</td>
 										<td><button class="btn btn-info btn-sm"
-												onclick="halfDayInModal(this)" data-toggle="modal">录入半天</button>
-
+												onclick="halfDayInModal(this)" data-toggle="modal">录入时长</button>
+<!--  
 											<button class="btn btn-success btn-sm"
 												onclick="allDayInModal(this)" data-toggle="modal">录入全天</button>
+-->
 										</td>
 									</tr>
 								</c:forEach>
@@ -246,7 +249,7 @@ table tr th {
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title" id="myModalLabel">录入半天时长</h4>
+					<h4 class="modal-title" id="myModalLabel">录入时长</h4>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -286,6 +289,10 @@ table tr th {
 										<div class="modal-body">
 						其它部门： <input id="other_place_ensure"  type="text"
 							name="other_place_ensure"  placeholder="上面选择其它时生效" autocomplete="off">
+					</div>
+															<div class="modal-body">
+						服务时长： <input id="hours_ensure"  type="text"
+							name="hours_ensure"  placeholder="以小时为单位" autocomplete="off">
 					</div>
 										<div class="modal-body">
 						服务内容： <input id="record_detail_ensure"  type="text"

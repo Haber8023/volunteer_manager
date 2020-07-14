@@ -36,6 +36,7 @@ public class UserController {
 			session.setAttribute("totalMembers", userService.get_volunteer_num());
 			session.setAttribute("joinMembers", userService.get_volunteer_num_by_date(tool.get_current_date()));
 			session.setAttribute("todayMembers", userService.get_record_num_by_date(tool.get_current_date()));
+			session.setAttribute("todayHours", userService.get_record_hour_by_date(tool.get_current_date()));
 			return "mainPage";
 		}
 
@@ -77,13 +78,14 @@ else if (userService.check_volunteer(volunteer.getID())) {
 				@RequestParam(defaultValue="1") Integer currentPage,HttpServletRequest request,
 				Map<String,Object> map){
 			PageHelper.startPage(currentPage,8);
-			List<Volunteer> list=userService.show_all_volunteer();
+			Volunteer volunteer = new Volunteer();
+			volunteer.setNum((String)session.getAttribute("manageVolunteerNum"));
+			volunteer.setName((String)session.getAttribute("manageVolunteerName"));
+			volunteer.setJoinDate((String)session.getAttribute("manageVolunteerJoinDate"));
+			volunteer.setUnit((String)session.getAttribute("manageVolunteerUnit"));
+			List<Volunteer> list=userService.get_volunteer_time_in(volunteer);
 			PageInfo<Volunteer> pageInfo=new PageInfo<Volunteer>(list,8);
 			map.put("pageInfo", pageInfo);
-			session.setAttribute("manageVolunteerNum", "");
-			session.setAttribute("manageVolunteerName", "");
-			session.setAttribute("manageVolunteerJoinDate", "");
-			session.setAttribute("manageVolunteerUnit", "");
 			session.setAttribute("message","0");
 			return new ModelAndView("/manageVolunteerPage");
 		} 
@@ -128,13 +130,15 @@ else if (userService.check_volunteer(volunteer.getID())) {
 				@RequestParam(defaultValue="1") Integer currentPage,HttpServletRequest request,
 				Map<String,Object> map){
 			PageHelper.startPage(currentPage,8);
-			List<Record> list=userService.show_all_record();
+			Record record =new Record();
+			record.setNum((String)session.getAttribute("recordNum"));
+			record.setRecordDate((String)session.getAttribute("recordDate"));
+			record.setName((String)session.getAttribute("recordName"));
+			record.setUnit((String)session.getAttribute("recordUnit"));
+			List<Record> list=userService.get_record_page(record);
 			PageInfo<Record> pageInfo=new PageInfo<Record>(list,8);
 			map.put("pageInfo", pageInfo);
-			session.setAttribute("recordNum", "");
-			session.setAttribute("recordName", "");
-			session.setAttribute("recordDate", "");
-			session.setAttribute("recordUnit", "");
+
 			session.setAttribute("message", "0");
 			return new ModelAndView("/recordPage");
 		} 
@@ -183,7 +187,7 @@ else if (userService.check_volunteer(volunteer.getID())) {
 		
 		// 跳转至查看財務報表页面
 		@RequestMapping("/accountPage")
-	    public ModelAndView recordPage(HttpSession session){
+	    public ModelAndView accountPage(HttpSession session){
 			List<Record> list=null;
 			session.setAttribute("list", list);
 			session.setAttribute("accountDate","");
@@ -199,13 +203,15 @@ else if (userService.check_volunteer(volunteer.getID())) {
 				@RequestParam(defaultValue="1") Integer currentPage,HttpServletRequest request,
 				Map<String,Object> map){
 			PageHelper.startPage(currentPage,8);
-			List<Volunteer> list=userService.show_all_volunteer();
+			Volunteer volunteer = new Volunteer();
+			volunteer.setNum((String)session.getAttribute("timeInNum"));
+			volunteer.setName((String)session.getAttribute("timeInName"));
+			volunteer.setJoinDate((String)session.getAttribute("timeInJoinDate"));
+			volunteer.setUnit((String)session.getAttribute("timeInUnit"));
+			List<Volunteer> list=userService.get_volunteer_time_in(volunteer);
+
 			PageInfo<Volunteer> pageInfo=new PageInfo<Volunteer>(list,8);
 			map.put("pageInfo", pageInfo);
-			session.setAttribute("timeInNum", "");
-			session.setAttribute("timeInName", "");
-			session.setAttribute("timeInJoinDate", "");
-			session.setAttribute("timeInUnit", "");
 			session.setAttribute("message", "0");
 			return new ModelAndView("/timeInPage");
 		} 
@@ -234,13 +240,16 @@ else if (userService.check_volunteer(volunteer.getID())) {
 						@RequestParam(defaultValue="1") Integer currentPage,HttpServletRequest request,
 						Map<String,Object> map){
 					PageHelper.startPage(currentPage,8);
-					List<Volunteer> list=userService.show_all_volunteer();
+					
+					Volunteer volunteer = new Volunteer();
+					volunteer.setNum((String)session.getAttribute("timeInNumForget"));
+					volunteer.setName((String)session.getAttribute("timeInNameForget"));
+					volunteer.setJoinDate((String)session.getAttribute("timeInJoinDateForget"));
+					volunteer.setUnit((String)session.getAttribute("timeInUnitForget"));
+					List<Volunteer> list=userService.get_volunteer_time_in(volunteer);
+
 					PageInfo<Volunteer> pageInfo=new PageInfo<Volunteer>(list,8);
 					map.put("pageInfo", pageInfo);
-					session.setAttribute("timeInNum", "");
-					session.setAttribute("timeInName", "");
-					session.setAttribute("timeInJoinDate", "");
-					session.setAttribute("timeInUnit", "");
 					session.setAttribute("message", "0");
 					return new ModelAndView("/forgetTimeInPage");
 				} 
@@ -254,10 +263,10 @@ else if (userService.check_volunteer(volunteer.getID())) {
 					List<Volunteer> list=userService.get_volunteer_time_in(volunteer);
 					PageInfo<Volunteer> pageInfo=new PageInfo<Volunteer>(list,8);
 					map.put("pageInfo", pageInfo);
-					session.setAttribute("timeInNum", volunteer.getNum());
-					session.setAttribute("timeInName", volunteer.getName());
-					session.setAttribute("timeInJoinDate", volunteer.getJoinDate());
-					session.setAttribute("timeInUnit", volunteer.getUnit());
+					session.setAttribute("timeInNumForget", volunteer.getNum());
+					session.setAttribute("timeInNameForget", volunteer.getName());
+					session.setAttribute("timeInJoinDateForget", volunteer.getJoinDate());
+					session.setAttribute("timeInUnitForget", volunteer.getUnit());
 					session.setAttribute("message", "0");
 					System.out.println(volunteer.toString());
 					return new ModelAndView("/forgetTimeInPage");
@@ -289,7 +298,7 @@ else if (userService.check_volunteer(volunteer.getID())) {
 		
 		//录入半天时长
 				@RequestMapping(value = "/halfDayIn")
-				 public ModelAndView halfDayIn( HttpSession session,String num_ensure, String place_ensure, String other_place_ensure, String record_detail_ensure,
+				 public ModelAndView halfDayIn( HttpSession session,String num_ensure, String place_ensure, String other_place_ensure, int hours_ensure, String record_detail_ensure,
 							@RequestParam(defaultValue="1") Integer currentPage,HttpServletRequest request,
 							Map<String,Object> map){
 					if("其它".equals(place_ensure)) {
@@ -309,7 +318,7 @@ else if (userService.check_volunteer(volunteer.getID())) {
 						List<Volunteer> list=userService.get_volunteer_time_in(volunteer);
 						PageInfo<Volunteer> pageInfo=new PageInfo<Volunteer>(list,8);
 						map.put("pageInfo", pageInfo);
-					int volunteerTime = 4;
+					int volunteerTime = hours_ensure;
 					if (userService.insert_record(num_ensure,place_ensure,record_detail_ensure,volunteerTime)) {
 						session.setAttribute("message", "1");
 						return new ModelAndView("/timeInPage");
@@ -356,11 +365,11 @@ else if (userService.check_volunteer(volunteer.getID())) {
 				//补录半天时长
 				@RequestMapping(value = "/forgetHalfDayIn")
 				 public ModelAndView forgetHalfDayIn( HttpSession session,String num_ensure, String place_ensure, String other_place_ensure, String record_detail_ensure,
-							String date_ensure, @RequestParam(defaultValue="1") Integer currentPage,HttpServletRequest request,
+							int hours_ensure, String date_ensure, @RequestParam(defaultValue="1") Integer currentPage,HttpServletRequest request,
 							Map<String,Object> map){
-					if(!userService.count_record(num_ensure).equals("0")) {
+					if(!userService.count_record(num_ensure,date_ensure).equals("0")) {
 						session.setAttribute("message", "3");
-						return new ModelAndView("/timeInPage");
+						return new ModelAndView("/forgetTimeInPage");
 					}
 					if("其它".equals(place_ensure)) {
 						if("".equals(other_place_ensure)||other_place_ensure==null){
@@ -379,7 +388,7 @@ else if (userService.check_volunteer(volunteer.getID())) {
 						List<Volunteer> list=userService.get_volunteer_time_in(volunteer);
 						PageInfo<Volunteer> pageInfo=new PageInfo<Volunteer>(list,8);
 						map.put("pageInfo", pageInfo);
-					int volunteerTime = 4;
+					int volunteerTime = hours_ensure;
 					if (userService.insert_foget_record(num_ensure,place_ensure,record_detail_ensure,date_ensure,volunteerTime)) {
 						session.setAttribute("message", "1");
 						return new ModelAndView("/forgetTimeInPage");
@@ -395,7 +404,7 @@ else if (userService.check_volunteer(volunteer.getID())) {
 							Map<String,Object> map){
 					if(!userService.count_record(num_ensure_all,date_all).equals("0")) {
 						session.setAttribute("message", "3");
-						return new ModelAndView("/timeInPage");
+						return new ModelAndView("/forgetTimeInPage");
 					}
 					if("其它".equals(place_all)) {
 						if("".equals(other_place_all)||other_place_all==null){

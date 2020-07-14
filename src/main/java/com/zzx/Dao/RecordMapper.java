@@ -9,6 +9,8 @@ import com.zzx.Model.Record;
 public interface RecordMapper {
 
 	public String get_record_num_by_date(@Param("date")String date);
+	
+	public String get_record_hour_by_date(@Param("date")String date);
 
 	public void insert_record(@Param("num")String num, @Param("place")String place,@Param("recordDetail")String recordDetail, @Param("volunteerTime")int volunteerTime);
 

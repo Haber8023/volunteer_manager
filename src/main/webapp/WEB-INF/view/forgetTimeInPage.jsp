@@ -137,7 +137,7 @@ table tr th {
 												<div class="" id="data_5">
 													<div class="input-daterange input-group" id="datepicker">
 														<input type="text" placeholder="格式：yyyy-MM-dd中的任意一部分"
-															value="${timeInJoinDate}" class="form-control"
+															value="${timeInJoinDateForget}" class="form-control"
 															style="border-radius: 3px; height: 30px" id="joinDate"
 															name="joinDate"></input>
 													</div>
@@ -145,7 +145,7 @@ table tr th {
 											</td>
 											<th width="12%">志愿者编号：</th>
 											<td width="21%"><input type="text"
-												placeholder="准确查找，完整数字编号" value="${timeInNum}"
+												placeholder="准确查找，完整数字编号" value="${timeInNumForget}"
 												class="form-control"
 												style="border-radius: 3px; height: 30px" id="num" name="num">
 											</td>
@@ -153,12 +153,12 @@ table tr th {
 										<tr>
 											<th>志愿者姓名：</th>
 											<td><input type="text" placeholder="模糊查找，志愿者姓名中的一部分即可"
-												value="${timeInName}" class="form-control"
+												value="${timeInNameForget}" class="form-control"
 												style="border-radius: 3px; height: 30px" id="name"
 												name="name"></td>
 											<th>所在单位：</th>
 											<td><input type="text" placeholder="模糊查找，所在单位名字中的一部分即可"
-												value="${timeInUnit}" class="form-control"
+												value="${timeInUnitForget}" class="form-control"
 												style="border-radius: 3px; height: 30px" id="unit"
 												name="unit"></td>
 										</tr>
@@ -196,10 +196,11 @@ table tr th {
 										<td>${volunteer_list.joinDate}</td>
 										<td>${volunteer_list.totalTime}</td>
 										<td><button class="btn btn-info btn-sm"
-												onclick="halfDayInModal(this)" data-toggle="modal">录入半天</button>
-
+												onclick="halfDayInModal(this)" data-toggle="modal">时长补录</button>
+<!--
 											<button class="btn btn-success btn-sm"
 												onclick="allDayInModal(this)" data-toggle="modal">录入全天</button>
+  -->
 										</td>
 									</tr>
 								</c:forEach>
@@ -246,7 +247,7 @@ table tr th {
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title" id="myModalLabel">录入半天时长</h4>
+					<h4 class="modal-title" id="myModalLabel">时长补录</h4>
 					<button type="button" class="close" data-dismiss="modal"
 						aria-label="Close">
 						<span aria-hidden="true">&times;</span>
@@ -295,6 +296,10 @@ table tr th {
 										<div class="modal-body">
 						服务日期： <input id="date_ensure"  type="text"
 							name="date_ensure"  placeholder="如:2019-01-01" autocomplete="off">
+					</div>
+															<div class="modal-body">
+						服务时长： <input id="hours_ensure"  type="text"
+							name="hours_ensure"  placeholder="以小时为单位" autocomplete="off">
 					</div>
 					<div class="modal-footer">
 						<button type="submit" class="btn btn-success">提交</button>

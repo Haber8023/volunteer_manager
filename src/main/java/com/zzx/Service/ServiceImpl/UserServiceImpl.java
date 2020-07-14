@@ -77,6 +77,10 @@ public class UserServiceImpl implements UserService {
 		public String get_record_num_by_date(String date) {
 			return recordMapper.get_record_num_by_date(date);
 		};
+		
+		public String get_record_hour_by_date(String date) {
+			return recordMapper.get_record_hour_by_date(date);
+		};
 
 		public List<Volunteer> get_volunteer_time_in(Volunteer volunteer){
 			String num = volunteer.getNum();

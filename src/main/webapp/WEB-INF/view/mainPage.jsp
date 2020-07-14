@@ -92,7 +92,7 @@
 		<div class="col-lg-2 col-sm-6 layui-anim layui-anim-up" >
 
 		</div>
-				<div class="col-lg-3 col-sm-6 layui-anim layui-anim-up">
+				<div class="col-lg-2 col-sm-6 layui-anim layui-anim-up">
 			<section class="panel">
 				<div class="symbol userblue layui-anim layui-anim-rotate"> <i class="iconpx-users"></i>
 				</div>
@@ -104,7 +104,7 @@
 				</div>
 			</section>
 		</div>
-		<div class="col-lg-3 col-sm-6 layui-anim layui-anim-up">
+		<div class="col-lg-2 col-sm-6 layui-anim layui-anim-up">
 			<section class="panel">
 				<div class="symbol commred layui-anim layui-anim-rotate"> <i class="iconpx-user-add"></i>
 				</div>
@@ -116,7 +116,7 @@
 				</div>
 			</section>
 		</div>
-				<div class="col-lg-3 col-sm-6 layui-anim layui-anim-up">
+				<div class="col-lg-2 col-sm-6 layui-anim layui-anim-up">
 			<section class="panel">
 				<div class="symbol commred layui-anim layui-anim-rotate"> <i class="iconpx-user-add"></i>
 				</div>
@@ -128,21 +128,30 @@
 				</div>
 			</section>
 		</div>
-		
-	
-			
-			
-		
-          
-          
-             
-
-              
-            
-
-				
-				
-			</div>
+						<div class="col-lg-2 col-sm-6 layui-anim layui-anim-up">
+			<section class="panel">
+				<div class="symbol commred layui-anim layui-anim-rotate"> <i class="iconpx-user-add"></i>
+				</div>
+				<div class="value">
+					
+						<h1 id="count2"  style="color:#796AEE ">&ensp;&ensp;&ensp;&ensp;&ensp;${todayHours}</h1>
+					
+					<p>今日志愿者服务时长</p>
+				</div>
+			</section>
+		</div>
+	</div>
+			<HR>
+			<h2>&ensp;</h2>
+				<h1>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;数据库备份教程</h1><br>
+				<p>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;1.打开桌面上这个软件<br>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<img src="<%=request.getContextPath()%>/lib/img/01.png"></p>
+				<br>
+				<p>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;2.出现弹框，点击右上角×掉<br>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<img src="<%=request.getContextPath()%>/lib/img/02.png"></p><br>
+				<p>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;3.双击下面这个<br>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<img src="<%=request.getContextPath()%>/lib/img/03.png"></p><br>
+				<p>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;4.再双击下面这个<br>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<img src="<%=request.getContextPath()%>/lib/img/04.png"></p><br>
+				<p>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;5.右键点击备份，选择新建备份<br>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<img src="<%=request.getContextPath()%>/lib/img/05.png"></p><br>
+				<p>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;6.点击开始，等待进度条完成即可<br>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;<img src="<%=request.getContextPath()%>/lib/img/06.png"></p><br>
+				<p>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;备份目录：D:\用户目录\我的文档\Navicat\MySQL\Servers\localhost_3306\volunteer_manager</p><br>
 		</div>
 	</div>
 	<script

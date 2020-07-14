@@ -82,6 +82,13 @@
 		where recordDate=#{date}
 	</select>
 	
+		<!-- 按日期查询服务时长 -->
+	<select id="get_record_hour_by_date" resultType="String">
+		select sum(volunteerTime)
+		from record
+		where recordDate=#{date}
+	</select>
+	
 		<select id="count_record" resultType="String">
 		select count(*)
 		from record

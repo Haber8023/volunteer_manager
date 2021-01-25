@@ -21,13 +21,11 @@ table tr th {
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="all,follow">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/lib/vendor/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet"
 	href="<%=request.getContextPath()%>/lib/vendor/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/lib/css/fontastic.css">
 <link rel="stylesheet"
-	href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+	href="<%=request.getContextPath()%>/lib/css/google.css">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/lib/css/style.default.css"
 	id="theme-stylesheet">
@@ -35,7 +33,8 @@ table tr th {
 	href="<%=request.getContextPath()%>/lib/css/custom.css">
 <link rel="shortcut icon"
 	href="<%=request.getContextPath()%>/lib/img/favicon.ico">
-
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/lib/vendor/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
 	<script type="text/javascript">
@@ -98,9 +97,13 @@ table tr th {
 				</a></li>
 				<li><a href="wagePage"> <i class="icon-grid"></i>工资结算
 				</a></li>
+								<li><a href="monthPage"> <i class="icon-line-chart"></i>月份统计
+				</a></li>
 				<li><a href="yearPage"> <i class="icon-line-chart"></i>年度统计
 				</a></li>
-<li class="active"><a href="schoolPage"> <i class="icon-page"></i>学院统计
+
+<li class="active"><a href="schoolPage"> <i class="icon-page"></i>单位年统计
+				</a></li>					<li><a href="schoolMonthPage"> <i class="icon-page"></i>单位月统计
 				</a></li>
 			</ul>
 			</nav>

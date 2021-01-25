@@ -10,13 +10,11 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="all,follow">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/lib/vendor/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet"
 	href="<%=request.getContextPath()%>/lib/vendor/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/lib/css/fontastic.css">
 <link rel="stylesheet"
-	href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+	href="<%=request.getContextPath()%>/lib/css/google.css">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/lib/css/style.default.css"
 	id="theme-stylesheet">
@@ -24,6 +22,8 @@
 	href="<%=request.getContextPath()%>/lib/css/custom.css">
 <link rel="shortcut icon"
 	href="<%=request.getContextPath()%>/lib/img/favicon.ico">
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/lib/vendor/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
 	<script type="text/javascript">
@@ -92,9 +92,12 @@
 				</a></li>
 				<li><a href="wagePage"> <i class="icon-grid"></i>工资结算
 				</a></li>
+								<li><a href="monthPage"> <i class="icon-line-chart"></i>月份统计
+				</a></li>
 				<li><a href="yearPage"> <i class="icon-line-chart"></i>年度统计
 				</a></li>
-								<li><a href="schoolPage"> <i class="icon-page"></i>学院统计
+								<li><a href="schoolPage"> <i class="icon-page"></i>单位年统计
+				</a></li>					<li><a href="schoolMonthPage"> <i class="icon-page"></i>单位月统计
 				</a></li>
 			</ul></nav>
 			<div class="content-inner">
@@ -106,33 +109,83 @@
 											<h1 >&ensp;</h1>
 										</center>
 									</div>
-							<form class="form-horizontal" name="inputForm "
-								action="insertVolunteer" onsubmit="return validateForm()"
+							<form class="form-horizontal" id="inputForm"
+								action="insertVolunteer" onsubmit="return anotherValidateForm()"
 								method="post">
-								<div class="form-group row" style="position:relative;left:330px">
-																	<label style="font-size:18px;color:black" class="col-sm-3 form-control-label"><select id="type" type="text" name="type" ><option>新志愿者，编号：${newNum}</option><option>老志愿者，编号：${newNum}</option></optgroup></select></label>
-								</div>
-								<div class="form-group row" style="position:relative;left:330px">
-									<label style="font-size:16px;color:black" class="col-sm-3 form-control-label">*姓名:<br><input id="name_input" type="text" name="name" placeholder="必填，请输入真实姓名" autocomplete="off" ></label>
-								</div>
-								<div class="form-group row" style="position:relative;left:330px">
-									<label style="font-size:16px;color:black" class="col-sm-3 form-control-label">*身份证号:<br><input id="ID_input" type="text" name="ID" placeholder="必填，请输入18位身份证号" autocomplete="off"></label>
-								</div>
-								<div class="form-group row" style="position:relative;left:330px">
-									<label style="font-size:16px;color:black" class="col-sm-3 form-control-label">&ensp;所在单位:<br><input id="unit_input" type="text" name="unit"></label>
-								</div>
-								<div class="form-group row" style="position:relative;left:330px">
-									<label style="font-size:16px;color:black" class="col-sm-3 form-control-label">&ensp;居住地址:<br><input id="address_input" type="text" name="address"></label>
-								</div>
-								<div class="form-group row" style="position:relative;left:330px">
-									<label style="font-size:16px;color:black" class="col-sm-3 form-control-label">*手机号码:<br><input id="tel_input" type="text" name="tel" placeholder="必填，请输入11位手机号" autocomplete="off"></label>
-								</div>
-								<div class="form-group row" style="position:relative;left:330px">
-									<label style="font-size:16px;color:black" class="col-sm-3 form-control-label">&ensp;电子邮箱:<br><input id="eMail_input" type="text" name="eMail"></label>
-								</div>
-								<div class="line"></div>
 								
-									<div style="position:relative;left:400px">
+<p>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;志愿者类型：    <select name="isNew">
+        <option>新志愿者，编号：${newNum}</option>
+        <option>老志愿者，编号：${newNum}</option>
+        <option>内部志愿者，编号：${newNum}</option>
+    </select></p>							
+<p>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;志愿者姓名：&thinsp;<input id="name" type="text" name="name"></p>
+<p>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;志愿者性别：    <select id="gender_input" name="gender">
+        <option>男</option>
+        <option>女</option>
+    </select></p>
+<p>
+    &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;出生日期：&ensp;&ensp;
+<select name="birth_year"><option>2020</option><option>2019</option><option>2018</option><option>2017</option><option>2016</option><option>2015</option><option>2014</option><option>2013</option><option>2012</option><option>2011</option>
+<option>2010</option><option>2009</option><option>2008</option><option>2007</option><option>2006</option><option>2005</option><option>2004</option><option>2003</option><option>2002</option><option>2001</option>
+<option>2000</option><option>1999</option><option>1998</option><option>1997</option><option>1996</option><option>1995</option><option>1994</option><option>1993</option><option>1992</option><option>1991</option>
+<option>1990</option><option>1989</option><option>1988</option><option>1987</option><option>1986</option><option>1985</option><option>1984</option><option>1983</option><option>1982</option><option>1981</option>
+<option>1980</option><option>1979</option><option>1978</option><option>1977</option><option>1976</option><option>1975</option><option>1974</option><option>1973</option><option>1972</option><option>1971</option>
+<option>1970</option><option>1969</option><option>1968</option><option>1967</option><option>1966</option><option>1965</option><option>1964</option><option>1963</option><option>1962</option><option>1961</option>
+<option>1960</option><option>1959</option><option>1958</option><option>1957</option><option>1956</option><option>1955</option><option>1954</option><option>1953</option><option>1952</option><option>1951</option>
+<option>1950</option><option>1949</option><option>1948</option><option>1947</option><option>1946</option><option>1945</option><option>1944</option><option>1943</option><option>1942</option><option>1941</option>
+
+</select>年
+<select name="birth_month"><option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option><option>07</option><option>08</option><option>09</option><option>10</option>
+<option>11</option><option>12</option></select>月
+<select name="birth_day">
+<option>01</option><option>02</option><option>03</option><option>04</option><option>05</option><option>06</option><option>07</option><option>08</option><option>09</option><option>10</option>
+<option>11</option><option>12</option><option>13</option><option>14</option><option>15</option><option>16</option><option>17</option><option>18</option><option>19</option><option>20</option>
+<option>21</option><option>22</option><option>23</option><option>24</option><option>25</option><option>26</option><option>27</option><option>28</option><option>29</option><option>30</option>
+<option>31</option>
+</select>日
+</p>
+<p>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;志愿者手机：&thinsp;
+    <input id="tel" type="text" name="tel">
+</p>
+<p>
+   &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;志愿者单位：&thinsp;
+    <input id="unit" type="text" name="unit"></p>
+<p>
+    &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;志愿者地址:&thinsp;&thinsp;&thinsp;<select  id="address_input" name="address">
+        <option>重庆主城内</option>
+        <option>重庆其它区县</option>
+        <option>重庆市以外</option>
+        <option>境外</option>
+    </select>
+</p>
+<p>
+    &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;志愿者学历:&thinsp;&thinsp;&thinsp;<select  id="education_input" name="education">
+        <option>博士</option>
+        <option>硕士</option>
+        <option>本科</option>
+        <option>专科</option>
+        <option>其它</option>
+    </select>
+</p>
+<p>
+    &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;志愿者职业:&thinsp;&thinsp;&thinsp;<select  id="occupation_input" name="occupation">
+        <option>学生</option>
+        <option>工作中</option>
+        <option>退休</option>
+        <option>其它</option>
+    </select>
+</p>
+<p>
+    &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;从事医学相关事业:&thinsp;&thinsp;&thinsp;<select  id="relate_input" name="relate">
+        <option>否</option>
+        <option>是</option>
+    </select>
+</p>
+
+
+								<div class="line"></div>
+								<h2>&ensp;</h2>
+									<div style="position:relative;left:160px">
 										<button type="submit" class="btn btn-primary">提交</button>
 									</div>	
 							</form>
@@ -168,43 +221,28 @@
 		src="<%=request.getContextPath()%>/lib/vendor/jquery-validation/jquery.validate.min.js"></script>
 	<script src="<%=request.getContextPath()%>/lib/js/front.js"></script>
 	<script>
-		function validateForm() {
-			var name = document.forms["inputForm"]["name_input"].value;
-			var ID = document.forms["inputForm"]["ID_input"].value;
-			var tel = document.forms["inputForm"]["tel_input"].value;
-			var eMail = document.forms["inputForm"]["eMail_input"].value;
+	function anotherValidateForm() {
+		
+			var name = document.forms["inputForm"]["name"].value;
+			var tel = document.forms["inputForm"]["tel"].value;
+			var unit = document.forms["inputForm"]["unit"].value;
 
-			var eMailReg = /^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g;
-			var idcardReg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
-
-			if(ID!=0||ID!=1){
-			if(!idcardReg.test(ID)) {
-				alert("请输入正确的中国大陆地区18位身份证号码");
-				return false;
-			}
-			}
-			if(!(/^1[3456789]\d{9}$/.test(tel))){ 
-		        alert("手机号码有误，请重新填写");  
-		        return false; 
-		    } 
-			
-			if (eMail != null && eMail != ""){
-				if(!eMailReg.test(eMail)) {
-					alert("请填写正确的电子邮箱地址");
-					return false;
-				}
-		}
 			
 			if (name == null || name == "") {
 				alert("志愿者姓名不能为空");
 				return false;
-			} else if (ID == null || ID == "") {
-				alert("身份证号码不能为空");
+			} else if (unit == null || unit == "") {
+				alert("所在单位不能为空");
 				return false;
 			} else if (tel == null || tel == "") {
 				alert("手机号码不能为空");
 				return false;
 			}
+			
+			if(!(/^1[3456789]\d{9}$/.test(tel))){ 
+		        alert("手机号码格式有误，请重新填写");  
+		        return false; 
+		    } 
 		}
 	</script>
 </body>

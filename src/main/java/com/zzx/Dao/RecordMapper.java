@@ -16,7 +16,7 @@ public interface RecordMapper {
 
 	public List<Record> show_all_record();
 
-	public List<Record> get_record_page(@Param("num")String num, @Param("name")String name, @Param("recordDate")String recordDate, @Param("unit")String unit);
+	public List<Record> get_record_page(@Param("tel")String tel, @Param("name")String name, @Param("recordDate")String recordDate, @Param("unit")String unit);
 
 	public void delete_record(@Param("recordID")String recordID);
 

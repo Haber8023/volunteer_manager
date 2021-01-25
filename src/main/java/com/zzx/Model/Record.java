@@ -9,6 +9,15 @@ public class Record {
 	private String name;
 	private String unit;
 	private String recordDetail;
+	private String type;
+	private String tel;
+	
+	public String getTel() {
+		return tel;
+	}
+	public void setTel(String tel) {
+		this.tel = tel;
+	}
 	
 	public String getName() {
 		return name;
@@ -63,6 +72,13 @@ public class Record {
 	public void setRecordDetail(String recordDetail) {
 		this.recordDetail = recordDetail;
 	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+
 	
 	
 }

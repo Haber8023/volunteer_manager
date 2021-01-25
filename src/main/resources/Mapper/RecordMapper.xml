@@ -17,7 +17,7 @@
 
 	</resultMap>
 	<select id="show_all_record" resultMap="Record">
-		select r.*,v.name,v.unit
+		select r.*,v.name,v.unit,v.type
 		from record r
 		join
 		volunteer v
@@ -30,7 +30,7 @@
 	</select>
 	
 	<select id="get_record_by_Date" resultMap="Record">
-		select r.*,v.name,v.unit
+		select r.*,v.name,v.unit,v.type
 		from record r
 		join
 		volunteer v
@@ -49,7 +49,7 @@
 
 	<!-- 获取部分服务记录 -->
 	<select id="get_record_page" resultMap="Record">
-		select r.*,v.name,v.unit
+		select r.*,v.tel,v.name,v.unit,v.type
 		from record r
 		join
 		volunteer v
@@ -57,8 +57,8 @@
 		r.num=v.num
 
 		<where>
-			<if test="num!=null and num!=''">
-				AND r.num = #{num}
+			<if test="tel!=null and tel!=''">
+				AND v.tel = #{tel}
 			</if>
 			<if test="name!=null and name!=''">
 				AND v.name LIKE CONCAT(CONCAT('%',#{name}),"%")

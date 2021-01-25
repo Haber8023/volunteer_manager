@@ -21,13 +21,11 @@ table tr th {
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="all,follow">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/lib/vendor/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet"
 	href="<%=request.getContextPath()%>/lib/vendor/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/lib/css/fontastic.css">
 <link rel="stylesheet"
-	href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+	href="<%=request.getContextPath()%>/lib/css/google.css">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/lib/css/style.default.css"
 	id="theme-stylesheet">
@@ -35,7 +33,8 @@ table tr th {
 	href="<%=request.getContextPath()%>/lib/css/custom.css">
 <link rel="shortcut icon"
 	href="<%=request.getContextPath()%>/lib/img/favicon.ico">
-
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/lib/vendor/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
 	<script type="text/javascript">
@@ -98,9 +97,12 @@ table tr th {
 				</a></li>
 				<li><a href="wagePage"> <i class="icon-grid"></i>工资结算
 				</a></li>
+								<li><a href="monthPage"> <i class="icon-line-chart"></i>月份统计
+				</a></li>
 				<li><a href="yearPage"> <i class="icon-line-chart"></i>年度统计
 				</a></li>
-								<li><a href="schoolPage"> <i class="icon-page"></i>学院统计
+								<li><a href="schoolPage"> <i class="icon-page"></i>单位年统计
+				</a></li>					<li><a href="schoolMonthPage"> <i class="icon-page"></i>单位月统计
 				</a></li>
 			</ul>
 			</nav>
@@ -135,7 +137,7 @@ table tr th {
 							</form>
 						</div>
 					</blockquote>
-					<div id="content" style="width: 100%; height: 533px;">
+					<div id="content" style="width: 100%; height: 600px;">
 
 						<table class="table table-hover table-bordered" id="tables"
 							data-toggle="table" data-toggle="table" data-pagination="true"
@@ -147,6 +149,7 @@ table tr th {
 								<th>服务日期</th>
 									<th>志愿者编号</th>
 									<th>志愿者姓名</th>
+									<th>志愿者类型</th>
 									<th>所在单位</th>
 									<th>服务部门</th>
 									<th>服务内容</th>
@@ -160,6 +163,7 @@ table tr th {
 				                        <td>${record_list.recordDate}</td>
 										<td>${record_list.num }</td>
 										<td>${record_list.name }</td>
+										<td>${record_list.type }</td>
 										<td>${record_list.unit }</td>						
 										<td>${record_list.place}</td>
 										<td>${record_list.recordDetail}</td>
@@ -170,10 +174,14 @@ table tr th {
 
 							</tbody>
 <tr>
-<th rowspan="2"  colspan="5">备注：服务时长4小时代表半天，服务时长8小时代表全天。服务半天应发放15元，服务全天应发放30元。</th>
+<th rowspan="3"  colspan="6">备注：服务时长4小时代表半天，服务时长8小时代表全天。服务半天应发放15元，服务全天应发放30元。</th>
 								
 								<th>总计时长</th>
 								<td>${totalHours}小时</td>
+									</tr>
+																		<tr>
+								<th>社会志愿者时长</th>
+								<td>${totalSocialHours}小时</td>
 									</tr>
 									<tr>
 								<th>申请金额</th>

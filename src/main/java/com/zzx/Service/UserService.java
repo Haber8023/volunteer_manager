@@ -13,7 +13,7 @@ public interface UserService {
 
 		public String get_num();
 
-		public boolean check_volunteer(String ID);
+		public boolean check_volunteer(String tel);
 
 		public List<Volunteer> show_all_volunteer();
 
@@ -35,10 +35,11 @@ public interface UserService {
 
 		public boolean delete_record(String record_ID);
 
-		public boolean update_volunteer(String num, String name, String ID, String unit,
-				String tel, String eMail, String address, String joinDate);
+		public boolean update_volunteer(String num, String name,String gender,String birthday,
+				 String unit,String address,String tel,String type,String joinDate,String occupation,String education,String relate);
 
 		public List<Record> get_record_by_Date(String recordDate);
+		
 
 		public int get_total_hours(List<Record> list);
 
@@ -47,6 +48,8 @@ public interface UserService {
 		public List<Volunteer> get_volunteer_with_hours_by_Date(String recordDate);
 
 		public List<Volunteer> get_volunteer_with_hours_by_Date_DESC(String recordDate);
+		public List<Volunteer> get_social_volunteer_with_hours_by_Date_DESC(String recordDate);
+		public List<Volunteer> get_inner_volunteer_with_hours_by_Date_DESC(String recordDate);
 
 		public void update_time(String num, String record_time);
 
@@ -54,6 +57,8 @@ public interface UserService {
 				String recordDate, int volunteerTime);
 
 		public String get_new_volunteer_by_year(String joinDate);
+		public String get_new_social_volunteer_by_year(String joinDate);
+		public String get_new_inner_volunteer_by_year(String joinDate);
 
 		public List<Volunteer> get_volunteer_by_school_with_hours_by_Date_DESC(String recordDate, String unit);
 

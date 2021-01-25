@@ -21,13 +21,11 @@ table tr th {
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="all,follow">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/lib/vendor/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet"
 	href="<%=request.getContextPath()%>/lib/vendor/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/lib/css/fontastic.css">
 <link rel="stylesheet"
-	href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+	href="<%=request.getContextPath()%>/lib/css/google.css">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/lib/css/style.default.css"
 	id="theme-stylesheet">
@@ -35,7 +33,8 @@ table tr th {
 	href="<%=request.getContextPath()%>/lib/css/custom.css">
 <link rel="shortcut icon"
 	href="<%=request.getContextPath()%>/lib/img/favicon.ico">
-
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/lib/vendor/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
 	<script type="text/javascript">
@@ -97,10 +96,14 @@ table tr th {
 						class="icon-interface-windows"></i>财务报表
 				</a></li>
 				<li><a href="wagePage"> <i class="icon-grid"></i>工资结算
+				</a></li>								<li><a href="monthPage"> <i class="icon-line-chart"></i>月份统计
 				</a></li>
 				<li class="active"><a href="yearPage"> <i class="icon-line-chart"></i>年度统计
 				</a></li>
-								<li><a href="schoolPage"> <i class="icon-page"></i>学院统计
+
+								<li><a href="schoolPage"> <i class="icon-page"></i>单位年统计
+				</a></li>
+					<li><a href="schoolMonthPage"> <i class="icon-page"></i>单位月统计
 				</a></li>
 			</ul>
 			</nav>
@@ -119,12 +122,12 @@ table tr th {
 								action="yearFinder" onsubmit="return validateForm()"
 								method="post">	
 											<center>
-											<h2>结算年份：</h2>
-											<input type="text"
+											
+											输入年份：<input type="text"
 												placeholder="格式：YYYY，如：2019" value="${yearDate}"
-												class="form-control"
-												style="border-radius: 3px; height: 45px ;width: 300px" id="yearDate" name="yearDate">
-																			<h3>&ensp;</h3>
+												id="yearDate" name="yearDate">
+																			&ensp;&ensp;&ensp;志愿者类型:<select name="type_input"><option>所有志愿者</option><option>社会志愿者</option><option>内部志愿者</option></select><h3>&ensp;</h3>
+																		
 									<div class="cxbottom">
 											<button type="submit" >查询统计</button>
 																        <a id="dlink" style="display:none;"></a>
@@ -145,10 +148,13 @@ table tr th {
 								<tr>
 									<th>志愿者编号</th>
 									<th>志愿者姓名</th>
-									<th>志愿者身份证号</th>
 									<th>志愿者性别</th>
+									<th>志愿者生日</th>
+									<th>志愿者类型</th>
 									<th>所在单位</th>
-									<th>手机号码</th>
+									<th>所在地区</th>
+									<th>志愿者学历</th>
+									<th>志愿者职业</th>
 									<th>加入日期</th>
 									<th>年度时长(/h)</th>
 									<th>总时长(/h)</th>
@@ -161,10 +167,13 @@ table tr th {
 									<tr style="height: auto;">
 										<td>${record_list.num }</td>
 										<td>${record_list.name }</td>
-										<td style="mso-number-format:'\@';">${record_list.ID }</td>
-										<td>${record_list.gender }</td>
-										<td>${record_list.unit }</td>						
-										<td>${record_list.tel}</td>
+										<td>${record_list.gender}</td>
+										<td>${record_list.birthday }</td>
+										<td>${record_list.type}</td>
+										<td>${record_list.unit }</td>
+										<td>${record_list.address }</td>						
+										<td>${record_list.education}</td>
+										<td>${record_list.occupation}</td>
 										<td>${record_list.joinDate}</td>
 										<td>${record_list.totalHours}</td>
 										<td>${record_list.totalTime}</td>
@@ -174,7 +183,7 @@ table tr th {
 
 							</tbody>
 <tr>
-<th rowspan="3"  colspan="7" >备注：服务时长4小时代表半天，服务时长8小时代表全天。按年度服务时长由高到低排序。</th>
+<th rowspan="3"  colspan="10" >备注：服务时长4小时代表半天，服务时长8小时代表全天。按年度服务时长由高到低排序。</th>
 									<th>总计年度服务时长（/h）</th>
 								<td>${totalYearHours}</td>
 									</tr>

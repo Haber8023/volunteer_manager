@@ -3,16 +3,34 @@ package com.zzx.Model;
 public class Volunteer {
 	private String num;
 	private String name;
-	private String ID;
+	private String occupation;
 	private String gender;
 	private String unit;
 	private String address;
 	private String tel;
-	private String eMail;
+	private String education;
+	private String relate;
 	private String joinDate;
 	private String totalTime;
 	private String totalHours;
 	private String totalWage;
+	private String birthday;
+	private String type;
+	
+	@Override
+	public String toString() {
+		return "Volunteer [num=" + num + ", name=" + name + ", occupation=" + occupation + ", gender=" + gender
+				+ ", unit=" + unit + ", address=" + address + ", tel=" + tel + ", education=" + education + ", relate="
+				+ relate + ", joinDate=" + joinDate + ", totalTime=" + totalTime + ", totalHours=" + totalHours
+				+ ", totalWage=" + totalWage + ", birthday=" + birthday + ", type=" + type + "]";
+	}
+	
+	public String getRelate() {
+		return relate;
+	}
+	public void setRelate(String relate) {
+		this.relate = relate;
+	}
 	public String getNum() {
 		return num;
 	}
@@ -25,12 +43,7 @@ public class Volunteer {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getID() {
-		return ID;
-	}
-	public void setID(String iD) {
-		ID = iD;
-	}
+
 	public String getGender() {
 		return gender;
 	}
@@ -55,12 +68,7 @@ public class Volunteer {
 	public void setTel(String tel) {
 		this.tel = tel;
 	}
-	public String geteMail() {
-		return eMail;
-	}
-	public void seteMail(String eMail) {
-		this.eMail = eMail;
-	}
+
 	public String getJoinDate() {
 		return joinDate;
 	}
@@ -73,22 +81,8 @@ public class Volunteer {
 	public void setTotalTime(String totalTime) {
 		this.totalTime = totalTime;
 	}
-	@Override
-	public String toString() {
-		return "Volunteer [num=" + num + ", name=" + name + ", ID=" + ID + ", gender=" + gender + ", unit=" + unit
-				+ ", address=" + address + ", tel=" + tel + ", eMail=" + eMail + ", joinDate=" + joinDate
-				+ ", totalTime=" + totalTime + "]";
-	}
 
-	public String getSex() {
-		String sex;
-		if (Integer.parseInt(ID.substring(16).substring(0, 1)) % 2 == 0) {// 判断性别
-			sex = "女";
-		} else {
-			sex = "男";
-		}
-		return sex;
-	}
+
 	public String getTotalHours() {
 		return totalHours;
 	}
@@ -100,6 +94,30 @@ public class Volunteer {
 	}
 	public void setTotalWage(String totalWage) {
 		this.totalWage = totalWage;
+	}
+	public String getEducation() {
+		return education;
+	}
+	public void setEducation(String education) {
+		this.education = education;
+	}
+	public String getOccupation() {
+		return occupation;
+	}
+	public void setOccupation(String occupation) {
+		this.occupation = occupation;
+	}
+	public String getBirthday() {
+		return birthday;
+	}
+	public void setBirthday(String birthday) {
+		this.birthday = birthday;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
 	}
 
 }

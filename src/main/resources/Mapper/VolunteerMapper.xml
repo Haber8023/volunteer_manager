@@ -65,6 +65,46 @@
 		DESC
 	</select>
 	
+	<select id="get_social_volunteer_with_hours_by_Date_DESC"
+		resultMap="Volunteer">
+		select v.*,
+		sum(r.volunteerTime) as
+		totalHours,sum(r.volunteerTime)*3.75 as totalWage
+		from volunteer
+		v,record r
+		<where>
+    	<if test="recordDate!=null and recordDate!=''">
+    	AND r.recordDate LIKE CONCAT(CONCAT('%',#{recordDate}),"%")
+    	AND v.num = r.num
+    	AND v.type = '社会志愿者'
+    	</if>
+    </where>
+		group by v.num
+		order by
+		totalHours
+		DESC
+	</select>
+	
+		<select id="get_inner_volunteer_with_hours_by_Date_DESC"
+		resultMap="Volunteer">
+		select v.*,
+		sum(r.volunteerTime) as
+		totalHours,sum(r.volunteerTime)*3.75 as totalWage
+		from volunteer
+		v,record r
+		<where>
+    	<if test="recordDate!=null and recordDate!=''">
+    	AND r.recordDate LIKE CONCAT(CONCAT('%',#{recordDate}),"%")
+    	AND v.num = r.num
+    	AND v.type = '内部志愿者'
+    	</if>
+    </where>
+		group by v.num
+		order by
+		totalHours
+		DESC
+	</select>
+	
 	<select id="get_volunteer_by_school_with_hours_by_Date_DESC"
 		resultMap="Volunteer">
 		select v.*,
@@ -123,7 +163,7 @@
 		select count(*)
 		from
 		volunteer
-		where ID=#{ID}
+		where tel=#{tel}
 	</select>
 
 	<select id="get_new_volunteer_by_year" resultType="String">
@@ -133,6 +173,30 @@
 	<where>
     	<if test="joinDate!=null and joinDate!=''">
     	AND joinDate LIKE CONCAT(CONCAT('%',#{joinDate}),"%")
+    	</if>
+    </where>
+	</select>
+	
+		<select id="get_new_social_volunteer_by_year" resultType="String">
+		select count(*)
+		from
+		volunteer
+	<where>
+    	<if test="joinDate!=null and joinDate!=''">
+    	AND joinDate LIKE CONCAT(CONCAT('%',#{joinDate}),"%")
+    	AND type = '社会志愿者'
+    	</if>
+    </where>
+	</select>
+	
+			<select id="get_new_inner_volunteer_by_year" resultType="String">
+		select count(*)
+		from
+		volunteer
+	<where>
+    	<if test="joinDate!=null and joinDate!=''">
+    	AND joinDate LIKE CONCAT(CONCAT('%',#{joinDate}),"%")
+    	AND type = '内部志愿者'
     	</if>
     </where>
 	</select>
@@ -153,12 +217,11 @@
 	
 	<!-- 插入志愿者用户 -->
 	<insert id="insert_volunteer">
-		insert into volunteer(num, name,
-		ID, gender, unit,
-		address, tel, eMail, joinDate, totalTime)
-		values(#{num}, #{name},
-		#{ID}, #{gender}, #{unit}, #{address}, #{tel},
-		#{eMail},
+		insert into volunteer(num, name, type, birthday, education, relate, occupation,
+		gender, unit,
+		address, tel,  joinDate, totalTime)
+		values(#{num}, #{name}, #{type}, #{birthday}, #{education}, #{relate}, #{occupation},
+		#{gender}, #{unit}, #{address}, #{tel},
 		date_FORMAT(now(),'%Y-%m-%d'), 0)
 	</insert>
 
@@ -215,14 +278,19 @@
 		set
 		name = #{name} ,
 		tel = #{tel} ,
-		ID =
-		#{ID} ,
+		gender =
+		#{gender} ,
+		birthday =
+		#{birthday} ,
 		address = #{address} ,
 		gender =
 		#{gender} ,
 		unit = #{unit} ,
-		eMail
-		= #{eMail}
+		occupation = #{occupation} ,
+		education = #{education} ,
+		relate = #{relate} ,
+		type
+		= #{type}
 		where num=#{num}
 	</update>
 		<update id="update_volunteer_without_gender">

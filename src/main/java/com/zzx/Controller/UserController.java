@@ -1,5 +1,7 @@
 package com.zzx.Controller;
 
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -20,6 +22,7 @@ import com.zzx.Utils.Tools;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.mysql.fabric.xmlrpc.base.Array;
 
 @Controller
 public class UserController {
@@ -31,12 +34,17 @@ public class UserController {
 		@RequestMapping(value = "/mainPage")
 		public String mainPage(HttpSession session) {
 			Tools tool = new Tools();
+			
 			session.setAttribute("nowDate", tool.get_current_date());
 			session.setAttribute("message", "0");
 			session.setAttribute("totalMembers", userService.get_volunteer_num());
 			session.setAttribute("joinMembers", userService.get_volunteer_num_by_date(tool.get_current_date()));
 			session.setAttribute("todayMembers", userService.get_record_num_by_date(tool.get_current_date()));
-			session.setAttribute("todayHours", userService.get_record_hour_by_date(tool.get_current_date()));
+			String todayHours = userService.get_record_hour_by_date(tool.get_current_date());
+			if(todayHours == null) {
+				todayHours = "0";
+			}
+			session.setAttribute("todayHours", todayHours);
 			return "mainPage";
 		}
 
@@ -51,20 +59,24 @@ public class UserController {
 
 		// 新增志愿者
 		@RequestMapping(value = "/insertVolunteer")
-		public String insertVolunteer(String type, Volunteer volunteer, HttpSession session) {
-			int isNew =type.indexOf('新')+1;
+		public String insertVolunteer(String isNew, String birth_year, String birth_month, String birth_day, Volunteer volunteer, HttpSession session) {
+			int newBoolean = 1;
+			volunteer.setType("社会志愿者");
+			if(isNew.indexOf('老')== 0) {
+				newBoolean = 0;
+			}
+			if(isNew.indexOf('内')== 0) {
+				volunteer.setType("内部志愿者");
+			}
+			String birthday = birth_year +"-"+birth_month+"-"+birth_day;
+			volunteer.setBirthday(birthday);
 			volunteer.setNum(userService.get_num());
-if("0".equals(volunteer.getID())||"1".equals(volunteer.getID())) {
-	if (userService.insert_volunteer(volunteer,isNew)) {
-		session.setAttribute("message", "1");
-		return "insertVolunteerPage";
-	}
-}
-else if (userService.check_volunteer(volunteer.getID())) {
+			System.out.println(volunteer.toString());
+if (userService.check_volunteer(volunteer.getTel())) {
 				session.setAttribute("message", "3");
 				return "insertVolunteerPage";
 			}			
-			else if (userService.insert_volunteer(volunteer,isNew)) {
+			else if (userService.insert_volunteer(volunteer,newBoolean)) {
 				session.setAttribute("message", "1");
 				return "insertVolunteerPage";
 			}
@@ -80,7 +92,8 @@ else if (userService.check_volunteer(volunteer.getID())) {
 			PageHelper.startPage(currentPage,8);
 			Volunteer volunteer = new Volunteer();
 			volunteer.setNum((String)session.getAttribute("manageVolunteerNum"));
-			volunteer.setName((String)session.getAttribute("manageVolunteerName"));
+			String tmpString =(String)session.getAttribute("manageVolunteerName");
+			volunteer.setName(tmpString);
 			volunteer.setJoinDate((String)session.getAttribute("manageVolunteerJoinDate"));
 			volunteer.setUnit((String)session.getAttribute("manageVolunteerUnit"));
 			List<Volunteer> list=userService.get_volunteer_time_in(volunteer);
@@ -116,7 +129,7 @@ else if (userService.check_volunteer(volunteer.getID())) {
 					List<Record> list=userService.get_record_page(record);
 					PageInfo<Record> pageInfo=new PageInfo<Record>(list,8);
 					map.put("pageInfo", pageInfo);
-					session.setAttribute("recordNum", record.getNum());
+					session.setAttribute("recordTel", record.getTel());
 					session.setAttribute("recordName", record.getName());
 					session.setAttribute("recordDate", record.getRecordDate());
 					session.setAttribute("recordUnit", record.getUnit());
@@ -131,14 +144,13 @@ else if (userService.check_volunteer(volunteer.getID())) {
 				Map<String,Object> map){
 			PageHelper.startPage(currentPage,8);
 			Record record =new Record();
-			record.setNum((String)session.getAttribute("recordNum"));
+			record.setTel((String)session.getAttribute("recordTel"));
 			record.setRecordDate((String)session.getAttribute("recordDate"));
 			record.setName((String)session.getAttribute("recordName"));
 			record.setUnit((String)session.getAttribute("recordUnit"));
 			List<Record> list=userService.get_record_page(record);
 			PageInfo<Record> pageInfo=new PageInfo<Record>(list,8);
 			map.put("pageInfo", pageInfo);
-
 			session.setAttribute("message", "0");
 			return new ModelAndView("/recordPage");
 		} 
@@ -150,7 +162,7 @@ else if (userService.check_volunteer(volunteer.getID())) {
 					Map<String,Object> map){
 				PageHelper.startPage(currentPage,8);
 				Record record = new Record();
-				record.setNum((String)session.getAttribute("recordNum"));
+				record.setTel((String)session.getAttribute("recordTel"));
 				record.setName((String)session.getAttribute("recordName"));
 				record.setRecordDate((String)session.getAttribute("recordDate"));
 				record.setUnit((String)session.getAttribute("recordUnit"));
@@ -178,9 +190,18 @@ else if (userService.check_volunteer(volunteer.getID())) {
 				session.setAttribute("message", "1");
 			}
 			else {
-			session.setAttribute("message", "0");
 			session.setAttribute("totalHours", userService.get_total_hours(list));
-			session.setAttribute("totalAccount", userService.get_total_hours(list)/4*15);
+			List<Record> tempList = new ArrayList<Record>();
+			for(Record r :list) {
+				if(r.getType().equals("社会志愿者")){
+					tempList.add(r);
+				}
+			}
+
+			session.setAttribute("message", "0");
+			session.setAttribute("totalSocialHours", userService.get_total_hours(tempList));
+			session.setAttribute("totalAccount", userService.get_total_hours(tempList)/4*15);
+
 			}
 			return new ModelAndView("/accountPage");
 		} 
@@ -274,12 +295,12 @@ else if (userService.check_volunteer(volunteer.getID())) {
 		
 		//更新志愿者信息
 		@RequestMapping(value = "/updateVolunteer")
-		 public ModelAndView updateVolunteer( HttpSession session,String num_check, String name_check,String joinDate_check,
-				 String ID_check,String unit_check,String tel_check,String eMail_check,String address_check,
+		 public ModelAndView updateVolunteer( HttpSession session,String num_check, String name_check,String gender_check,String birthday_check,
+				 String unit_check,String address_check,String tel_check,String type_check,String joinDate_check,String occupation_check,String education_check,String relate_check,
 					@RequestParam(defaultValue="1") Integer currentPage,HttpServletRequest request,
 					Map<String,Object> map){			
-			if (userService.update_volunteer(num_check, name_check,
-					 ID_check,unit_check,tel_check,eMail_check,address_check,joinDate_check)) {
+			if (userService.update_volunteer(num_check, name_check,gender_check,birthday_check,
+					 unit_check,address_check,tel_check,type_check,joinDate_check,occupation_check,education_check,relate_check)) {
 				session.setAttribute("message", "1");
 				PageHelper.startPage(currentPage,8);
 				Volunteer volunteer = new Volunteer();
@@ -448,9 +469,19 @@ else if (userService.check_volunteer(volunteer.getID())) {
 				@RequestMapping("/wageFinder")
 				public ModelAndView wageFinder(HttpSession session, String wageDate){
 					List<Volunteer> list=userService.get_volunteer_with_hours_by_Date(wageDate);
+
+					Iterator<Volunteer> it = list.iterator();
+					while(it.hasNext()){
+						Volunteer listElement = (Volunteer)it.next(); 
+				        if (listElement.getType().equals("内部志愿者")) {
+				            it.remove(); 
+				        }
+				    }
+					
 					session.setAttribute("list", list);
 					session.setAttribute("wageDate",wageDate);
-					if(list == null) {
+					
+					if(list == null || list.size()<=0) {
 						session.setAttribute("message", "1");
 					}
 					else {
@@ -472,6 +503,19 @@ else if (userService.check_volunteer(volunteer.getID())) {
 					session.setAttribute("yearNewVolunteerNum","");
 					session.setAttribute("message", "0");
 					return new ModelAndView("/yearPage");
+				}
+				
+			    // 跳转至month页面
+				@RequestMapping(value = "/monthPage")
+			    public ModelAndView monthPage(HttpSession session){
+					List<Record> list=null;
+					session.setAttribute("list", list);
+					session.setAttribute("monthDate","");
+					session.setAttribute("totalMonthHours","");
+					session.setAttribute("totalMonthVolunteerNum","");
+					session.setAttribute("monthNewVolunteerNum","");
+					session.setAttribute("message", "0");
+					return new ModelAndView("/monthPage");
 				} 
 				
 				@RequestMapping(value = "/schoolPage")
@@ -487,10 +531,36 @@ else if (userService.check_volunteer(volunteer.getID())) {
 					return new ModelAndView("/schoolPage");
 				} 
 				
+				@RequestMapping(value = "/schoolMonthPage")
+			    public ModelAndView schoolMonthPage(HttpSession session){
+					List<Record> list=null;
+					session.setAttribute("list", list);
+					session.setAttribute("monthDate","");
+					session.setAttribute("unit","");
+					session.setAttribute("totalMonthHours","");
+					session.setAttribute("totalVolunteerNum","");
+					session.setAttribute("monthNewVolunteerNum","");
+					session.setAttribute("message", "0");
+					return new ModelAndView("/schoolMonthPage");
+				} 
+				
 				//年度统计模糊查询
 						@RequestMapping("/yearFinder")
-						public ModelAndView yearFinder(HttpSession session, String yearDate){
-							List<Volunteer> list=userService.get_volunteer_with_hours_by_Date_DESC(yearDate);
+						public ModelAndView yearFinder(HttpSession session, String yearDate, String type_input){
+							List<Volunteer> list =new ArrayList<Volunteer>();
+							String newNum = "";
+							if(type_input.equals("所有志愿者")) {
+							list=userService.get_volunteer_with_hours_by_Date_DESC(yearDate);
+							newNum = userService.get_new_volunteer_by_year(yearDate);
+							}
+							else if(type_input.equals("社会志愿者")) {
+								list=userService.get_social_volunteer_with_hours_by_Date_DESC(yearDate);
+								newNum = userService.get_new_social_volunteer_by_year(yearDate);
+								}
+								else if(type_input.equals("内部志愿者")) {
+								list=userService.get_inner_volunteer_with_hours_by_Date_DESC(yearDate);
+								newNum = userService.get_new_inner_volunteer_by_year(yearDate);
+								}
 							session.setAttribute("list", list);
 							session.setAttribute("yearDate",yearDate);
 							if(list == null) {
@@ -501,9 +571,41 @@ else if (userService.check_volunteer(volunteer.getID())) {
 							session.setAttribute("message", "0");
 							session.setAttribute("totalYearHours",userService.get_total_wage_hours(list));
 							session.setAttribute("totalVolunteerNum",list.size());
-							session.setAttribute("yearNewVolunteerNum",userService.get_new_volunteer_by_year(yearDate));
+							session.setAttribute("yearNewVolunteerNum",newNum);
 							}
 							return new ModelAndView("/yearPage");
+						} 
+						
+						//月份统计模糊查询
+						@RequestMapping("/monthFinder")
+						public ModelAndView monthFinder(HttpSession session, String monthDate, String type_input){
+							List<Volunteer> list =new ArrayList<Volunteer>();
+							String newNum = "";
+							if(type_input.equals("所有志愿者")) {
+							list=userService.get_volunteer_with_hours_by_Date_DESC(monthDate);
+							newNum = userService.get_new_volunteer_by_year(monthDate);
+							}
+							else if(type_input.equals("社会志愿者")) {
+								list=userService.get_social_volunteer_with_hours_by_Date_DESC(monthDate);
+								newNum = userService.get_new_social_volunteer_by_year(monthDate);
+								}
+								else if(type_input.equals("内部志愿者")) {
+								list=userService.get_inner_volunteer_with_hours_by_Date_DESC(monthDate);
+								newNum = userService.get_new_inner_volunteer_by_year(monthDate);
+								}
+							session.setAttribute("list", list);
+							session.setAttribute("monthDate",monthDate);
+							if(list == null) {
+								session.setAttribute("message", "1");
+							}
+							else {
+							
+							session.setAttribute("message", "0");
+							session.setAttribute("totalMonthHours",userService.get_total_wage_hours(list));
+							session.setAttribute("totalMonthVolunteerNum",list.size());
+							session.setAttribute("monthNewVolunteerNum",newNum);
+							}
+							return new ModelAndView("/monthPage");
 						} 
 						
 						@RequestMapping("/schoolFinder")
@@ -522,6 +624,24 @@ else if (userService.check_volunteer(volunteer.getID())) {
 							session.setAttribute("yearNewVolunteerNum",userService.get_new_volunteer_by_year_and_school(yearDate,unit));
 							}
 							return new ModelAndView("/schoolPage");
+						}
+						
+						@RequestMapping("/schoolMonthFinder")
+						public ModelAndView schoolMonthFinder(HttpSession session, String monthDate, String unit){
+							List<Volunteer> list=userService.get_volunteer_by_school_with_hours_by_Date_DESC(monthDate,unit);
+							session.setAttribute("list", list);
+							session.setAttribute("monthDate",monthDate);
+							session.setAttribute("unit",unit);
+							if(list == null) {
+								session.setAttribute("message", "1");
+							}
+							else {
+							session.setAttribute("message", "0");
+							session.setAttribute("totalMonthHours",userService.get_total_wage_hours_by_year_and_school(list));
+							session.setAttribute("totalVolunteerNum",list.size());
+							session.setAttribute("monthNewVolunteerNum",userService.get_new_volunteer_by_year_and_school(monthDate,unit));
+							}
+							return new ModelAndView("/schoolMonthPage");
 						} 
 
 }

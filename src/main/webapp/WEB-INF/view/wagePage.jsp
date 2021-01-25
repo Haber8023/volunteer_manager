@@ -21,13 +21,11 @@ table tr th {
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="all,follow">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/lib/vendor/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet"
 	href="<%=request.getContextPath()%>/lib/vendor/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/lib/css/fontastic.css">
 <link rel="stylesheet"
-	href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+	href="<%=request.getContextPath()%>/lib/css/google.css">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/lib/css/style.default.css"
 	id="theme-stylesheet">
@@ -35,7 +33,8 @@ table tr th {
 	href="<%=request.getContextPath()%>/lib/css/custom.css">
 <link rel="shortcut icon"
 	href="<%=request.getContextPath()%>/lib/img/favicon.ico">
-
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/lib/vendor/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
 	<script type="text/javascript">
@@ -98,9 +97,12 @@ table tr th {
 				</a></li>
 				<li class="active"><a href="wagePage"> <i class="icon-grid"></i>工资结算
 				</a></li>
+								<li><a href="monthPage"> <i class="icon-line-chart"></i>月份统计
+				</a></li>
 				<li><a href="yearPage"> <i class="icon-line-chart"></i>年度统计
 				</a></li>
-								<li><a href="schoolPage"> <i class="icon-page"></i>学院统计
+								<li><a href="schoolPage"> <i class="icon-page"></i>单位年统计
+				</a></li>					<li><a href="schoolMonthPage"> <i class="icon-page"></i>单位月统计
 				</a></li>
 			</ul>
 			</nav>
@@ -140,12 +142,13 @@ table tr th {
 						<table class="table table-hover table-bordered" id="tables"
 							data-toggle="table" data-toggle="table" data-pagination="true"
 							data-side-pagination="client" border="1">
-													   <caption>${wageDate}志愿者应发工资表</caption>	
+							<caption>${wageDate}社会志愿者应发工资表</caption>	
 							<thead>
 								<tr>
 									<th>志愿者编号</th>
 									<th>志愿者姓名</th>
 									<th>志愿者性别</th>
+									
 									<th>所在单位</th>
 									<th>手机号码</th>
 									<th>服务时长(/h)</th>
@@ -160,6 +163,7 @@ table tr th {
 										<td>${record_list.num }</td>
 										<td>${record_list.name }</td>
 										<td>${record_list.gender }</td>
+										
 										<td>${record_list.unit }</td>						
 										<td>${record_list.tel}</td>
 										<td>${record_list.totalHours}</td>

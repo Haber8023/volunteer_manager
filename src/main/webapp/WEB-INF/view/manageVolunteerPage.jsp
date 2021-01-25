@@ -23,13 +23,11 @@ table tr th {
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="all,follow">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/lib/vendor/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet"
 	href="<%=request.getContextPath()%>/lib/vendor/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/lib/css/fontastic.css">
 <link rel="stylesheet"
-	href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+	href="<%=request.getContextPath()%>/lib/css/google.css">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/lib/css/style.default.css"
 	id="theme-stylesheet">
@@ -37,7 +35,8 @@ table tr th {
 	href="<%=request.getContextPath()%>/lib/css/custom.css">
 <link rel="shortcut icon"
 	href="<%=request.getContextPath()%>/lib/img/favicon.ico">
-
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/lib/vendor/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
 	<script type="text/javascript">
@@ -103,9 +102,12 @@ table tr th {
 				</a></li>
 				<li><a href="wagePage"> <i class="icon-grid"></i>工资结算
 				</a></li>
+								<li><a href="monthPage"> <i class="icon-line-chart"></i>月份统计
+				</a></li>
 				<li><a href="yearPage"> <i class="icon-line-chart"></i>年度统计
 				</a></li>
-								<li><a href="schoolPage"> <i class="icon-page"></i>学院统计
+								<li><a href="schoolPage"> <i class="icon-page"></i>单位年统计
+				</a></li>					<li><a href="schoolMonthPage"> <i class="icon-page"></i>单位月统计
 				</a></li>
 			</ul>
 			</nav>
@@ -177,12 +179,15 @@ table tr th {
 									<th>编号</th>
 									<th>姓名</th>
 									<th>性别</th>
-									<th>身份证号码</th>
+									<th>出生日期</th>
 									<th>所在单位</th>
 									<th>居住地址</th>
 								    <th>手机号码</th>
-								    <th>电子邮箱</th>			
-									<th>加入时间</th>
+								    <th>志愿者类型</th>			
+									<th>加入日期</th>
+									<th>职业</th>
+									<th>学历</th>
+									<th>医学相关</th>
 									<th>总时长</th>
 									<th>操作</th>
 								</tr>
@@ -193,12 +198,15 @@ table tr th {
 										<td>${volunteer_list.num }</td>
 										<td>${volunteer_list.name}</td>
 										<td>${volunteer_list.gender}</td>
-										<td>${volunteer_list.ID}</td>
+										<td>${volunteer_list.birthday}</td>
 										<td>${volunteer_list.unit}</td>
 										<td>${volunteer_list.address}</td>
 										<td>${volunteer_list.tel}</td>
-										<td>${volunteer_list.eMail}</td>
+										<td>${volunteer_list.type}</td>
 										<td>${volunteer_list.joinDate}</td>
+										<td>${volunteer_list.occupation}</td>
+										<td>${volunteer_list.education}</td>
+										<td>${volunteer_list.relate}</td>
 										<td>${volunteer_list.totalTime}</td>
 										<td>	<button class="btn btn-warning btn-sm"
 												onclick="updateVolunteerModal(this)" data-toggle="modal">修改信息</button>
@@ -211,6 +219,7 @@ table tr th {
 						</table>
 
 					</div>
+					<h1>&ensp;</h1><h1>&ensp;</h1>
 					<center>
 						<li>共<i class="blue">${pageInfo.total}</i>条记录，当前显示第<i
 							class="blue">${pageInfo.pageNum}</i>页， 总<i class="blue">${pageInfo.pages }</i>页
@@ -254,36 +263,53 @@ table tr th {
 				<form name="updateVolunteerForm" id="updateVolunteerForm" action="updateVolunteer"
 					onsubmit="return anotherValidateForm()" method="post" class="form-validate">
 										<div class="modal-body">
-						&ensp;志愿者编号： <input id="num_check" style="border: none;" type="text"
+						志愿者编号：&ensp;&ensp; <input id="num_check" style="border: none;" type="text"
 							name="num_check" readonly>
 					</div>
 					<div class="modal-body">
-						*志愿者姓名： <input id="name_check"  type="text"
+						志愿者姓名： <input id="name_check"  type="text"
 							name="name_check" >
 					</div>
 					<div class="modal-body">
-						*身份证号码： <input id="ID_check"  type="text"
-							name="ID_check" >
+						志愿者性别： 
+						<input id="gender_check"  type="text"
+							name="gender_check" >
 					</div>
 					<div class="modal-body">
-						&ensp;所在单位： <input id="unit_check" type="text"
+						出生日期：&ensp;&ensp; <input id="birthday_check"  type="text"
+							name="birthday_check" >
+					</div>
+					<div class="modal-body">
+						所在单位：&ensp;&ensp; <input id="unit_check" type="text"
 							name="unit_check" >
 					</div>
 					<div class="modal-body">
-						&ensp;居住地址：&ensp;&ensp; <input id="address_check" type="text"
+						居住地址：&ensp;&ensp; <input id="address_check" type="text"
 							name="address_check" >
 					</div>
 					<div class="modal-body">
-						*手机号码：&ensp;&ensp; <input id="tel_check"  type="text"
+						手机号码：&ensp;&ensp; <input id="tel_check"  type="text"
 							name="tel_check" >
 					</div>
 					<div class="modal-body">
-						&ensp;电子邮箱：&ensp;&ensp; <input id="eMail_check" type="text"
-							name="eMail_check">
+						志愿者类型： <input id="type_check" type="text"
+							name="type_check">
 					</div>
 					<div class="modal-body">
-						&ensp;加入日期：&ensp;&ensp; <input id="joinDate_check" type="text"
+						加入日期：&ensp;&ensp; <input id="joinDate_check" type="text"
 							name="joinDate_check">
+					</div>
+										<div class="modal-body">
+						志愿者职业： <input id="occupation_check" type="text"
+							name="occupation_check">
+					</div>
+										<div class="modal-body">
+						志愿者学历： <input id="education_check" type="text"
+							name="education_check">
+					</div>
+										<div class="modal-body">
+						医学相关：&ensp;&ensp; <input id="relate_check" type="text"
+							name="relate_check">
 					</div>
 										<div class="modal-footer">
 						<button type="submit" class="btn btn-success" >修改</button>
@@ -312,19 +338,27 @@ table tr th {
 			var $td = $(obj).parents('tr').children('td');
 			var num_check = $td.eq(0).text();
 			var name_check = $td.eq(1).text();
-			var ID_check = $td.eq(3).text();
+			var gender_check = $td.eq(2).text();
+			var birthday_check = $td.eq(3).text();
 			var unit_check = $td.eq(4).text();
 			var address_check = $td.eq(5).text();
 			var tel_check = $td.eq(6).text();
-			var eMail_check = $td.eq(7).text();
+			var type_check = $td.eq(7).text();
 			var joinDate_check = $td.eq(8).text();
+			var occupation_check = $td.eq(9).text();
+			var education_check = $td.eq(10).text();
+			var relate_check = $td.eq(11).text();
+			$("#occupation_check").val(occupation_check);
+			$("#education_check").val(education_check);
+			$("#relate_check").val(relate_check);
 			$("#num_check").val(num_check);
 			$("#name_check").val(name_check);
-			$("#ID_check").val(ID_check);
+			$("#gender_check").val(gender_check);
+			$("#birthday_check").val(birthday_check);
 			$("#unit_check").val(unit_check);
 			$("#address_check").val(address_check);
 			$("#tel_check").val(tel_check);
-			$("#eMail_check").val(eMail_check);
+			$("#type_check").val(type_check);
 			$("#joinDate_check").val(joinDate_check);
 		}
 	</script>
@@ -349,28 +383,75 @@ table tr th {
 	<script>
 		function anotherValidateForm() {
 			var name = document.forms["updateVolunteerForm"]["name_check"].value;
-			var ID = document.forms["updateVolunteerForm"]["ID_check"].value;
+			var gender = document.forms["updateVolunteerForm"]["gender_check"].value;
 			var tel = document.forms["updateVolunteerForm"]["tel_check"].value;
-			var eMail = document.forms["updateVolunteerForm"]["eMail_check"].value;
+			var type = document.forms["updateVolunteerForm"]["type_check"].value;
+			var relate = document.forms["updateVolunteerForm"]["relate_check"].value;
+			var occupation = document.forms["updateVolunteerForm"]["occupation_check"].value;
+			var education = document.forms["updateVolunteerForm"]["education_check"].value;
+			var address = document.forms["updateVolunteerForm"]["address_check"].value;
+			var birthday = document.forms["updateVolunteerForm"]["birthday_check"].value;
+			var unit = document.forms["updateVolunteerForm"]["unit_check"].value;
 
-			var eMailReg = /^([0-9A-Za-z\-_\.]+)@([0-9a-z]+\.[a-z]{2,3}(\.[a-z]{2})?)$/g;
-			var idcardReg = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$|^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
-
+			
 			if (name == null || name == "") {
 				alert("志愿者姓名不能为空");
 				return false;
-			} else if (ID == null || ID == "") {
-				alert("身份证号码不能为空");
+			} else if (gender == null || gender == "") {
+				alert("志愿者性别不能为空");
 				return false;
 			} else if (tel == null || tel == "") {
 				alert("手机号码不能为空");
 				return false;
-			}
-			if(ID==0||ID==1||"无".equals(ID)){
-				}
-			else if(!idcardReg.test(ID)) {
-				alert("请输入正确的中国大陆地区18位身份证号码");
+			} else if (type == null || type == "") {
+				alert("志愿者类型不能为空");
 				return false;
+			} else if (relate == null || relate == "") {
+					alert("医学相关不能为空");
+					return false;
+			} else if (occupation == null || occupation == "") {
+				alert("志愿者职业不能为空");
+				return false;
+			} else if (education == null || education == "") {
+				alert("志愿者学历不能为空");
+				return false;
+			} else if (address == null || address == "") {
+				alert("志愿者地址不能为空");
+				return false;
+			} else if (birthday == null || birthday == "") {
+				alert("志愿者生日不能为空");
+				return false;
+			} else if (unit == null || unit == "") {
+				alert("志愿者单位不能为空");
+				return false;
+			}
+			
+			if("重庆主城内"==address){}else if("重庆市以外"==address){}else if("无"==address){}else if("重庆其它区县"==address){}else if("境外"==address){}else{
+				 alert("居住地址选项:重庆主城内,重庆市以外,重庆其它区县,境外，请重新填写");  
+			     return false; 
+			}
+			if("社会志愿者"==type){}else if("内部志愿者"==type){}else{
+				alert("志愿者类型选项:社会志愿者,内部志愿者，请重新填写");  
+			     return false; 
+			}
+			if("是"==relate){}else if("否"==relate){}else{
+				 alert("志愿者类型选项:是,否，请重新填写");  
+			     return false; 
+			}
+			if("学生"==occupation){}else if("工作中"==occupation){}else if("无"==occupation){}else if("退休"==occupation){}else if("其它"==occupation){}else{
+				alert("志愿者职业选项:学生,工作中,退休,其它，请重新填写");  
+			     return false; 
+			}
+			if("博士"==education){}else if("硕士"==education){}else if("无"==education){}else if("本科"==education){}else if("其它"==education){}else{
+				 alert("志愿者学历选项:博士,硕士,本科,其它，请重新填写"); 
+			     return false; 
+			}
+			if("无"==birthday){
+				
+			}
+			else if(!(/^((?:19|20)\d\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/.test(birthday))||){
+		        alert("出生日期格式有误（YYYY-MM-DD），请重新填写");  
+		        return false; 
 			}
 			
 			if(!(/^1[3456789]\d{9}$/.test(tel))){ 
@@ -378,12 +459,7 @@ table tr th {
 		        return false; 
 		    } 
 			
-			if (eMail != null && eMail != ""){
-				if(!eMailReg.test(eMail)) {
-					alert("请填写正确的电子邮箱地址");
-					return false;
-				}
-		}
+
 		}
 	</script>
 </body>

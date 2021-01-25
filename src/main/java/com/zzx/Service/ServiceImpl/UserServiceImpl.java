@@ -24,8 +24,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	RecordMapper recordMapper;
 	
-	public boolean check_volunteer(String ID) {
-		if(volunteerMapper.check_volunteer(ID)>0) {
+	public boolean check_volunteer(String tel) {
+		if(volunteerMapper.check_volunteer(tel)>0) {
 			return true;
 		}
 		return false;
@@ -40,15 +40,7 @@ public class UserServiceImpl implements UserService {
 	};
 	
 	public boolean insert_volunteer(Volunteer volunteer,int isNew) {
-		if("0".equals(volunteer.getID())) {
-			volunteer.setGender("女");
-			volunteer.setID("无");
-		}
-		else if("1".equals(volunteer.getID())) {
-			volunteer.setGender("男");
-			volunteer.setID("无");
-		}else {
-		volunteer.setGender(volunteer.getSex());}
+
 		try {
 			System.out.println(volunteer.toString());
 			volunteerMapper.insert_volunteer(volunteer);
@@ -119,11 +111,11 @@ public class UserServiceImpl implements UserService {
 		};
 		
 		public List<Record> get_record_page(Record record){
-			String num = record.getNum();
+			String tel = record.getTel();
 			String name = record.getName();
 			String recordDate = record.getRecordDate();
 			String unit = record.getUnit();
-			return recordMapper.get_record_page(num, name, recordDate, unit);
+			return recordMapper.get_record_page(tel, name, recordDate, unit);
 		};
 		
 		public boolean delete_record(String recordID) {
@@ -147,43 +139,19 @@ public class UserServiceImpl implements UserService {
 	};
 
 
-		public boolean update_volunteer(String num, String name, String ID, String unit,
-				String tel, String eMail, String address, String joinDate) {
-			if("无".equals(ID)) {
-				try {
-					volunteerMapper.update_volunteer_without_gender(num, name,
-							 ID,unit,tel,eMail,address);
-					volunteerMapper.update_joinDate(num, joinDate);
-				} catch (Exception e) {
-					System.out.println("err");
-					return false;
-				}
-				return true;
-			}else {
-			String gender =new String();
-			if("1".equals(ID)) {
-				ID = "无";
-				gender = "男";
-			}else if("0".equals(ID)){
-				gender = "女";
-				ID = "无";
-			}
-			else if (Integer.parseInt(ID.substring(16).substring(0, 1)) % 2 == 0) {// 判断性别
-				gender = "女";
-			} else {
-				gender = "男";
-			}
+		public boolean update_volunteer(String num, String name,String gender,String birthday,
+				 String unit,String address,String tel,String type,String joinDate,String occupation,String education,String relate) {
+
 			try {
-				volunteerMapper.update_volunteer(num, name,gender,
-						 ID,unit,tel,eMail,address);
+				volunteerMapper.update_volunteer(num, name,gender,birthday,
+						 unit,address,tel,type,occupation,education,relate);
 				volunteerMapper.update_joinDate(num, joinDate);
 			} catch (Exception e) {
 				System.out.println("err");
 				return false;
 			}
 			return true;
-			}
-		};
+			};
 		
 		public List<Record> get_record_by_Date(String recordDate){
 			return recordMapper.get_record_by_Date(recordDate);
@@ -224,6 +192,12 @@ public class UserServiceImpl implements UserService {
 		public List<Volunteer> get_volunteer_with_hours_by_Date_DESC(String recordDate){
 			return volunteerMapper.get_volunteer_with_hours_by_Date_DESC(recordDate);
 		};
+		public List<Volunteer> get_social_volunteer_with_hours_by_Date_DESC(String recordDate){
+			return volunteerMapper.get_social_volunteer_with_hours_by_Date_DESC(recordDate);
+		};
+		public List<Volunteer> get_inner_volunteer_with_hours_by_Date_DESC(String recordDate){
+			return volunteerMapper.get_inner_volunteer_with_hours_by_Date_DESC(recordDate);
+		};
 		
 		public List<Volunteer> get_volunteer_by_school_with_hours_by_Date_DESC(String recordDate,String unit){
 			return volunteerMapper.get_volunteer_by_school_with_hours_by_Date_DESC(recordDate,unit);
@@ -233,6 +207,13 @@ public class UserServiceImpl implements UserService {
 		public String get_new_volunteer_by_year(String joinDate) {
 			return volunteerMapper.get_new_volunteer_by_year(joinDate);
 		};
+		public String get_new_social_volunteer_by_year(String joinDate) {
+			return volunteerMapper.get_new_social_volunteer_by_year(joinDate);
+		};
+		public String get_new_inner_volunteer_by_year(String joinDate) {
+			return volunteerMapper.get_new_inner_volunteer_by_year(joinDate);
+		};
+
 
 		public String get_new_volunteer_by_year_and_school(String joinDate,String unit) {
 			return volunteerMapper.get_new_volunteer_by_year_and_school(joinDate,unit);

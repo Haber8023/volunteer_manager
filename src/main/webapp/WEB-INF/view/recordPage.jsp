@@ -23,13 +23,11 @@ table tr th {
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="robots" content="all,follow">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/lib/vendor/bootstrap/css/bootstrap.min.css">
-<link rel="stylesheet"
 	href="<%=request.getContextPath()%>/lib/vendor/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/lib/css/fontastic.css">
 <link rel="stylesheet"
-	href="https://fonts.googleapis.com/css?family=Poppins:300,400,700">
+	href="<%=request.getContextPath()%>/lib/css/google.css">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/lib/css/style.default.css"
 	id="theme-stylesheet">
@@ -37,7 +35,8 @@ table tr th {
 	href="<%=request.getContextPath()%>/lib/css/custom.css">
 <link rel="shortcut icon"
 	href="<%=request.getContextPath()%>/lib/img/favicon.ico">
-
+<link rel="stylesheet"
+	href="<%=request.getContextPath()%>/lib/vendor/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
 	<script type="text/javascript">
@@ -104,9 +103,12 @@ table tr th {
 				</a></li>
 				<li><a href="wagePage"> <i class="icon-grid"></i>工资结算
 				</a></li>
+								<li><a href="monthPage"> <i class="icon-line-chart"></i>月份统计
+				</a></li>
 				<li><a href="yearPage"> <i class="icon-line-chart"></i>年度统计
 				</a></li>
-								<li><a href="schoolPage"> <i class="icon-page"></i>学院统计
+								<li><a href="schoolPage"> <i class="icon-page"></i>单位年统计
+				</a></li>					<li><a href="schoolMonthPage"> <i class="icon-page"></i>单位月统计
 				</a></li>
 			</ul>
 			</nav>
@@ -141,11 +143,11 @@ table tr th {
 													</div>
 												</div>
 											</td>
-											<th width="12%">志愿者编号：</th>
+											<th width="12%">手机号码：</th>
 											<td width="21%"><input type="text"
-												placeholder="准确查找，完整数字编号" value="${recodNum}"
+												placeholder="准确查找，完整手机号码" value="${recordTel}"
 												class="form-control"
-												style="border-radius: 3px; height: 30px" id="num" name="num">
+												style="border-radius: 3px; height: 30px" id="tel" name="tel">
 											</td>
 										</tr>
 										<tr>
@@ -178,6 +180,7 @@ table tr th {
 								<th>记录ID</th>
 									<th>志愿者编号</th>
 									<th>志愿者姓名</th>
+									<th>手机号码</th>
 									<th>所在单位</th>
 									<th>服务日期</th>
 									<th>服务部门</th>
@@ -192,6 +195,7 @@ table tr th {
 										<td>${record_list.recordID }</td>
 										<td>${record_list.num }</td>
 										<td>${record_list.name }</td>
+										<td>${record_list.tel }</td>
 										<td>${record_list.unit }</td>
 										<td>${record_list.recordDate}</td>
 										<td>${record_list.place}</td>
@@ -266,6 +270,10 @@ table tr th {
 							name="name_check" readonly>
 					</div>
 					<div class="modal-body">
+						手机号码： <input id="tel_check" style="border: none;" type="text"
+							name="tel_check" readonly>
+					</div>
+					<div class="modal-body">
 						所在单位： <input id="unit_check" style="border: none;" type="text"
 							name="unit_check" readonly>
 					</div>
@@ -314,13 +322,15 @@ table tr th {
 			var record_id_check = $td.eq(0).text();
 			var num_check = $td.eq(1).text();
 			var name_check = $td.eq(2).text();
-			var unit_check = $td.eq(3).text();
-			var record_date_check = $td.eq(4).text();
-			var record_place_check = $td.eq(5).text();
-			var detail_check = $td.eq(6).text();
-			var record_time_check = $td.eq(7).text();
+			var tel_check = $td.eq(3).text();
+			var unit_check = $td.eq(4).text();
+			var record_date_check = $td.eq(5).text();
+			var record_place_check = $td.eq(6).text();
+			var detail_check = $td.eq(7).text();
+			var record_time_check = $td.eq(8).text();
 			$("#num_check").val(num_check);
 			$("#name_check").val(name_check);
+			$("#tel_check").val(tel_check);
 			$("#unit_check").val(unit_check);
 			$("#record_id_check").val(record_id_check);
 			$("#record_date_check").val(record_date_check);
@@ -332,11 +342,11 @@ table tr th {
 	<script>
 		function validateForm() {
 			var name = document.forms["inputForm"]["name"].value;
-			var num = document.forms["inputForm"]["num"].value;
+			var tel = document.forms["inputForm"]["tel"].value;
 			var unit = document.forms["inputForm"]["unit"].value;
 			var joinDate = document.forms["inputForm"]["recordDate"].value;
 
-			if (num == null || num == "") {
+			if (tel == null || tel == "") {
 				if (name == null || name == "") {
 					if (unit == null || unit == "") {
 						if (joinDate == null || joinDate == "") {

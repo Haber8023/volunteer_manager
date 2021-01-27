@@ -16,6 +16,7 @@ public class Volunteer {
 	private String totalWage;
 	private String birthday;
 	private String type;
+	private String count;
 	
 	@Override
 	public String toString() {
@@ -23,6 +24,13 @@ public class Volunteer {
 				+ ", unit=" + unit + ", address=" + address + ", tel=" + tel + ", education=" + education + ", relate="
 				+ relate + ", joinDate=" + joinDate + ", totalTime=" + totalTime + ", totalHours=" + totalHours
 				+ ", totalWage=" + totalWage + ", birthday=" + birthday + ", type=" + type + "]";
+	}
+	
+	public String getCount() {
+		return count;
+	}
+	public void setCount(String count) {
+		this.count = count;
 	}
 	
 	public String getRelate() {

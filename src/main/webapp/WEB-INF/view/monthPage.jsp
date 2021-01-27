@@ -187,7 +187,7 @@ table tr th {
 								<td>${totalMonthHours}</td>
 									</tr>
 									<tr>
-								<th>参与服务志愿者数（/人）</th>
+								<th>总计志愿服务次数（/次）</th>
 								<td>${totalMonthVolunteerNum}</td>
 									</tr>
 									<tr>

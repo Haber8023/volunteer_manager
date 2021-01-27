@@ -75,11 +75,11 @@ public class UserServiceImpl implements UserService {
 		};
 
 		public List<Volunteer> get_volunteer_time_in(Volunteer volunteer){
-			String num = volunteer.getNum();
+			String tel = volunteer.getTel();
 			String name = volunteer.getName();
 			String joinDate = volunteer.getJoinDate();
 			String unit = volunteer.getUnit();
-			return volunteerMapper.get_volunteer_time_in(num, name, joinDate, unit);
+			return volunteerMapper.get_volunteer_time_in(tel, name, joinDate, unit);
 		};
 		
 		public boolean insert_record(String num, String place, String recordDetail, Integer volunteerTime) {

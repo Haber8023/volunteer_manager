@@ -145,11 +145,11 @@ table tr th {
 													</div>
 												</div>
 											</td>
-											<th width="12%">志愿者编号：</th>
+											<th width="12%">手机号码：</th>
 											<td width="21%"><input type="text"
-												placeholder="准确查找，完整数字编号" value="${timeInNumForget}"
+												placeholder="准确查找，完整手机号码" value="${timeInTelForget}"
 												class="form-control"
-												style="border-radius: 3px; height: 30px" id="num" name="num">
+												style="border-radius: 3px; height: 30px" id="tel" name="tel">
 											</td>
 										</tr>
 										<tr>
@@ -182,6 +182,7 @@ table tr th {
 									<th>编号</th>
 									<th>姓名</th>
 									<th>性别</th>
+									<th>手机号码</th>
 									<th>所在单位</th>
 									<th>加入时间</th>
 									<th>总时长</th>
@@ -194,6 +195,7 @@ table tr th {
 										<td>${volunteer_list.num }</td>
 										<td>${volunteer_list.name}</td>
 										<td>${volunteer_list.gender}</td>
+										<td>${volunteer_list.tel}</td>
 										<td>${volunteer_list.unit}</td>
 										<td>${volunteer_list.joinDate}</td>
 										<td>${volunteer_list.totalTime}</td>

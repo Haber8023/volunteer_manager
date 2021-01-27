@@ -225,7 +225,7 @@ if (userService.check_volunteer(volunteer.getTel())) {
 				Map<String,Object> map){
 			PageHelper.startPage(currentPage,8);
 			Volunteer volunteer = new Volunteer();
-			volunteer.setNum((String)session.getAttribute("timeInNum"));
+			volunteer.setTel((String)session.getAttribute("timeInTel"));
 			volunteer.setName((String)session.getAttribute("timeInName"));
 			volunteer.setJoinDate((String)session.getAttribute("timeInJoinDate"));
 			volunteer.setUnit((String)session.getAttribute("timeInUnit"));
@@ -246,7 +246,7 @@ if (userService.check_volunteer(volunteer.getTel())) {
 			List<Volunteer> list=userService.get_volunteer_time_in(volunteer);
 			PageInfo<Volunteer> pageInfo=new PageInfo<Volunteer>(list,8);
 			map.put("pageInfo", pageInfo);
-			session.setAttribute("timeInNum", volunteer.getNum());
+			session.setAttribute("timeInTel", volunteer.getTel());
 			session.setAttribute("timeInName", volunteer.getName());
 			session.setAttribute("timeInJoinDate", volunteer.getJoinDate());
 			session.setAttribute("timeInUnit", volunteer.getUnit());
@@ -263,7 +263,7 @@ if (userService.check_volunteer(volunteer.getTel())) {
 					PageHelper.startPage(currentPage,8);
 					
 					Volunteer volunteer = new Volunteer();
-					volunteer.setNum((String)session.getAttribute("timeInNumForget"));
+					volunteer.setTel((String)session.getAttribute("timeInTelForget"));
 					volunteer.setName((String)session.getAttribute("timeInNameForget"));
 					volunteer.setJoinDate((String)session.getAttribute("timeInJoinDateForget"));
 					volunteer.setUnit((String)session.getAttribute("timeInUnitForget"));
@@ -284,7 +284,7 @@ if (userService.check_volunteer(volunteer.getTel())) {
 					List<Volunteer> list=userService.get_volunteer_time_in(volunteer);
 					PageInfo<Volunteer> pageInfo=new PageInfo<Volunteer>(list,8);
 					map.put("pageInfo", pageInfo);
-					session.setAttribute("timeInNumForget", volunteer.getNum());
+					session.setAttribute("timeInTelForget", volunteer.getTel());
 					session.setAttribute("timeInNameForget", volunteer.getName());
 					session.setAttribute("timeInJoinDateForget", volunteer.getJoinDate());
 					session.setAttribute("timeInUnitForget", volunteer.getUnit());
@@ -492,7 +492,7 @@ if (userService.check_volunteer(volunteer.getTel())) {
 					return new ModelAndView("/wagePage");
 				} 
 		
-			    // 跳转至year页面
+			    // 跳转至yearPage页面
 				@RequestMapping(value = "/yearPage")
 			    public ModelAndView yearPage(HttpSession session){
 					List<Record> list=null;
@@ -505,7 +505,7 @@ if (userService.check_volunteer(volunteer.getTel())) {
 					return new ModelAndView("/yearPage");
 				}
 				
-			    // 跳转至month页面
+			    // 跳转至monthPage页面
 				@RequestMapping(value = "/monthPage")
 			    public ModelAndView monthPage(HttpSession session){
 					List<Record> list=null;
@@ -567,11 +567,14 @@ if (userService.check_volunteer(volunteer.getTel())) {
 								session.setAttribute("message", "1");
 							}
 							else {
-							
-							session.setAttribute("message", "0");
-							session.setAttribute("totalYearHours",userService.get_total_wage_hours(list));
-							session.setAttribute("totalVolunteerNum",list.size());
-							session.setAttribute("yearNewVolunteerNum",newNum);
+								int count = 0;
+								for(int i=0; i < list.size(); i++) {
+									count += Integer.parseInt(list.get(i).getCount());
+								}
+								session.setAttribute("message", "0");
+								session.setAttribute("totalYearHours",userService.get_total_wage_hours(list));
+								session.setAttribute("totalVolunteerNum",count);
+								session.setAttribute("yearNewVolunteerNum",newNum);
 							}
 							return new ModelAndView("/yearPage");
 						} 
@@ -599,11 +602,14 @@ if (userService.check_volunteer(volunteer.getTel())) {
 								session.setAttribute("message", "1");
 							}
 							else {
-							
-							session.setAttribute("message", "0");
-							session.setAttribute("totalMonthHours",userService.get_total_wage_hours(list));
-							session.setAttribute("totalMonthVolunteerNum",list.size());
-							session.setAttribute("monthNewVolunteerNum",newNum);
+								int count = 0;
+								for(int i=0; i < list.size(); i++) {
+									count += Integer.parseInt(list.get(i).getCount());
+								}
+								session.setAttribute("message", "0");
+								session.setAttribute("totalMonthHours",userService.get_total_wage_hours(list));
+								session.setAttribute("totalMonthVolunteerNum",count);
+								session.setAttribute("monthNewVolunteerNum",newNum);
 							}
 							return new ModelAndView("/monthPage");
 						} 
@@ -618,10 +624,14 @@ if (userService.check_volunteer(volunteer.getTel())) {
 								session.setAttribute("message", "1");
 							}
 							else {
-							session.setAttribute("message", "0");
-							session.setAttribute("totalYearHours",userService.get_total_wage_hours_by_year_and_school(list));
-							session.setAttribute("totalVolunteerNum",list.size());
-							session.setAttribute("yearNewVolunteerNum",userService.get_new_volunteer_by_year_and_school(yearDate,unit));
+								int count = 0;
+								for(int i=0; i < list.size(); i++) {
+									count += Integer.parseInt(list.get(i).getCount());
+								}
+								session.setAttribute("message", "0");
+								session.setAttribute("totalYearHours",userService.get_total_wage_hours_by_year_and_school(list));
+								session.setAttribute("totalVolunteerNum",count);
+								session.setAttribute("yearNewVolunteerNum",userService.get_new_volunteer_by_year_and_school(yearDate,unit));
 							}
 							return new ModelAndView("/schoolPage");
 						}
@@ -636,10 +646,14 @@ if (userService.check_volunteer(volunteer.getTel())) {
 								session.setAttribute("message", "1");
 							}
 							else {
-							session.setAttribute("message", "0");
-							session.setAttribute("totalMonthHours",userService.get_total_wage_hours_by_year_and_school(list));
-							session.setAttribute("totalVolunteerNum",list.size());
-							session.setAttribute("monthNewVolunteerNum",userService.get_new_volunteer_by_year_and_school(monthDate,unit));
+								int count = 0;
+								for(int i=0; i < list.size(); i++) {
+									count += Integer.parseInt(list.get(i).getCount());
+								}
+								session.setAttribute("message", "0");
+								session.setAttribute("totalMonthHours",userService.get_total_wage_hours_by_year_and_school(list));
+								session.setAttribute("totalVolunteerNum",count);
+								session.setAttribute("monthNewVolunteerNum",userService.get_new_volunteer_by_year_and_school(monthDate,unit));
 							}
 							return new ModelAndView("/schoolMonthPage");
 						} 

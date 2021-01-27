@@ -32,8 +32,8 @@
 		select v.*,
 		sum(r.volunteerTime) as
 		totalHours,sum(r.volunteerTime)*3.75 as totalWage
-		from volunteer
-		v,record r
+		
+		from volunteer v,record r
 		<where>
     	<if test="recordDate!=null and recordDate!=''">
     	AND r.recordDate LIKE CONCAT(CONCAT('%',#{recordDate}),"%")
@@ -51,6 +51,7 @@
 		select v.*,
 		sum(r.volunteerTime) as
 		totalHours,sum(r.volunteerTime)*3.75 as totalWage
+		,count(r.volunteerTime) as count
 		from volunteer
 		v,record r
 		<where>
@@ -110,6 +111,7 @@
 		select v.*,
 		sum(r.volunteerTime) as
 		totalHours,sum(r.volunteerTime)*3.75 as totalWage
+		,count(r.volunteerTime) as count
 		from volunteer
 		v,record r
 		<where>
@@ -140,8 +142,8 @@
 		select *
 		from volunteer
 		<where>
-			<if test="num!=null and num!=''">
-				AND num = #{num}
+			<if test="tel!=null and tel!=''">
+				AND tel = #{tel}
 			</if>
 			<if test="name!=null and name!=''">
 				AND name LIKE CONCAT(CONCAT('%',#{name}),"%")

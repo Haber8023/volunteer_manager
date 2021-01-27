@@ -22,7 +22,7 @@ public interface VolunteerMapper {
 	
 	public String get_volunteer_num_by_date(String date);
 
-	public List<Volunteer> get_volunteer_time_in(@Param("num")String num, @Param("name")String name, @Param("joinDate")String joinDate, @Param("unit")String unit);
+	public List<Volunteer> get_volunteer_time_in(@Param("tel")String tel, @Param("name")String name, @Param("joinDate")String joinDate, @Param("unit")String unit);
 
 	public void update_total_time(@Param("num")String num,@Param("volunteerTime") int volunteerTime);
 

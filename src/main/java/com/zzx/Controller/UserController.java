@@ -319,7 +319,7 @@ if (userService.check_volunteer(volunteer.getTel())) {
 		
 		//录入半天时长
 				@RequestMapping(value = "/halfDayIn")
-				 public ModelAndView halfDayIn( HttpSession session,String num_ensure, String place_ensure, String other_place_ensure, int hours_ensure, String record_detail_ensure,
+				 public ModelAndView halfDayIn( HttpSession session,String num_ensure, String place_ensure, String other_place_ensure, double hours_ensure, String record_detail_ensure,
 							@RequestParam(defaultValue="1") Integer currentPage,HttpServletRequest request,
 							Map<String,Object> map){
 					if("其它".equals(place_ensure)) {
@@ -339,7 +339,7 @@ if (userService.check_volunteer(volunteer.getTel())) {
 						List<Volunteer> list=userService.get_volunteer_time_in(volunteer);
 						PageInfo<Volunteer> pageInfo=new PageInfo<Volunteer>(list,8);
 						map.put("pageInfo", pageInfo);
-					int volunteerTime = hours_ensure;
+					double volunteerTime = hours_ensure;
 					if (userService.insert_record(num_ensure,place_ensure,record_detail_ensure,volunteerTime)) {
 						session.setAttribute("message", "1");
 						return new ModelAndView("/timeInPage");
@@ -386,7 +386,7 @@ if (userService.check_volunteer(volunteer.getTel())) {
 				//补录半天时长
 				@RequestMapping(value = "/forgetHalfDayIn")
 				 public ModelAndView forgetHalfDayIn( HttpSession session,String num_ensure, String place_ensure, String other_place_ensure, String record_detail_ensure,
-							int hours_ensure, String date_ensure, @RequestParam(defaultValue="1") Integer currentPage,HttpServletRequest request,
+							double hours_ensure, String date_ensure, @RequestParam(defaultValue="1") Integer currentPage,HttpServletRequest request,
 							Map<String,Object> map){
 					if(!userService.count_record(num_ensure,date_ensure).equals("0")) {
 						session.setAttribute("message", "3");
@@ -409,7 +409,7 @@ if (userService.check_volunteer(volunteer.getTel())) {
 						List<Volunteer> list=userService.get_volunteer_time_in(volunteer);
 						PageInfo<Volunteer> pageInfo=new PageInfo<Volunteer>(list,8);
 						map.put("pageInfo", pageInfo);
-					int volunteerTime = hours_ensure;
+					double volunteerTime = hours_ensure;
 					if (userService.insert_foget_record(num_ensure,place_ensure,record_detail_ensure,date_ensure,volunteerTime)) {
 						session.setAttribute("message", "1");
 						return new ModelAndView("/forgetTimeInPage");

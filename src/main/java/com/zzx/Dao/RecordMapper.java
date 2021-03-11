@@ -12,7 +12,7 @@ public interface RecordMapper {
 	
 	public String get_record_hour_by_date(@Param("date")String date);
 
-	public void insert_record(@Param("num")String num, @Param("place")String place,@Param("recordDetail")String recordDetail, @Param("volunteerTime")int volunteerTime);
+	public void insert_record(@Param("num")String num, @Param("place")String place,@Param("recordDetail")String recordDetail, @Param("volunteerTime")double volunteerTime);
 
 	public List<Record> show_all_record();
 
@@ -23,7 +23,7 @@ public interface RecordMapper {
 	public List<Record> get_record_by_Date(@Param("recordDate")String recordDate);
 
 	public void insert_forget_record(@Param("num")String num, @Param("place")String place, @Param("recordDetail")String recordDetail, @Param("recordDate")String recordDate,
-			@Param("volunteerTime")int volunteerTime);
+			@Param("volunteerTime")double volunteerTime);
 
 	public String count_record(@Param("num")String num);
 

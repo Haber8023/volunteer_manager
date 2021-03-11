@@ -71,6 +71,7 @@
 		select v.*,
 		sum(r.volunteerTime) as
 		totalHours,sum(r.volunteerTime)*3.75 as totalWage
+		,count(r.volunteerTime) as count
 		from volunteer
 		v,record r
 		<where>
@@ -91,6 +92,7 @@
 		select v.*,
 		sum(r.volunteerTime) as
 		totalHours,sum(r.volunteerTime)*3.75 as totalWage
+		,count(r.volunteerTime) as count
 		from volunteer
 		v,record r
 		<where>

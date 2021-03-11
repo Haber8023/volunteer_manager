@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
 			return volunteerMapper.get_volunteer_time_in(tel, name, joinDate, unit);
 		};
 		
-		public boolean insert_record(String num, String place, String recordDetail, Integer volunteerTime) {
+		public boolean insert_record(String num, String place, String recordDetail, double volunteerTime) {
 			try {
 				recordMapper.insert_record(num,place,recordDetail, volunteerTime);
 				volunteerMapper.update_total_time(num,volunteerTime);
@@ -94,7 +94,7 @@ public class UserServiceImpl implements UserService {
 		};
 		
 		public boolean insert_foget_record(String num, String place, String recordDetail,
-				String recordDate, int volunteerTime) {
+				String recordDate, double volunteerTime) {
 			try {
 				System.out.println(recordDate);
 				recordMapper.insert_forget_record(num,place,recordDetail,recordDate,volunteerTime);
@@ -157,29 +157,26 @@ public class UserServiceImpl implements UserService {
 			return recordMapper.get_record_by_Date(recordDate);
 		};
 
-		public int get_total_hours(List<Record> list) {
-			int totalHours = 0;
+		public double get_total_hours(List<Record> list) {
+			double totalHours = 0.0;
 			for(Record r:list) {
-				Integer delta = new Integer(r.getVolunteerTime());
-				totalHours += delta.intValue();
+				totalHours += Double.parseDouble(r.getVolunteerTime());
 			}
 			return totalHours;
 		};
 		
-		public int get_total_wage_hours(List<Volunteer> list) {
-			int totalHours = 0;
+		public double get_total_wage_hours(List<Volunteer> list) {
+			double totalHours = 0;
 			for(Volunteer v:list) {
-				Integer delta = new Integer(v.getTotalHours());
-				totalHours += delta.intValue();
+				totalHours += Double.parseDouble(v.getTotalHours());
 			}
 			return totalHours;
 		};
 		
-		public int get_total_wage_hours_by_year_and_school(List<Volunteer> list) {
-			int totalHours = 0;
+		public double get_total_wage_hours_by_year_and_school(List<Volunteer> list) {
+			double totalHours = 0.0;
 			for(Volunteer v:list) {
-				Integer delta = new Integer(v.getTotalHours());
-				totalHours += delta.intValue();
+				totalHours += Double.parseDouble(v.getTotalHours());
 			}
 			return totalHours;
 		};

@@ -24,7 +24,7 @@ public interface VolunteerMapper {
 
 	public List<Volunteer> get_volunteer_time_in(@Param("tel")String tel, @Param("name")String name, @Param("joinDate")String joinDate, @Param("unit")String unit);
 
-	public void update_total_time(@Param("num")String num,@Param("volunteerTime") int volunteerTime);
+	public void update_total_time(@Param("num")String num,@Param("volunteerTime") double volunteerTime);
 
 	public void update_volunteer(@Param("num")String num, @Param("name")String name,@Param("gender")String gender,@Param("birthday")String birthday,
 			@Param("unit") String unit,@Param("address")String address,@Param("tel")String tel,@Param("type")String type,@Param("occupation")String occupation,@Param("education")String education,@Param("relate")String relate);

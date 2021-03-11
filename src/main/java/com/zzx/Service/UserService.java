@@ -27,7 +27,7 @@ public interface UserService {
 		
 		public List<Volunteer> get_volunteer_time_in(Volunteer volunteer);
 
-		public boolean insert_record(String num, String place, String recordDetail, Integer volunteerTime);
+		public boolean insert_record(String num, String place, String recordDetail, double volunteerTime);
 
 		public List<Record> show_all_record();
 
@@ -41,9 +41,9 @@ public interface UserService {
 		public List<Record> get_record_by_Date(String recordDate);
 		
 
-		public int get_total_hours(List<Record> list);
+		public double get_total_hours(List<Record> list);
 
-		public int get_total_wage_hours(List<Volunteer> list);
+		public double get_total_wage_hours(List<Volunteer> list);
 
 		public List<Volunteer> get_volunteer_with_hours_by_Date(String recordDate);
 
@@ -54,7 +54,7 @@ public interface UserService {
 		public void update_time(String num, String record_time);
 
 		public boolean insert_foget_record(String num, String place, String record,
-				String recordDate, int volunteerTime);
+				String recordDate, double volunteerTime);
 
 		public String get_new_volunteer_by_year(String joinDate);
 		public String get_new_social_volunteer_by_year(String joinDate);
@@ -62,7 +62,7 @@ public interface UserService {
 
 		public List<Volunteer> get_volunteer_by_school_with_hours_by_Date_DESC(String recordDate, String unit);
 
-		public int get_total_wage_hours_by_year_and_school(List<Volunteer> list);
+		public double get_total_wage_hours_by_year_and_school(List<Volunteer> list);
 
 		public String get_new_volunteer_by_year_and_school(String joinDate,String unit);
 

@@ -4,11 +4,18 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import com.zzx.Model.Volunteer;
+import com.zzx.Model.Admin;
 import com.zzx.Model.Record;
 
 
 public interface UserService {
 
+		// 管理员用户登陆
+		public boolean login(Admin admin, HttpSession session);
+		
+		// 修改密码
+		public boolean change_password(String password, String password_new, String admin_name);
+		
 		public boolean insert_volunteer(Volunteer volunteer,int isNew);
 
 		public String get_num();
@@ -36,7 +43,7 @@ public interface UserService {
 		public boolean delete_record(String record_ID);
 
 		public boolean update_volunteer(String num, String name,String gender,String birthday,
-				 String unit,String address,String tel,String type,String joinDate,String occupation,String education,String relate);
+				 String unit,String address,String tel,String type,String joinDate,String occupation,String education,String relate,String school, String studentNum);
 
 		public List<Record> get_record_by_Date(String recordDate);
 		
@@ -46,6 +53,7 @@ public interface UserService {
 		public double get_total_wage_hours(List<Volunteer> list);
 
 		public List<Volunteer> get_volunteer_with_hours_by_Date(String recordDate);
+		public List<Volunteer> get_CQU_volunteer_with_hours_by_Date_DESC(String recordDate, String school);
 
 		public List<Volunteer> get_volunteer_with_hours_by_Date_DESC(String recordDate);
 		public List<Volunteer> get_social_volunteer_with_hours_by_Date_DESC(String recordDate);

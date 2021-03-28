@@ -11,8 +11,10 @@ import org.springframework.stereotype.Service;
 import com.zzx.Model.Volunteer;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.zzx.Dao.AdminMapper;
 import com.zzx.Dao.RecordMapper;
 import com.zzx.Dao.VolunteerMapper;
+import com.zzx.Model.Admin;
 import com.zzx.Model.Record;
 import com.zzx.Service.UserService;
 import com.zzx.Utils.Tools;
@@ -23,6 +25,8 @@ public class UserServiceImpl implements UserService {
 	VolunteerMapper volunteerMapper;
 	@Autowired
 	RecordMapper recordMapper;
+	@Autowired
+	AdminMapper adminMapper;
 	
 	public boolean check_volunteer(String tel) {
 		if(volunteerMapper.check_volunteer(tel)>0) {
@@ -30,6 +34,34 @@ public class UserServiceImpl implements UserService {
 		}
 		return false;
 	};
+	
+	// 修改密码
+	public boolean change_password(String password, String password_new, String admin_name) {
+		String password_record = adminMapper.get_admin_psw(admin_name);
+		if (password.equals(password_record)) {
+			try {
+				adminMapper.update_admin_psw(admin_name, password_new);
+			} catch (Exception e) {
+				return false;
+			}
+			return true;
+		}
+		return false;
+	}
+	
+	// 管理员用户登陆
+	public boolean login(Admin admin, HttpSession session) {
+		String admin_name = admin.getAdmin_name();
+		String admin_psw = admin.getAdmin_psw();
+		String psw = adminMapper.get_admin_psw(admin_name);
+		if(psw==null)
+	       return false;
+		if (admin_psw.equals(psw)) {
+			session.setAttribute("admin_name", admin_name);
+			return true;
+		}
+		return false;
+	}
 	
 	public String get_num() {
 		int num=-1;
@@ -140,11 +172,11 @@ public class UserServiceImpl implements UserService {
 
 
 		public boolean update_volunteer(String num, String name,String gender,String birthday,
-				 String unit,String address,String tel,String type,String joinDate,String occupation,String education,String relate) {
+				 String unit,String address,String tel,String type,String joinDate,String occupation,String education,String relate,String school, String studentNum) {
 
 			try {
 				volunteerMapper.update_volunteer(num, name,gender,birthday,
-						 unit,address,tel,type,occupation,education,relate);
+						 unit,address,tel,type,occupation,education,relate,school,studentNum);
 				volunteerMapper.update_joinDate(num, joinDate);
 			} catch (Exception e) {
 				System.out.println("err");
@@ -183,6 +215,10 @@ public class UserServiceImpl implements UserService {
 		
 		public List<Volunteer> get_volunteer_with_hours_by_Date(String recordDate){
 			return volunteerMapper.get_volunteer_with_hours_by_Date(recordDate);
+		};
+		
+		public List<Volunteer> get_CQU_volunteer_with_hours_by_Date_DESC(String recordDate, String school){
+			return volunteerMapper.get_CQU_volunteer_with_hours_by_Date_DESC(recordDate, school);
 		};
 
 

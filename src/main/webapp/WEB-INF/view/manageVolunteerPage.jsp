@@ -40,6 +40,13 @@ table tr th {
 </head>
 <body>
 	<script type="text/javascript">
+		var msg = "${admin_name}";
+		if (msg == null || msg =='') {
+			alert('登陆失效，请重新登录！');
+			window.location.replace("logout");
+		} 
+	</script>
+	<script type="text/javascript">
 		var msg = "${message}";
 		if (msg == "1") {
 			alert('志愿者信息修改成功');
@@ -64,6 +71,10 @@ table tr th {
 				</div>
 				<ul
 					class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
+					<li class="nav-item"><a href="logout" class="nav-link logout">
+							<span class="d-none d-sm-inline">退出登录</span><i
+							class="fa fa-sign-out"></i>
+					</a></li>
 				</ul>
 			</div>
 		</div>
@@ -97,17 +108,23 @@ table tr th {
 			</ul>
 			<span class="heading">Extras</span>
 			<ul class="list-unstyled">
+			<!--
 				<li><a href="accountPage"> <i
 						class="icon-interface-windows"></i>财务报表
 				</a></li>
 				<li><a href="wagePage"> <i class="icon-grid"></i>工资结算
 				</a></li>
+				  -->
 								<li><a href="monthPage"> <i class="icon-line-chart"></i>月份统计
 				</a></li>
 				<li><a href="yearPage"> <i class="icon-line-chart"></i>年度统计
 				</a></li>
 								<li><a href="schoolPage"> <i class="icon-page"></i>单位年统计
 				</a></li>					<li><a href="schoolMonthPage"> <i class="icon-page"></i>单位月统计
+				</a></li>
+				<li><a href="CQUMonthPage"> <i class="icon-interface-windows"></i>重庆大学月统计
+				</a></li>
+								<li><a href="updatePage"> <i class="icon-grid"></i>修改密码
 				</a></li>
 			</ul>
 			</nav>
@@ -181,6 +198,8 @@ table tr th {
 									<th>性别</th>
 									<th>出生日期</th>
 									<th>所在单位</th>
+									<th>所在学院</th>
+									<th>学号</th>
 									<th>居住地址</th>
 								    <th>手机号码</th>
 								    <th>志愿者类型</th>			
@@ -200,6 +219,8 @@ table tr th {
 										<td>${volunteer_list.gender}</td>
 										<td>${volunteer_list.birthday}</td>
 										<td>${volunteer_list.unit}</td>
+										<td>${volunteer_list.school}</td>
+										<td>${volunteer_list.studentNum}</td>
 										<td>${volunteer_list.address}</td>
 										<td>${volunteer_list.tel}</td>
 										<td>${volunteer_list.type}</td>
@@ -283,6 +304,76 @@ table tr th {
 						所在单位：&ensp;&ensp; <input id="unit_check" type="text"
 							name="unit_check" >
 					</div>
+							<div class="modal-body">
+						所在学院：&ensp;&ensp; <select name="school_check" id="school_check">
+    						<option> </option>
+    						<optgroup label="人文学部">
+							<option>外国语学院</option>
+							<option>艺术学院</option>
+							<option>体育学院</option>
+							<option>美视电影学院</option>
+							<option>国际学院</option>
+							<option>弘深学院</option>
+							<option>博雅学院</option>
+							<option>人文社会科学高等研究院</option>
+							</optgroup>
+							<optgroup label="社会科学部">
+							<option>公共管理学院</option>
+							<option>经济与工商管理学院</option>
+							<option>新闻学院</option>
+							<option>法学院</option>
+							<option>马克思主义学院</option>
+							</optgroup>
+							<optgroup label="理学部">
+							<option>数学与统计学院</option>
+							<option>物理学院</option>
+							<option>化学化工学院</option>
+							<option>生命科学学院</option>
+							<option>现代物理中心</option>
+							<option>分析测试中心</option>
+							</optgroup>
+							<optgroup label="工程学部">
+							<option>机械与运载工程学院</option>
+							<option>电气工程学院</option>
+							<option>能源与动力工程学院</option>
+							<option>资源与安全学院</option>
+							<option>材料科学与工程学院</option>
+							<option>航空航天学院</option>
+							<option>重庆大学-辛辛那提大学联合学院</option>
+							<option>机械传动国家重点实验室</option>
+							<option>重庆自主品牌汽车协同创新中心</option>
+							</optgroup>
+							<optgroup label="建筑学部">
+							<option>建筑城规学院</option>
+							<option>土木工程学院</option>
+							<option>环境与生态学院</option>
+							<option>管理科学与房地产学院</option>
+							</optgroup>
+							<optgroup label="信息学部">
+							<option>光电工程学院</option>
+							<option>微电子与通信工程学院</option>
+							<option>计算机学院</option>
+							<option>自动化学院</option>
+							<option>大数据与软件学院</option>
+							<option>ICT中心</option>
+							</optgroup>
+							<optgroup label="医学部">
+							<option>医学院</option>
+							<option>药学院(创新药物研究中心)</option>
+							<option>生物工程学院</option>
+							<option>附属肿瘤医院</option>
+							<option>附属三峡医院</option>
+							<option>附属中心医院</option>
+							</optgroup>
+							<optgroup label="其他">
+							<option>通信与测控中心</option>
+							</optgroup>
+						</select>
+					</div>
+							<div class="modal-body">
+						学号：&ensp;&ensp; <input id="studentNum_check" type="text"
+							name="studentNum_check" >
+					</div>
 					<div class="modal-body">
 						居住地址：&ensp;&ensp; <input id="address_check" type="text"
 							name="address_check" >
@@ -341,13 +432,15 @@ table tr th {
 			var gender_check = $td.eq(2).text();
 			var birthday_check = $td.eq(3).text();
 			var unit_check = $td.eq(4).text();
-			var address_check = $td.eq(5).text();
-			var tel_check = $td.eq(6).text();
-			var type_check = $td.eq(7).text();
-			var joinDate_check = $td.eq(8).text();
-			var occupation_check = $td.eq(9).text();
-			var education_check = $td.eq(10).text();
-			var relate_check = $td.eq(11).text();
+			var school_check = $td.eq(5).text();
+			var studentNum_check = $td.eq(6).text();
+			var address_check = $td.eq(7).text();
+			var tel_check = $td.eq(8).text();
+			var type_check = $td.eq(9).text();
+			var joinDate_check = $td.eq(10).text();
+			var occupation_check = $td.eq(11).text();
+			var education_check = $td.eq(12).text();
+			var relate_check = $td.eq(13).text();
 			$("#occupation_check").val(occupation_check);
 			$("#education_check").val(education_check);
 			$("#relate_check").val(relate_check);
@@ -356,6 +449,8 @@ table tr th {
 			$("#gender_check").val(gender_check);
 			$("#birthday_check").val(birthday_check);
 			$("#unit_check").val(unit_check);
+			$("#school_check").val(school_check);
+			$("#studentNum_check").val(studentNum_check);
 			$("#address_check").val(address_check);
 			$("#tel_check").val(tel_check);
 			$("#type_check").val(type_check);

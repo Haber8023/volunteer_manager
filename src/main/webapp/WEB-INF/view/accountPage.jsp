@@ -38,6 +38,13 @@ table tr th {
 </head>
 <body>
 	<script type="text/javascript">
+		var msg = "${admin_name}";
+		if (msg == null || msg =='') {
+			alert('登陆失效，请重新登录！');
+			window.location.replace("logout");
+		} 
+	</script>
+	<script type="text/javascript">
 		var msg = "${message}";
 		if (msg == "1") {
 			alert('未检索到信息，请检查年月是否正确！');
@@ -59,6 +66,10 @@ table tr th {
 				</div>
 				<ul
 					class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
+					<li class="nav-item"><a href="logout" class="nav-link logout">
+							<span class="d-none d-sm-inline">退出登录</span><i
+							class="fa fa-sign-out"></i>
+					</a></li>
 				</ul>
 			</div>
 		</div>
@@ -103,6 +114,10 @@ table tr th {
 				</a></li>
 								<li><a href="schoolPage"> <i class="icon-page"></i>单位年统计
 				</a></li>					<li><a href="schoolMonthPage"> <i class="icon-page"></i>单位月统计
+				</a></li>
+				<li><a href="CQUMonthPage"> <i class="icon-interface-windows"></i>重庆大学月统计
+				</a></li>
+				<li><a href="updatePage"> <i class="icon-grid"></i>修改密码
 				</a></li>
 			</ul>
 			</nav>

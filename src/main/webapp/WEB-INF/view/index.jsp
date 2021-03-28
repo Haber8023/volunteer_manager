@@ -24,7 +24,8 @@
 	href="<%=request.getContextPath()%>/lib/img/favicon.ico">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/lib/vendor/bootstrap/css/bootstrap.min.css">	
-<%response.setHeader("Refresh","1;URL=mainPage");%>
+
+
 </head>
 <body>
 	<div class="page login-page">
@@ -43,10 +44,22 @@
 					</div>
 					<div class="col-lg-6 bg-white">
 						<div class="form d-flex align-items-center">
-						
 							<div class="content">
-							<h2>系统载入中...<br>页面将自动跳转<br></h2>
-								<a href="mainPage" class="forgot-pass">若长时间未跳转请点此此处手动跳转</a>
+								<form name="inputForm" action="login"
+									onsubmit="return validateForm()" method="post"
+									class="form-validate">
+									<div class="form-group">
+										<input id="admin_name" type="text" name="admin_name"
+											class="input-material"> <label for="login-username"
+											class="label-material">用户名</label>
+									</div>
+									<div class="form-group">
+										<input id="admin_psw" type="password" name="admin_psw"
+											class="input-material"> <label for="login-password"
+											class="label-material">登录密码</label>
+									</div>
+									<button id="login" class="btn btn-primary">登录</button>
+								</form>
 							</div>
 						</div>
 					</div>
@@ -69,5 +82,15 @@
 	<script
 		src="<%=request.getContextPath()%>/lib/vendor/jquery-validation/jquery.validate.min.js"></script>
 	<script src="<%=request.getContextPath()%>/lib/js/front.js"></script>
+		<script>
+		function validateForm() {
+			var user_id = document.forms["inputForm"]["admin_name"].value;
+			var user_password = document.forms["inputForm"]["admin_psw"].value;
+			if (user_id == null || user_id == "" || user_password == null|| user_password == "") {
+				alert("用户名与密码不能为空!");
+				return false;
+			}
+		}
+	</script>
 </body>
 </html>

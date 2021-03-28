@@ -26,7 +26,13 @@
 	href="<%=request.getContextPath()%>/lib/vendor/bootstrap/css/bootstrap.min.css">
 </head>
 <body>
-
+	<script type="text/javascript">
+		var msg = "${admin_name}";
+		if (msg == null || msg =='') {
+			alert('登陆失效，请重新登录！');
+			window.location.replace("logout");
+		} 
+	</script>
 	<div class="page">
 		<header class="header"> <nav class="navbar">
 		<div class="container-fluid">
@@ -43,6 +49,10 @@
 				</div>
 				<ul
 					class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
+					<li class="nav-item"><a href="logout" class="nav-link logout">
+							<span class="d-none d-sm-inline">退出登录</span><i
+							class="fa fa-sign-out"></i>
+					</a></li>
 				</ul>
 			</div>
 		</div>
@@ -75,17 +85,23 @@
 			</ul>
 			<span class="heading">Extras</span> 
 			<ul class="list-unstyled">
+			<!--
 				<li><a href="accountPage"> <i
 						class="icon-interface-windows"></i>财务报表
 				</a></li>
 				<li><a href="wagePage"> <i class="icon-grid"></i>工资结算
 				</a></li>
+				  -->
 								<li><a href="monthPage"> <i class="icon-line-chart"></i>月份统计
 				</a></li>
 				<li><a href="yearPage"> <i class="icon-line-chart"></i>年度统计
 				</a></li>
 								<li><a href="schoolPage"> <i class="icon-page"></i>单位年统计
 				</a></li>					<li><a href="schoolMonthPage"> <i class="icon-page"></i>单位月统计
+				</a></li>
+				<li><a href="CQUMonthPage"> <i class="icon-interface-windows"></i>重庆大学月统计
+				</a></li>
+				<li><a href="updatePage"> <i class="icon-grid"></i>修改密码
 				</a></li>
 			</ul></nav>
 			<div class="content-inner">
@@ -101,7 +117,7 @@
 				</div>
 				<div class="value">
 					
-						<h1 id="count1" style="color:#796AEE ">&ensp;&ensp;${totalMembers}</h1>
+						<h2 id="count1" style="color:#796AEE ">&ensp;&ensp;${totalMembers}</h2>
 					
 					<p>志愿者总量</p>
 				</div>
@@ -113,7 +129,7 @@
 				</div>
 				<div class="value">
 					
-						<h1 id="count2"  style="color:#796AEE ">&ensp;&ensp;&ensp;&ensp;&ensp;${joinMembers}</h1>
+						<h2 id="count2"  style="color:#796AEE ">&ensp;&ensp;&ensp;&ensp;&ensp;${joinMembers}</h2>
 					
 					<p>今日新增志愿者数</p>
 				</div>
@@ -125,7 +141,7 @@
 				</div>
 				<div class="value">
 					
-						<h1 id="count2"  style="color:#796AEE ">&ensp;&ensp;&ensp;&ensp;&ensp;${todayMembers}</h1>
+						<h2 id="count2"  style="color:#796AEE ">&ensp;&ensp;&ensp;&ensp;&ensp;${todayMembers}</h2>
 					
 					<p>今日服务志愿者数</p>
 				</div>
@@ -137,7 +153,7 @@
 				</div>
 				<div class="value">
 					
-						<h1 id="count2"  style="color:#796AEE ">&ensp;&ensp;&ensp;&ensp;&ensp;${todayHours}</h1>
+						<h2 id="count2"  style="color:#796AEE ">&ensp;&ensp;&ensp;&ensp;&ensp;${todayHours}</h2>
 					
 					<p>今日志愿者服务时长</p>
 				</div>

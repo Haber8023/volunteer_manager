@@ -17,6 +17,8 @@ public class Volunteer {
 	private String birthday;
 	private String type;
 	private String count;
+	private String school;
+	private String studentNum;
 	
 	@Override
 	public String toString() {
@@ -126,6 +128,22 @@ public class Volunteer {
 	}
 	public void setType(String type) {
 		this.type = type;
+	}
+
+	public String getSchool() {
+		return school;
+	}
+
+	public void setSchool(String school) {
+		this.school = school;
+	}
+
+	public String getStudentNum() {
+		return studentNum;
+	}
+
+	public void setStudentNum(String studentNum) {
+		this.studentNum = studentNum;
 	}
 
 }

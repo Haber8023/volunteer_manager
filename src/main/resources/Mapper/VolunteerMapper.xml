@@ -64,9 +64,9 @@
 		order by
 		totalHours
 		DESC
-	</select>
+</select>
 	
-	<select id="get_social_volunteer_with_hours_by_Date_DESC"
+<select id="get_social_volunteer_with_hours_by_Date_DESC"
 		resultMap="Volunteer">
 		select v.*,
 		sum(r.volunteerTime) as
@@ -129,6 +129,27 @@
 		order by
 		totalHours
 		DESC
+	</select>
+	
+	<select id="get_CQU_volunteer_with_hours_by_Date_DESC"
+		resultMap="Volunteer">
+		select v.*,
+		sum(r.volunteerTime) as
+		totalHours,sum(r.volunteerTime)*3.75 as totalWage
+		,count(r.volunteerTime) as count
+		from volunteer
+		v,record r
+		<where>v.unit = "重庆大学"
+    	<if test="recordDate!=null and recordDate!=''">
+    	AND r.recordDate LIKE CONCAT(CONCAT('%',#{recordDate}),"%")
+    	AND v.school LIKE CONCAT(CONCAT('%',#{school}),"%")
+    	AND v.num = r.num
+    	</if>	
+    </where>
+		group by v.num
+		order by
+		v.school
+		ASC
 	</select>
 	
 	<select id="show_all_volunteer" resultMap="Volunteer">
@@ -223,10 +244,10 @@
 	<insert id="insert_volunteer">
 		insert into volunteer(num, name, type, birthday, education, relate, occupation,
 		gender, unit,
-		address, tel,  joinDate, totalTime)
+		address, tel,  joinDate, totalTime, school, studentNum)
 		values(#{num}, #{name}, #{type}, #{birthday}, #{education}, #{relate}, #{occupation},
 		#{gender}, #{unit}, #{address}, #{tel},
-		date_FORMAT(now(),'%Y-%m-%d'), 0)
+		date_FORMAT(now(),'%Y-%m-%d'), 0, #{school}, #{studentNum})
 	</insert>
 
 	<select id="get_volunteer_list"
@@ -293,6 +314,8 @@
 		occupation = #{occupation} ,
 		education = #{education} ,
 		relate = #{relate} ,
+		school = #{school},
+		studentNum = #{studentNum},
 		type
 		= #{type}
 		where num=#{num}

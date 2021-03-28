@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zzx.Dao.AdminMapper">
+
+	<!--获取用户密码 -->
+	<select id="get_admin_psw" resultType="String">
+		select admin_psw
+		from admin
+		where admin_name = #{admin_name}
+	</select>
+	
+	<!-- 修改密码 -->
+	<update id="update_admin_psw">
+		update admin
+		set
+		admin_psw = #{password_new}
+		where
+		admin_name = #{admin_name}
+	</update>
+	
+	<!-- 插入新管理员用户 -->
+	<insert id="insert_admin" >
+		insert into admin(admin_name, admin_psw) 
+		values(#{admin_name_input}, #{admin_psw_input})
+	</insert>
+	
+</mapper>

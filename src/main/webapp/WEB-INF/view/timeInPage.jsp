@@ -40,6 +40,13 @@ table tr th {
 </head>
 <body>
 	<script type="text/javascript">
+		var msg = "${admin_name}";
+		if (msg == null || msg =='') {
+			alert('登陆失效，请重新登录！');
+			window.location.replace("logout");
+		} 
+	</script>
+	<script type="text/javascript">
 		var msg = "${message}";
 		if (msg == "1") {
 			
@@ -69,6 +76,10 @@ table tr th {
 				</div>
 				<ul
 					class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
+					<li class="nav-item"><a href="logout" class="nav-link logout">
+							<span class="d-none d-sm-inline">退出登录</span><i
+							class="fa fa-sign-out"></i>
+					</a></li>
 				</ul>
 			</div>
 		</div>
@@ -102,17 +113,23 @@ table tr th {
 			</ul>
 			<span class="heading">Extras</span>
 			<ul class="list-unstyled">
+			<!--
 				<li><a href="accountPage"> <i
 						class="icon-interface-windows"></i>财务报表
 				</a></li>
 				<li><a href="wagePage"> <i class="icon-grid"></i>工资结算
 				</a></li>
+				  -->
 								<li><a href="monthPage"> <i class="icon-line-chart"></i>月份统计
 				</a></li>
 				<li><a href="yearPage"> <i class="icon-line-chart"></i>年度统计
 				</a></li>
 								<li><a href="schoolPage"> <i class="icon-page"></i>单位年统计
 				</a></li>					<li><a href="schoolMonthPage"> <i class="icon-page"></i>单位月统计
+				</a></li>
+				<li><a href="CQUMonthPage"> <i class="icon-interface-windows"></i>重庆大学月统计
+				</a></li>
+								<li><a href="updatePage"> <i class="icon-grid"></i>修改密码
 				</a></li>
 			</ul>
 			</nav>
@@ -336,7 +353,7 @@ table tr th {
 							<option>CT室</option>
 							<option>患者服务中心</option>
 							<option>康复会</option>
-							<option>门诊广场</option>
+							<option>雷锋岗</option>
 							<option>门诊一楼</option>
 							<option>门诊二楼</option>
 							<option>内分泌</option>
@@ -344,10 +361,13 @@ table tr th {
 							<option>内科负一楼</option>
 							<option>内科一楼</option>
 							<option>内科大楼</option>
+							<option>外科大楼</option>
+							<option>外科一楼</option>
 							<option>特病</option>
 							<option>体检中心</option>
 							<option>药房</option>
 							<option>中药房</option>
+							<option>控烟</option>
 							<option>其它</option>
 						</select>
 					</div>

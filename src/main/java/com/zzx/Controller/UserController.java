@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.zzx.Model.Volunteer;
+import com.zzx.Model.Admin;
 import com.zzx.Model.Record;
 import com.zzx.Service.UserService;
 import com.zzx.Utils.Tools;
@@ -29,6 +30,37 @@ public class UserController {
 
 	@Autowired
 	private UserService userService; 
+	
+	// 管理员用户登录
+	@RequestMapping(value = "/login")
+	public String login(String admin_name, String admin_psw, HttpSession session) {
+		Admin admin = new Admin();
+		admin.setAdmin_name(admin_name);
+		admin.setAdmin_psw(admin_psw);
+		if (userService.login(admin, session)) {
+			Tools tool = new Tools();
+			
+			session.setAttribute("nowDate", tool.get_current_date());
+			session.setAttribute("message", "0");
+			session.setAttribute("totalMembers", userService.get_volunteer_num());
+			session.setAttribute("joinMembers", userService.get_volunteer_num_by_date(tool.get_current_date()));
+			session.setAttribute("todayMembers", userService.get_record_num_by_date(tool.get_current_date()));
+			String todayHours = userService.get_record_hour_by_date(tool.get_current_date());
+			if(todayHours == null) {
+				todayHours = "0";
+			}
+			session.setAttribute("todayHours", todayHours);
+			return "mainPage";
+		}
+		return "loginFail";
+	}
+
+	// 管理员用户退出登录
+	@RequestMapping(value = "/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "index";
+	}
 	
 	// 跳转至首页
 		@RequestMapping(value = "/mainPage")
@@ -46,6 +78,22 @@ public class UserController {
 			}
 			session.setAttribute("todayHours", todayHours);
 			return "mainPage";
+		}
+		
+		// 管理员用户修改密码页面
+		@RequestMapping(value = "/updatePage")
+		public String updatePage() {
+			return "updatePage";
+		}
+
+		// 修改密码
+		@RequestMapping(value = "/updateInfo")
+		public String updateInfo(String password, String password_new, HttpSession session) {
+			String admin_name = (String) session.getAttribute("admin_name");
+			if (userService.change_password(password, password_new, admin_name)) {
+				return "updateSuccess";
+			}
+			return "updateFail";
 		}
 
 	
@@ -116,6 +164,8 @@ if (userService.check_volunteer(volunteer.getTel())) {
 			session.setAttribute("manageVolunteerName", volunteer.getName());
 			session.setAttribute("manageVolunteerJoinDate", volunteer.getJoinDate());
 			session.setAttribute("manageVolunteerUnit", volunteer.getUnit());
+			session.setAttribute("manageVolunteerSchool", volunteer.getSchool());
+			session.setAttribute("manageVolunteerStudentNum", volunteer.getStudentNum());
 			session.setAttribute("message","0");
 			return new ModelAndView("/manageVolunteerPage");
 		}
@@ -237,7 +287,7 @@ if (userService.check_volunteer(volunteer.getTel())) {
 			return new ModelAndView("/timeInPage");
 		} 
 		
-		//timeInPage模糊查询volunteer
+		// timeInPage模糊查询volunteer
 		@RequestMapping("/timeInFinder")
 	    public ModelAndView timeInFinder( HttpSession session,Volunteer volunteer,
 				@RequestParam(defaultValue="1") Integer currentPage,HttpServletRequest request,
@@ -293,14 +343,14 @@ if (userService.check_volunteer(volunteer.getTel())) {
 					return new ModelAndView("/forgetTimeInPage");
 				}
 		
-		//更新志愿者信息
+		// 更新志愿者信息
 		@RequestMapping(value = "/updateVolunteer")
 		 public ModelAndView updateVolunteer( HttpSession session,String num_check, String name_check,String gender_check,String birthday_check,
 				 String unit_check,String address_check,String tel_check,String type_check,String joinDate_check,String occupation_check,String education_check,String relate_check,
-					@RequestParam(defaultValue="1") Integer currentPage,HttpServletRequest request,
+					String school_check, String studentNum_check, @RequestParam(defaultValue="1") Integer currentPage,HttpServletRequest request,
 					Map<String,Object> map){			
 			if (userService.update_volunteer(num_check, name_check,gender_check,birthday_check,
-					 unit_check,address_check,tel_check,type_check,joinDate_check,occupation_check,education_check,relate_check)) {
+					 unit_check,address_check,tel_check,type_check,joinDate_check,occupation_check,education_check,relate_check, school_check, studentNum_check)) {
 				session.setAttribute("message", "1");
 				PageHelper.startPage(currentPage,8);
 				Volunteer volunteer = new Volunteer();
@@ -518,6 +568,19 @@ if (userService.check_volunteer(volunteer.getTel())) {
 					return new ModelAndView("/monthPage");
 				} 
 				
+			    // 跳转至CQUMonthPage页面
+				@RequestMapping(value = "/CQUMonthPage")
+			    public ModelAndView CQUMonthPage(HttpSession session){
+					List<Record> list=null;
+					session.setAttribute("list", list);
+					session.setAttribute("monthDate","");
+					session.setAttribute("totalMonthHours","");
+					session.setAttribute("totalMonthVolunteerNum","");
+					session.setAttribute("monthNewVolunteerNum","");
+					session.setAttribute("message", "0");
+					return new ModelAndView("/CQUMonthPage");
+				}
+				
 				@RequestMapping(value = "/schoolPage")
 			    public ModelAndView schoolPage(HttpSession session){
 					List<Record> list=null;
@@ -612,6 +675,28 @@ if (userService.check_volunteer(volunteer.getTel())) {
 								session.setAttribute("monthNewVolunteerNum",newNum);
 							}
 							return new ModelAndView("/monthPage");
+						} 
+						
+						//重庆大学月份统计模糊查询
+						@RequestMapping("/CQUMonthFinder")
+						public ModelAndView CQUMonthFinder(HttpSession session, String monthDate, String school_input){
+							List<Volunteer> list =new ArrayList<Volunteer>();
+
+							list = userService.get_CQU_volunteer_with_hours_by_Date_DESC(monthDate, school_input);
+							
+							session.setAttribute("list", list);
+							session.setAttribute("monthDate",monthDate);
+							if(list == null) {
+								session.setAttribute("message", "1");
+							}
+							else {
+								int count = 1;
+								for (Volunteer volunteer : list) {
+									volunteer.setNum(String.valueOf(count++));
+								}
+								session.setAttribute("message", "0");
+							}
+							return new ModelAndView("/CQUMonthPage");
 						} 
 						
 						@RequestMapping("/schoolFinder")

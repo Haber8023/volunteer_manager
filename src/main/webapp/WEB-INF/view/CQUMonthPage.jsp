@@ -110,14 +110,14 @@ table tr th {
 				<li><a href="wagePage"> <i class="icon-grid"></i>工资结算
 				</a></li>
 				  -->
-				<li class="active"><a href="monthPage"> <i class="icon-line-chart"></i>月份统计
+				<li><a href="monthPage"> <i class="icon-line-chart"></i>月份统计
 				</a></li>
 				<li><a href="yearPage"> <i class="icon-line-chart"></i>年度统计
 				</a></li>
 				<li><a href="schoolPage"> <i class="icon-page"></i>单位年统计
 				</a></li>					<li><a href="schoolMonthPage"> <i class="icon-page"></i>单位月统计
 				</a></li>
-				<li><a href="CQUMonthPage"> <i class="icon-interface-windows"></i>重庆大学月统计
+				<li class="active"><a href="CQUMonthPage"> <i class="icon-interface-windows"></i>重庆大学月统计
 				</a></li>
 								<li><a href="updatePage"> <i class="icon-grid"></i>修改密码
 				</a></li>
@@ -135,14 +135,75 @@ table tr th {
 
 						<div class="panel-body" style="padding-bottom: 0px;">
 							<form class="form-horizontal" id="inputForm" name="inputForm "
-								action="monthFinder" onsubmit="return validateForm()"
+								action="CQUMonthFinder" onsubmit="return validateForm()"
 								method="post">	
 											<center>
 											
 											输入年月：<input type="text"
 												placeholder="如：2019-01" value="${monthDate}"
 												id="monthDate" name="monthDate">
-																			&ensp;&ensp;&ensp;志愿者类型:<select name="type_input"><option>所有志愿者</option><option>社会志愿者</option><option>内部志愿者</option></select><h3>&ensp;</h3>
+																			&ensp;&ensp;&ensp;所在学院:<select name="school_input"><option> </option>
+    						<optgroup label="人文学部">
+							<option>外国语学院</option>
+							<option>艺术学院</option>
+							<option>体育学院</option>
+							<option>美视电影学院</option>
+							<option>国际学院</option>
+							<option>弘深学院</option>
+							<option>博雅学院</option>
+							<option>人文社会科学高等研究院</option>
+							</optgroup>
+							<optgroup label="社会科学部">
+							<option>公共管理学院</option>
+							<option>经济与工商管理学院</option>
+							<option>新闻学院</option>
+							<option>法学院</option>
+							<option>马克思主义学院</option>
+							</optgroup>
+							<optgroup label="理学部">
+							<option>数学与统计学院</option>
+							<option>物理学院</option>
+							<option>化学化工学院</option>
+							<option>生命科学学院</option>
+							<option>现代物理中心</option>
+							<option>分析测试中心</option>
+							</optgroup>
+							<optgroup label="工程学部">
+							<option>机械与运载工程学院</option>
+							<option>电气工程学院</option>
+							<option>能源与动力工程学院</option>
+							<option>资源与安全学院</option>
+							<option>材料科学与工程学院</option>
+							<option>航空航天学院</option>
+							<option>重庆大学-辛辛那提大学联合学院</option>
+							<option>机械传动国家重点实验室</option>
+							<option>重庆自主品牌汽车协同创新中心</option>
+							</optgroup>
+							<optgroup label="建筑学部">
+							<option>建筑城规学院</option>
+							<option>土木工程学院</option>
+							<option>环境与生态学院</option>
+							<option>管理科学与房地产学院</option>
+							</optgroup>
+							<optgroup label="信息学部">
+							<option>光电工程学院</option>
+							<option>微电子与通信工程学院</option>
+							<option>计算机学院</option>
+							<option>自动化学院</option>
+							<option>大数据与软件学院</option>
+							<option>ICT中心</option>
+							</optgroup>
+							<optgroup label="医学部">
+							<option>医学院</option>
+							<option>药学院(创新药物研究中心)</option>
+							<option>生物工程学院</option>
+							<option>附属肿瘤医院</option>
+							<option>附属三峡医院</option>
+							<option>附属中心医院</option>
+							</optgroup>
+							<optgroup label="其他">
+							<option>通信与测控中心</option>
+							</optgroup></select><h3>&ensp;</h3>
 																		
 									<div class="cxbottom">
 											<button type="submit" >查询统计</button>
@@ -159,59 +220,47 @@ table tr th {
 						<table class="table table-hover table-bordered" id="tables"
 							data-toggle="table" data-toggle="table" data-pagination="true"
 							data-side-pagination="client" style="border: 1px solid black">
-							   <caption>${monthDate}志愿者服务时长统计情况</caption>
 							<thead>
 								<tr>
-									<th>志愿者编号</th>
+									<th>序号</th>
+									<th>活动名称</th>
+									<th>活动时间</th>
+									<th>活动地点</th>
+									<th>活动等级</th>
+									<th>活动负责人</th>
+									<th>活动负责人单位</th>
+									<th>活动负责人电话</th>
 									<th>志愿者姓名</th>
-									<th>志愿者性别</th>
-									<th>志愿者生日</th>
-									<th>志愿者类型</th>
-									<th>所在单位</th>
-									<th>所在地区</th>
-									<th>志愿者学历</th>
-									<th>志愿者职业</th>
-									<th>加入日期</th>
-									<th>本月时长(/h)</th>
-									<th>总时长(/h)</th>
+									<th>志愿者学院</th>
+									<th>参与人学号</th>
+									<th>志愿服务时间段</th>
+									<th>志愿服务时长</th>
+									<th>服务内容</th>
 									
-								</tr>
-								
+								</tr>		
 							</thead>
 							<tbody>
 								<c:forEach items="${list}" var="record_list">
 									<tr style="height: auto;">
-										<td>${record_list.num }</td>
-										<td>${record_list.name }</td>
-										<td>${record_list.gender}</td>
-										<td>${record_list.birthday }</td>
-										<td>${record_list.type}</td>
-										<td>${record_list.unit }</td>
-										<td>${record_list.address }</td>						
-										<td>${record_list.education}</td>
-										<td>${record_list.occupation}</td>
-										<td>${record_list.joinDate}</td>
-										<td>${record_list.totalHours}</td>
-										<td>${record_list.totalTime}</td>
+										<td style="mso-number-format:'\@'">${record_list.num}</td>
+										<td style="mso-number-format:'\@'">【志愿服务】重庆大学附属肿瘤医院志愿服务活动</td>
+										<td style="mso-number-format:'\@'">${monthDate}</td>
+										<td style="mso-number-format:'\@'">重庆大学附属肿瘤医院</td>
+										<td style="mso-number-format:'\@'">校级</td>
+										<td style="mso-number-format:'\@'">王燕燕</td>
+										<td style="mso-number-format:'\@'">重庆大学附属肿瘤医院志愿服务队</td>						
+										<td style="mso-number-format:'\@'">13896102083</td>
+										<td style="mso-number-format:'\@'">${record_list.name}</td>
+										<td style="mso-number-format:'\@'">${record_list.school}</td>
+										<td style="mso-number-format:'\@'">${record_list.studentNum}</td>
+										<td style="mso-number-format:'\@'">8:00-12:00 13:30-17:30</td>
+										<td style="mso-number-format:'\@'">${record_list.totalHours}</td>
+										<td style="mso-number-format:'\@'">患者服务</td>
 									</tr>
 									
 								</c:forEach>
 
-							</tbody>
-<tr>
-<th rowspan="3"  colspan="10" >备注：服务时长4小时代表半天，服务时长8小时代表全天。按年度服务时长由高到低排序。</th>
-									<th>本月总计服务时长（/h）</th>
-								<td>${totalMonthHours}</td>
-									</tr>
-									<tr>
-								<th>总计志愿服务次数（/次）</th>
-								<td>${totalMonthVolunteerNum}</td>
-									</tr>
-									<tr>
-								<th>本月新增志愿者数（/人）</th>
-								<td>${monthNewVolunteerNum}</td>
-									</tr>
-								
+							</tbody>		
 						</table>
 
 					</div>
@@ -248,7 +297,6 @@ table tr th {
             if (!table.nodeType) table = document.getElementById(table);
             console.log(table.innerHTML)
             var ctx = { worksheet: name || 'Worksheet', table: table.innerHTML }//此时的innerHTML数据可以自己自定义 比如json转化 只要值要数据符合即可
-
             document.getElementById("dlink").href = uri + base64(format(template, ctx));
             document.getElementById("dlink").download = filename;
             document.getElementById("dlink").click();
@@ -259,7 +307,7 @@ table tr th {
     var year = disName.substring(0,4);
     var id = "tables",
         worksheetName = 'sheet',
-        workName = year +"年"+ "志愿者服务时长统计.xls";
+        workName = disName + "重庆大学志愿者服务时长统计.xls";
     document.getElementById('button').onclick = function() {
         var download = tableToExcel();
         download(id, worksheetName, workName)

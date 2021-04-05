@@ -30,7 +30,7 @@ public interface VolunteerMapper {
 			@Param("unit") String unit,@Param("address")String address,@Param("tel")String tel,@Param("type")String type,@Param("occupation")String occupation,@Param("education")String education,@Param("relate")String relate,@Param("school")String school,@Param("studentNum")String studentNum);
 
 	public List<Volunteer> get_volunteer_with_hours_by_Date(@Param("recordDate")String recordDate);
-	public List<Volunteer> get_CQU_volunteer_with_hours_by_Date_DESC(@Param("recordDate")String recordDate, @Param("school")String school);
+	public List<Volunteer> get_CQU_volunteer_with_hours_by_Date_DESC(@Param("startDate")String startDate, @Param("stopDate")String stopDate, @Param("school")String school);
 	public List<Volunteer> get_volunteer_with_hours_by_Date_DESC(@Param("recordDate")String recordDate);
 	public List<Volunteer> get_social_volunteer_with_hours_by_Date_DESC(@Param("recordDate")String recordDate);
 	public List<Volunteer> get_inner_volunteer_with_hours_by_Date_DESC(@Param("recordDate")String recordDate);

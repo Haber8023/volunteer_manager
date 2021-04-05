@@ -217,8 +217,8 @@ public class UserServiceImpl implements UserService {
 			return volunteerMapper.get_volunteer_with_hours_by_Date(recordDate);
 		};
 		
-		public List<Volunteer> get_CQU_volunteer_with_hours_by_Date_DESC(String recordDate, String school){
-			return volunteerMapper.get_CQU_volunteer_with_hours_by_Date_DESC(recordDate, school);
+		public List<Volunteer> get_CQU_volunteer_with_hours_by_Date_DESC(String startDate, String stopDate, String school){
+			return volunteerMapper.get_CQU_volunteer_with_hours_by_Date_DESC(startDate, stopDate, school);
 		};
 
 

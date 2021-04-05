@@ -139,10 +139,13 @@ table tr th {
 								method="post">	
 											<center>
 											
-											输入年月：<input type="text"
-												placeholder="如：2019-01" value="${monthDate}"
-												id="monthDate" name="monthDate">
-																			&ensp;&ensp;&ensp;所在学院:<select name="school_input"><option> </option>
+											开始日期：<input type="text"
+												placeholder="如：2019-01-01" value="${startDate}"
+												id="startDate" name="startDate">
+											&ensp;&ensp;&ensp;结束日期：<input type="text"
+												placeholder="如：2019-01-31" value="${stopDate}"
+												id="stopDate" name="stopDate">
+											&ensp;&ensp;&ensp;所在学院：<select name="school_input"><option> </option>
     						<optgroup label="人文学部">
 							<option>外国语学院</option>
 							<option>艺术学院</option>
@@ -315,18 +318,19 @@ table tr th {
     </script>
     <script>
 		function validateForm() {
-			var Date = document.forms["inputForm"]["monthDate"].value;
+			var Date = document.forms["inputForm"]["startDate"].value;
+			var Date2 = document.forms["inputForm"]["stopDate"].value;
 			
 			
-			if (Date == null || Date == "") {
+			if (Date == null || Date == "" || Date2 == null || Date2 == "") {
 				alert("查询信息为空！请输入日期");
 				return false;
 			} 
 			
-			var DateReg = /^((?:20)\d\d-\d\d)$/;
+			var DateReg = /^((?:20)\d\d-\d\d-\d\d)$/;
 			if (Date != null && Date != ""){
 				if(!DateReg.test(Date)) {
-					alert("请输入正确的日期格式：YYYY-MM");
+					alert("请输入正确的日期格式：YYYY-MM-DD");
 					return false;
 				}
 		}

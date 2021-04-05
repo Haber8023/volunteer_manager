@@ -573,7 +573,8 @@ if (userService.check_volunteer(volunteer.getTel())) {
 			    public ModelAndView CQUMonthPage(HttpSession session){
 					List<Record> list=null;
 					session.setAttribute("list", list);
-					session.setAttribute("monthDate","");
+					session.setAttribute("startDate","");
+					session.setAttribute("stopDate","");
 					session.setAttribute("totalMonthHours","");
 					session.setAttribute("totalMonthVolunteerNum","");
 					session.setAttribute("monthNewVolunteerNum","");
@@ -679,13 +680,14 @@ if (userService.check_volunteer(volunteer.getTel())) {
 						
 						//重庆大学月份统计模糊查询
 						@RequestMapping("/CQUMonthFinder")
-						public ModelAndView CQUMonthFinder(HttpSession session, String monthDate, String school_input){
+						public ModelAndView CQUMonthFinder(HttpSession session, String startDate, String stopDate, String school_input){
 							List<Volunteer> list =new ArrayList<Volunteer>();
 
-							list = userService.get_CQU_volunteer_with_hours_by_Date_DESC(monthDate, school_input);
+							list = userService.get_CQU_volunteer_with_hours_by_Date_DESC(startDate, stopDate, school_input);
 							
 							session.setAttribute("list", list);
-							session.setAttribute("monthDate",monthDate);
+							session.setAttribute("monthDate",startDate);
+							session.setAttribute("monthDate",stopDate);
 							if(list == null) {
 								session.setAttribute("message", "1");
 							}

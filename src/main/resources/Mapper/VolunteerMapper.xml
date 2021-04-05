@@ -140,8 +140,8 @@
 		from volunteer
 		v,record r
 		<where>v.unit = "重庆大学"
-    	<if test="recordDate!=null and recordDate!=''">
-    	AND r.recordDate LIKE CONCAT(CONCAT('%',#{recordDate}),"%")
+    	<if test="startDate!=null and startDate!='' and stopDate!=null and stopDate!=''">
+    	AND r.recordDate between #{startDate} and #{stopDate}
     	AND v.school LIKE CONCAT(CONCAT('%',#{school}),"%")
     	AND v.num = r.num
     	</if>	

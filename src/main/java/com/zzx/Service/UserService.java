@@ -53,7 +53,7 @@ public interface UserService {
 		public double get_total_wage_hours(List<Volunteer> list);
 
 		public List<Volunteer> get_volunteer_with_hours_by_Date(String recordDate);
-		public List<Volunteer> get_CQU_volunteer_with_hours_by_Date_DESC(String recordDate, String school);
+		public List<Volunteer> get_CQU_volunteer_with_hours_by_Date_DESC(String startDate, String stopDate, String school);
 
 		public List<Volunteer> get_volunteer_with_hours_by_Date_DESC(String recordDate);
 		public List<Volunteer> get_social_volunteer_with_hours_by_Date_DESC(String recordDate);

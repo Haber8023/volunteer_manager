@@ -20,7 +20,7 @@ public interface UserService {
 
 		public String get_num();
 
-		public boolean check_volunteer(String tel);
+		public boolean check_volunteer(String id);
 
 		public List<Volunteer> show_all_volunteer();
 
@@ -42,7 +42,7 @@ public interface UserService {
 
 		public boolean delete_record(String record_ID);
 
-		public boolean update_volunteer(String num, String name,String gender,String birthday,
+		public boolean update_volunteer(String num, String name,String id, String gender,String birthday,
 				 String unit,String address,String tel,String type,String joinDate,String occupation,String education,String relate,String school, String studentNum);
 
 		public List<Record> get_record_by_Date(String recordDate);

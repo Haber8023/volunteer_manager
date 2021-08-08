@@ -14,7 +14,7 @@
 	<resultMap type="com.zzx.Model.Volunteer" id="Volunteer">
 		<id property="num" column="num" />
 		<result property="name" column="name" />
-		<result property="ID" column="ID" />
+		<result property="id" column="id" />
 		<result property="gender" column="gender" />
 		<result property="unit" column="unit" />
 		<result property="address" column="address" />
@@ -188,7 +188,7 @@
 		select count(*)
 		from
 		volunteer
-		where tel=#{tel}
+		where id=#{id}
 	</select>
 
 	<select id="get_new_volunteer_by_year" resultType="String">
@@ -243,10 +243,10 @@
 	<!-- 插入志愿者用户 -->
 	<insert id="insert_volunteer">
 		insert into volunteer(num, name, type, birthday, education, relate, occupation,
-		gender, unit,
+		gender, unit, id,
 		address, tel,  joinDate, totalTime, school, studentNum)
 		values(#{num}, #{name}, #{type}, #{birthday}, #{education}, #{relate}, #{occupation},
-		#{gender}, #{unit}, #{address}, #{tel},
+		#{gender}, #{unit}, #{id}, #{address}, #{tel},
 		date_FORMAT(now(),'%Y-%m-%d'), 0, #{school}, #{studentNum})
 	</insert>
 
@@ -302,6 +302,8 @@
 		update volunteer
 		set
 		name = #{name} ,
+		id =
+		#{id} ,
 		tel = #{tel} ,
 		gender =
 		#{gender} ,
@@ -325,8 +327,8 @@
 		set
 		name = #{name} ,
 		tel = #{tel} ,
-		ID =
-		#{ID} ,
+		id =
+		#{id} ,
 		address = #{address} ,
 		unit = #{unit} ,
 		eMail

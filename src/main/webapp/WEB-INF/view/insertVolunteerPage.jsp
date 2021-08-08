@@ -131,16 +131,14 @@
 								action="insertVolunteer" onsubmit="return anotherValidateForm()"
 								method="post">
 								
-<p>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;志愿者类型：    <select name="isNew">
+<p>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;所属类型：    <select name="isNew">
         <option>新志愿者，编号：${newNum}</option>
         <option>老志愿者，编号：${newNum}</option>
         <option>内部志愿者，编号：${newNum}</option>
     </select></p>							
 <p>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;姓&ensp;&ensp;&ensp;&ensp;名：&thinsp;<input id="name" type="text" name="name"></p>
-<p>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;性&ensp;&ensp;&ensp;&ensp;别：    <select id="gender_input" name="gender">
-        <option>男</option>
-        <option>女</option>
-    </select></p>
+<p>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;身份证号：   <input id="id" type="text" name="id"></p>
+<!-- 
 <p>
     &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;出生日期：&ensp;&ensp;
 <select name="birth_year"><option>2021</option><option>2020</option><option>2019</option><option>2018</option><option>2017</option><option>2016</option><option>2015</option><option>2014</option><option>2013</option><option>2012</option><option>2011</option>
@@ -162,6 +160,7 @@
 <option>31</option>
 </select>日
 </p>
+-->
 <p>&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;联系方式：&thinsp;
     <input id="tel" type="text" name="tel">
 </p>
@@ -248,8 +247,8 @@
 </p>
 <p>
     &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;志愿者学历:&thinsp;&thinsp;&thinsp;<select  id="education_input" name="education">
-        <option>博士</option>
         <option>硕士</option>
+        <option>博士</option>
         <option>本科</option>
         <option>专科</option>
         <option>其它</option>
@@ -314,6 +313,7 @@
 			var name = document.forms["inputForm"]["name"].value;
 			var tel = document.forms["inputForm"]["tel"].value;
 			var unit = document.forms["inputForm"]["unit"].value;
+			var id = document.forms["inputForm"]["id"].value;
 
 			
 			if (name == null || name == "") {
@@ -326,11 +326,21 @@
 				alert("手机号码不能为空");
 				return false;
 			}
+			 else if (id == null || id == "") {
+					alert("身份证号不能为空");
+					return false;
+				}
 			
 			if(!(/^1[3456789]\d{9}$/.test(tel))){ 
 		        alert("手机号码格式有误，请重新填写");  
 		        return false; 
 		    } 
+			
+			if(!(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(id))){ 
+		        alert("身份证号码格式有误，请重新填写");  
+		        return false; 
+		    } 
+			
 		}
 	</script>
 </body>

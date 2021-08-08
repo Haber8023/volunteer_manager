@@ -247,7 +247,7 @@ table tr th {
 									<tr style="height: auto;">
 										<td style="mso-number-format:'\@'">${record_list.num}</td>
 										<td style="mso-number-format:'\@'">【志愿服务】重庆大学附属肿瘤医院志愿服务活动</td>
-										<td style="mso-number-format:'\@'">${monthDate}</td>
+										<td style="mso-number-format:'\@'">${startDate}-${stopDate}</td>
 										<td style="mso-number-format:'\@'">重庆大学附属肿瘤医院</td>
 										<td style="mso-number-format:'\@'">校级</td>
 										<td style="mso-number-format:'\@'">王燕燕</td>
@@ -305,12 +305,13 @@ table tr th {
             document.getElementById("dlink").click();
         }
     });
-    var disName = "<%=session.getAttribute("monthDate")%>";
+    var disName = "<%=session.getAttribute("startDate")%>";
+    var disName2 = "<%=session.getAttribute("stopDate")%>";
     var disLength = disName.length;
     var year = disName.substring(0,4);
     var id = "tables",
         worksheetName = 'sheet',
-        workName = disName + "重庆大学志愿者服务时长统计.xls";
+        workName = disName +"-"+disName2+ "重庆大学志愿者服务时长统计.xls";
     document.getElementById('button').onclick = function() {
         var download = tableToExcel();
         download(id, worksheetName, workName)

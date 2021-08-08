@@ -8,7 +8,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-
+import org.omg.CORBA._IDLTypeStub;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +20,7 @@ import com.zzx.Model.Admin;
 import com.zzx.Model.Record;
 import com.zzx.Service.UserService;
 import com.zzx.Utils.Tools;
-
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.mysql.fabric.xmlrpc.base.Array;
@@ -107,7 +107,7 @@ public class UserController {
 
 		// 新增志愿者
 		@RequestMapping(value = "/insertVolunteer")
-		public String insertVolunteer(String isNew, String birth_year, String birth_month, String birth_day, Volunteer volunteer, HttpSession session) {
+		public String insertVolunteer(String isNew, Volunteer volunteer, HttpSession session) {
 			int newBoolean = 1;
 			volunteer.setType("社会志愿者");
 			if(isNew.indexOf('老')== 0) {
@@ -116,11 +116,18 @@ public class UserController {
 			if(isNew.indexOf('内')== 0) {
 				volunteer.setType("内部志愿者");
 			}
-			String birthday = birth_year +"-"+birth_month+"-"+birth_day;
+			String volunteer_id = volunteer.getId();
+			String birthday = volunteer_id.substring(6, 10) +"-"+volunteer_id.substring(10, 12) +"-"+volunteer_id.substring(12, 14) ;
 			volunteer.setBirthday(birthday);
+			System.out.println(volunteer_id.substring(16, 17));
+			if(Integer.parseInt(volunteer_id.substring(16, 17))%2 == 0) {
+				volunteer.setGender("女");
+			}else {
+				volunteer.setGender("男");
+			}
 			volunteer.setNum(userService.get_num());
-			System.out.println(volunteer.toString());
-if (userService.check_volunteer(volunteer.getTel())) {
+			
+if (userService.check_volunteer(volunteer.getId())) {
 				session.setAttribute("message", "3");
 				return "insertVolunteerPage";
 			}			
@@ -139,7 +146,7 @@ if (userService.check_volunteer(volunteer.getTel())) {
 				Map<String,Object> map){
 			PageHelper.startPage(currentPage,8);
 			Volunteer volunteer = new Volunteer();
-			volunteer.setNum((String)session.getAttribute("manageVolunteerNum"));
+			volunteer.setTel((String)session.getAttribute("manageVolunteerTel"));
 			String tmpString =(String)session.getAttribute("manageVolunteerName");
 			volunteer.setName(tmpString);
 			volunteer.setJoinDate((String)session.getAttribute("manageVolunteerJoinDate"));
@@ -160,7 +167,7 @@ if (userService.check_volunteer(volunteer.getTel())) {
 			List<Volunteer> list=userService.get_volunteer_time_in(volunteer);
 			PageInfo<Volunteer> pageInfo=new PageInfo<Volunteer>(list,8);
 			map.put("pageInfo", pageInfo);
-			session.setAttribute("manageVolunteerNum", volunteer.getNum());
+			session.setAttribute("manageVolunteerTel", volunteer.getTel());
 			session.setAttribute("manageVolunteerName", volunteer.getName());
 			session.setAttribute("manageVolunteerJoinDate", volunteer.getJoinDate());
 			session.setAttribute("manageVolunteerUnit", volunteer.getUnit());
@@ -345,11 +352,18 @@ if (userService.check_volunteer(volunteer.getTel())) {
 		
 		// 更新志愿者信息
 		@RequestMapping(value = "/updateVolunteer")
-		 public ModelAndView updateVolunteer( HttpSession session,String num_check, String name_check,String gender_check,String birthday_check,
+		 public ModelAndView updateVolunteer( HttpSession session,String num_check, String name_check,String id_check,
 				 String unit_check,String address_check,String tel_check,String type_check,String joinDate_check,String occupation_check,String education_check,String relate_check,
 					String school_check, String studentNum_check, @RequestParam(defaultValue="1") Integer currentPage,HttpServletRequest request,
-					Map<String,Object> map){			
-			if (userService.update_volunteer(num_check, name_check,gender_check,birthday_check,
+					Map<String,Object> map){
+		
+			String birthday_check = id_check.substring(6, 10) +"-"+id_check.substring(10, 12) +"-"+id_check.substring(12, 14) ;
+			String gender_check = "男";
+			if(Integer.parseInt(id_check.substring(16, 17))%2 == 0) {
+				gender_check = "女";
+			}
+					
+			if (userService.update_volunteer(num_check, name_check,id_check,gender_check,birthday_check,
 					 unit_check,address_check,tel_check,type_check,joinDate_check,occupation_check,education_check,relate_check, school_check, studentNum_check)) {
 				session.setAttribute("message", "1");
 				PageHelper.startPage(currentPage,8);
@@ -573,8 +587,8 @@ if (userService.check_volunteer(volunteer.getTel())) {
 			    public ModelAndView CQUMonthPage(HttpSession session){
 					List<Record> list=null;
 					session.setAttribute("list", list);
-					session.setAttribute("startDate","");
-					session.setAttribute("stopDate","");
+					// session.setAttribute("startDate","");
+					// session.setAttribute("stopDate","");
 					session.setAttribute("totalMonthHours","");
 					session.setAttribute("totalMonthVolunteerNum","");
 					session.setAttribute("monthNewVolunteerNum","");
@@ -686,8 +700,8 @@ if (userService.check_volunteer(volunteer.getTel())) {
 							list = userService.get_CQU_volunteer_with_hours_by_Date_DESC(startDate, stopDate, school_input);
 							
 							session.setAttribute("list", list);
-							session.setAttribute("monthDate",startDate);
-							session.setAttribute("monthDate",stopDate);
+							session.setAttribute("startDate",startDate);
+							session.setAttribute("stopDate",stopDate);
 							if(list == null) {
 								session.setAttribute("message", "1");
 							}

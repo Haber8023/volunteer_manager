@@ -287,6 +287,7 @@ table tr th {
 						
 					<div class="modal-body">
 						服务部门： <select name="place_ensure" id="place_ensure">
+							<option>其它</option>
 							<option>B超</option>
 							<option>CT室</option>
 							<option>患者服务中心</option>
@@ -306,7 +307,6 @@ table tr th {
 							<option>药房</option>
 							<option>中药房</option>
 							<option>控烟</option>
-							<option>其它</option>
 						</select>
 					</div>
 										<div class="modal-body">

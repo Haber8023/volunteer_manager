@@ -158,11 +158,11 @@ table tr th {
 													</div>
 												</div>
 											</td>
-											<th width="12%">志愿者编号：</th>
+											<th width="12%">手机号码：</th>
 											<td width="21%"><input type="text"
-												placeholder="准确查找，完整数字编号" value="${manageVolunteerNum}"
+												placeholder="准确查找，完整手机号码" value="${manageVolunteerTel}"
 												class="form-control"
-												style="border-radius: 3px; height: 30px" id="num" name="num">
+												style="border-radius: 3px; height: 30px" id="tel" name="tel">
 											</td>
 										</tr>
 										<tr>
@@ -195,8 +195,9 @@ table tr th {
 								<tr>
 									<th>编号</th>
 									<th>姓名</th>
+									<th>身份证号</th>
 									<th>性别</th>
-									<th>出生日期</th>
+									
 									<th>所在单位</th>
 									<th>所在学院</th>
 									<th>学号</th>
@@ -216,8 +217,9 @@ table tr th {
 									<tr style="height: auto;">
 										<td>${volunteer_list.num }</td>
 										<td>${volunteer_list.name}</td>
+										<td>${volunteer_list.id}</td>
 										<td>${volunteer_list.gender}</td>
-										<td>${volunteer_list.birthday}</td>
+										
 										<td>${volunteer_list.unit}</td>
 										<td>${volunteer_list.school}</td>
 										<td>${volunteer_list.studentNum}</td>
@@ -291,14 +293,10 @@ table tr th {
 						志愿者姓名： <input id="name_check"  type="text"
 							name="name_check" >
 					</div>
+
 					<div class="modal-body">
-						志愿者性别： 
-						<input id="gender_check"  type="text"
-							name="gender_check" >
-					</div>
-					<div class="modal-body">
-						出生日期：&ensp;&ensp; <input id="birthday_check"  type="text"
-							name="birthday_check" >
+						身份证号：&ensp;&ensp; <input id="id_check"  type="text"
+							name="id_check" >
 					</div>
 					<div class="modal-body">
 						所在单位：&ensp;&ensp; <input id="unit_check" type="text"
@@ -429,8 +427,9 @@ table tr th {
 			var $td = $(obj).parents('tr').children('td');
 			var num_check = $td.eq(0).text();
 			var name_check = $td.eq(1).text();
-			var gender_check = $td.eq(2).text();
-			var birthday_check = $td.eq(3).text();
+			var id_check = $td.eq(2).text();
+			
+			
 			var unit_check = $td.eq(4).text();
 			var school_check = $td.eq(5).text();
 			var studentNum_check = $td.eq(6).text();
@@ -446,8 +445,8 @@ table tr th {
 			$("#relate_check").val(relate_check);
 			$("#num_check").val(num_check);
 			$("#name_check").val(name_check);
-			$("#gender_check").val(gender_check);
-			$("#birthday_check").val(birthday_check);
+			
+			$("#id_check").val(id_check);
 			$("#unit_check").val(unit_check);
 			$("#school_check").val(school_check);
 			$("#studentNum_check").val(studentNum_check);
@@ -460,11 +459,16 @@ table tr th {
 	<script>
 		function validateForm() {
 			var name = document.forms["inputForm"]["name"].value;
-			var num = document.forms["inputForm"]["num"].value;
+			var tel = document.forms["inputForm"]["tel"].value;
 			var unit = document.forms["inputForm"]["unit"].value;
 			var joinDate = document.forms["inputForm"]["joinDate"].value;
+			
+			if(!(/^1[3456789]\d{9}$/.test(tel))){ 
+		        alert("手机号码有误，请重新填写");  
+		        return false; 
+		    } 
 
-			if (num == null || num == "") {
+			if (tel == null || tel == "") {
 				if (name == null || name == "") {
 					if (unit == null || unit == "") {
 						if (joinDate == null || joinDate == "") {
@@ -478,22 +482,20 @@ table tr th {
 	<script>
 		function anotherValidateForm() {
 			var name = document.forms["updateVolunteerForm"]["name_check"].value;
-			var gender = document.forms["updateVolunteerForm"]["gender_check"].value;
+			var id = document.forms["updateVolunteerForm"]["id_check"].value;
 			var tel = document.forms["updateVolunteerForm"]["tel_check"].value;
 			var type = document.forms["updateVolunteerForm"]["type_check"].value;
 			var relate = document.forms["updateVolunteerForm"]["relate_check"].value;
 			var occupation = document.forms["updateVolunteerForm"]["occupation_check"].value;
 			var education = document.forms["updateVolunteerForm"]["education_check"].value;
 			var address = document.forms["updateVolunteerForm"]["address_check"].value;
-			var birthday = document.forms["updateVolunteerForm"]["birthday_check"].value;
 			var unit = document.forms["updateVolunteerForm"]["unit_check"].value;
 
-			
 			if (name == null || name == "") {
 				alert("志愿者姓名不能为空");
 				return false;
-			} else if (gender == null || gender == "") {
-				alert("志愿者性别不能为空");
+			} else if (id == null || id == "") {
+				alert("志愿者身份证号不能为空");
 				return false;
 			} else if (tel == null || tel == "") {
 				alert("手机号码不能为空");
@@ -512,9 +514,6 @@ table tr th {
 				return false;
 			} else if (address == null || address == "") {
 				alert("志愿者地址不能为空");
-				return false;
-			} else if (birthday == null || birthday == "") {
-				alert("志愿者生日不能为空");
 				return false;
 			} else if (unit == null || unit == "") {
 				alert("志愿者单位不能为空");
@@ -541,19 +540,16 @@ table tr th {
 				 alert("志愿者学历选项:博士,硕士,本科,其它，请重新填写"); 
 			     return false; 
 			}
-			if("无"==birthday){
-				
-			}
-			else if(!(/^((?:19|20)\d\d)-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/.test(birthday))||){
-		        alert("出生日期格式有误（YYYY-MM-DD），请重新填写");  
-		        return false; 
-			}
 			
 			if(!(/^1[3456789]\d{9}$/.test(tel))){ 
 		        alert("手机号码有误，请重新填写");  
 		        return false; 
 		    } 
 			
+			if(!(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(id))){ 
+		        alert("身份证号码格式有误，请重新填写");  
+		        return false; 
+		    } 
 
 		}
 	</script>

@@ -12,7 +12,7 @@ public interface VolunteerMapper {
 
 	public String get_num();
 
-	public int check_volunteer(@Param("tel") String tel);
+	public int check_volunteer(@Param("id") String id);
 
 	public List<Volunteer> show_all_volunteer();
 	
@@ -26,7 +26,7 @@ public interface VolunteerMapper {
 
 	public void update_total_time(@Param("num")String num,@Param("volunteerTime") double volunteerTime);
 
-	public void update_volunteer(@Param("num")String num, @Param("name")String name,@Param("gender")String gender,@Param("birthday")String birthday,
+	public void update_volunteer(@Param("num")String num, @Param("name")String name,@Param("id")String id,@Param("gender")String gender,@Param("birthday")String birthday,
 			@Param("unit") String unit,@Param("address")String address,@Param("tel")String tel,@Param("type")String type,@Param("occupation")String occupation,@Param("education")String education,@Param("relate")String relate,@Param("school")String school,@Param("studentNum")String studentNum);
 
 	public List<Volunteer> get_volunteer_with_hours_by_Date(@Param("recordDate")String recordDate);

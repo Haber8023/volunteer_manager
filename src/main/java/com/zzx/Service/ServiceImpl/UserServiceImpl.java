@@ -28,8 +28,8 @@ public class UserServiceImpl implements UserService {
 	@Autowired
 	AdminMapper adminMapper;
 	
-	public boolean check_volunteer(String tel) {
-		if(volunteerMapper.check_volunteer(tel)>0) {
+	public boolean check_volunteer(String id) {
+		if(volunteerMapper.check_volunteer(id)>0) {
 			return true;
 		}
 		return false;
@@ -105,7 +105,7 @@ public class UserServiceImpl implements UserService {
 		public String get_record_hour_by_date(String date) {
 			return recordMapper.get_record_hour_by_date(date);
 		};
-
+ 
 		public List<Volunteer> get_volunteer_time_in(Volunteer volunteer){
 			String tel = volunteer.getTel();
 			String name = volunteer.getName();
@@ -171,11 +171,11 @@ public class UserServiceImpl implements UserService {
 	};
 
 
-		public boolean update_volunteer(String num, String name,String gender,String birthday,
+		public boolean update_volunteer(String num, String name,String id,String gender,String birthday,
 				 String unit,String address,String tel,String type,String joinDate,String occupation,String education,String relate,String school, String studentNum) {
 
 			try {
-				volunteerMapper.update_volunteer(num, name,gender,birthday,
+				volunteerMapper.update_volunteer(num, name, id, gender, birthday,
 						 unit,address,tel,type,occupation,education,relate,school,studentNum);
 				volunteerMapper.update_joinDate(num, joinDate);
 			} catch (Exception e) {
